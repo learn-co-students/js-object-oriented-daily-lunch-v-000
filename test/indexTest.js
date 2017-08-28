@@ -1,58 +1,104 @@
 const expect = chai.expect;
 
-describe('index.js', () => {
-  describe('currentUser', () => {
-    it('is defined', () => {
-      expect(currentUser, "The 'currentUser' variable must contain a string").to.be.a('string');
-      expect(currentUser, "You need to modify the value of the 'currentUser' variable").to.not.be.empty;
-    });
-  });
+describe('drivers', function() {
+  describe('creating a new driver', function() {
+    describe('store', function() {
+      it('can store drivers', function() {
+        expect(store.drivers).to.be.instanceof(Array)
+      })
+    })
 
-  describe('welcomeMessage', () => {
-    it('contains "Welcome to Flatbook, "', () => {
-      expect(welcomeMessage).to.have.string('Welcome to Flatbook, ');
-    });
+    it('can create a Driver with a name', function() {
+      let driver = new Driver("Alfie")
+      expect(driver.name).to.equal("Alfie")
+    })
 
-    it("contains the value of the 'currentUser' variable", () => {
-      expect(welcomeMessage).to.have.string(currentUser);
-    });
+    it('adds the driver to the store', function() {
+      store.drivers = []
+      let driver = new Driver("Alfie")
+      expect(store.drivers[0].name).to.equal("Alfie")
+    })
 
-    it('ends with an exclamation point!', () => {
-      expect(welcomeMessage.substr(-1)).to.eq('!');
-    });
-  });
+    it('adds a numerical id to each driver', function() {
+      store.drivers = []
+      let driver = new Driver("Alfie")
+      expect(typeof store.drivers[0].id).to.equal("number")
+    })
 
-  describe('excitedWelcomeMessage', () => {
-    it('contains "WELCOME TO FLATBOOK, "', () => {
-      expect(excitedWelcomeMessage).to.have.string('WELCOME TO FLATBOOK, ');
-    });
+    it('adds a unique id to each driver', function() {
+      store.drivers = []
+      let driver = new Driver("Alfie")
+      let otherDriver = new Driver("Freddie")
+      expect(driver.id).to.not.equal(otherDriver.id)
+    })
+  })
+})
 
-    it("contains the value of the 'currentUser' variable", () => {
-      const upperCaseCurrentUser = currentUser.toUpperCase();
+describe('passengers', function() {
+  describe('creating a new passenger', function() {
+    describe('store', function() {
+      it('can store passengers', function() {
+        expect(store.passengers).to.be.instanceof(Array)
+      })
+    })
 
-      expect(excitedWelcomeMessage).to.have.string(upperCaseCurrentUser);
-    });
+    it('can create a Driver with a name', function() {
+      let passenger = new Passenger("Alfie")
+      expect(passenger.name).to.equal("Alfie")
+    })
 
-    it('ends with an exclamation point', () => {
-      expect(excitedWelcomeMessage.substr(-1)).to.eq('!');
-    });
-  });
+    it('adds the passenger to the store', function() {
+      store.passengers = []
+      let passenger = new Passenger("Alfie")
+      expect(store.passengers[0].name).to.equal("Alfie")
+    })
 
-  describe('shortGreeting', () => {
-    it(`contains "Welcome, "`, () => {
-      expect(shortGreeting).to.have.string('Welcome, ');
-    });
+    it('adds a numerical id to each passenger', function() {
+      store.passengers = []
+      let passenger = new Passenger("Alfie")
+      expect(typeof store.passengers[0].id).to.equal("number")
+    })
 
-    it("contains the first initial of the name stored in the 'currentUser' variable", () => {
-      const firstInitial = currentUser[0];
-      const restOfName = currentUser.slice(1);
+    it('adds a unique id to each passenger', function() {
+      store.passengers = []
+      let passenger = new Passenger("Alfie")
+      let otherPassenger = new Passenger("Freddie")
+      expect(passenger.id).to.not.equal(otherPassenger.id)
+    })
+  })
+})
 
-      expect(shortGreeting).to.have.string(firstInitial);
-      expect(shortGreeting).to.not.have.string(restOfName);
-    });
 
-    it('ends with an exclamation point', () => {
-      expect(shortGreeting.substr(-1)).to.eq('!');
-    });
-  });
-});
+describe('trips', function() {
+  describe('creating a new trip', function() {
+    describe('store', function() {
+      it('can store trips', function() {
+        expect(store.trips).to.be.instanceof(Array)
+      })
+    })
+
+    it('can create a Trip with a name', function() {
+      // let trip = new Passenger("Alfie")
+      // expect(trip.name).to.equal("Alfie")
+    })
+
+    it('adds the trip to the store', function() {
+      store.trips = []
+      let trip = new Trip()
+      expect(store.trips[0]).to.be.instanceof(Trip)
+    })
+
+    it('adds a numerical id to each trip', function() {
+      store.trips = []
+      let trip = new Trip()
+      expect(typeof store.trips[0].id).to.equal("number")
+    })
+
+    it('adds a unique id to each trip', function() {
+      store.trips = []
+      let trip = new Trip()
+      let otherTrip = new Trip()
+      expect(trip.id).to.not.equal(otherTrip.id)
+    })
+  })
+})
