@@ -6,7 +6,7 @@
 
 ## Instructions
 
-In the following lab, we will be modeling a the models for The Daily Deli.  The Daily Deli delivers daily lunches to different offices around US Cities.
+In the following lab, we will be modeling a the models for The Daily Deli.  The Daily Deli delivers daily lunches to different offices around US Cities.  A customer orders a meal and it is delivered to the office of the customer's employer.  So The Daily Deli relates a customer to a meal based on whether that meal was delivered to a customer.  The employer of a customer is associated with the deliveries and meals ordered by its employees.  
 
  You will be modeling the following:
 
@@ -23,7 +23,7 @@ In the following lab, we will be modeling a the models for The Daily Deli.  The 
   + `customers()` - returns all of the customers who have had the meal delivered.
   + `byPrice()` -  A class method that orders the meals by their price.  Use the `static` keyword to write a class method.
 
-  > Class methods are methods that are not called on an instance of the class, but on the class itself, for example Meal.byPrice() is a class method as it is called on the `Meal` class.  You can write a class method simply by preceding a method on a class with JavaScript's `static` keyword.  You can read more about class methods in JavaScript [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static). 
+  > Class methods are methods that are not called on an instance of the class, but on the class itself, for example Meal.byPrice() is a class method as it is called on the `Meal` class.  You can write a class method simply by preceding a method on a class with JavaScript's `static` keyword.  You can read more about class methods in JavaScript [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static).
 
 `Delivery` class:
   + `new Delivery()` — initialized with `meal` and `customer`; returns an object that has attributes of `mealId`, `customerId`, and `id`
