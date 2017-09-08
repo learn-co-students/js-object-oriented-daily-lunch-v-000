@@ -72,14 +72,18 @@ describe('meals', function() {
     describe('byPrice', function(){
       let steak;
       let pasta;
+      let salad;
       beforeEach(function(){
         store.meals = []
         pasta = new Meal('pasta', 7)
         steak = new Meal('steak', 10)
+        salad = new Meal('salad', 5)
       })
 
       it('orders all of the meals by price', function(){
         expect(Meal.byPrice()[0]).to.equal(steak)
+        expect(Meal.byPrice()[1]).to.equal(pasta)
+        expect(Meal.byPrice()[2]).to.equal(salad)
       })
     })
   })
@@ -128,9 +132,7 @@ describe('customers', function() {
       })
     })
 
-<<<<<<< HEAD
 
-=======
     it('can create a Customer with a name', function() {
       let customer = new Customer("Sam")
       expect(customer.name).to.equal("Sam")
@@ -214,7 +216,6 @@ describe('relating a delivery to a meal and a customer', function() {
       expect(firstDelivery.meal()).to.equal(meal)
     })
   })
->>>>>>> solution
 
   describe('meal', function(){
     it('has a deliveries', function() {
@@ -239,7 +240,6 @@ describe('relating a delivery to a meal and a customer', function() {
   })
 })
 
-<<<<<<< HEAD
 describe('relating a driver to a trip and a passenger', function() {
   let driver;
   let passenger;
@@ -299,48 +299,58 @@ describe('relating a driver to a trip and a passenger', function() {
     it('has drivers', function() {
       expect(passenger.drivers()).to.include(driver)
     })
-=======
-describe('employers', function(){
-  let chicken;
-  let employer;
-  let customer;
-  let firstDelivery;
-  let secondCustomer;
-  let secondDelivery;
-
-  beforeEach(function() {
-
-    employer = new Employer("Initech")
-    customer = new Customer("Fred", employer)
-    chicken = new Meal("Chicken Parm")
-    firstDelivery = new Delivery(chicken, customer)
-    secondCustomer = new Customer("Susan", employer)
-    secondDelivery = new Delivery(chicken, secondCustomer)
-
-  });
-
-  afterEach(function(){
-    store.meals = []
-    store.customers = []
-    store.deliveries = []
-    store.employers = []
   })
 
-  it('has employees', function() {
-    expect(employer.employees()).to.include(customer)
-    expect(employer.employees()).to.include(secondCustomer)
-  })
+  describe('employers', function(){
+    let chicken;
+    let employer;
+    let customer;
+    let firstDelivery;
+    let secondCustomer;
+    let secondDelivery;
+    let thirdDelivery;
+    let thirdCustomer;
+    let steak;
 
-  it('has a deliveries', function() {
-    expect(employer.deliveries()).to.include(firstDelivery)
-  })
+    beforeEach(function() {
 
-  it('has meals', function() {
-    expect(employer.meals()).to.include(chicken)
-  })
+      employer = new Employer("Initech")
+      otherEmployer = new Employer("Chachees")
+      customer = new Customer("Fred", employer)
+      chicken = new Meal("Chicken Parm")
+      steak = new Meal("Steak")
+      firstDelivery = new Delivery(chicken, customer)
+      secondCustomer = new Customer("Susan", employer)
+      thirdCustomer = new Customer("Sally", otherEmployer)
+      secondDelivery = new Delivery(chicken, secondCustomer)
+      thirdDelivery = new Delivery(chicken, thirdCustomer)
+    });
 
-  it('does not repeat the same meal twice', function() {
-    expect(employer.meals().length).to.equal(1)
+    afterEach(function(){
+      store.meals = []
+      store.customers = []
+      store.deliveries = []
+      store.employers = []
+    })
+
+    it('has employees', function() {
+      expect(employer.employees()).to.include(customer)
+      expect(employer.employees()).to.include(secondCustomer)
+      expect(employer.employees()).to.not.include(thirdCustomer)
+    })
+
+    it('has a deliveries', function() {
+      expect(employer.deliveries()).to.include(firstDelivery)
+      expect(employer.deliveries()).to.not.include(thirdDelivery)
+    })
+
+    it('has meals', function() {
+      expect(employer.meals()).to.include(chicken)
+    })
+
+    it('does not repeat the same meal twice', function() {
+      expect(employer.meals().length).to.equal(1)
+    })
   })
 })
 
@@ -375,6 +385,5 @@ describe('employerStats', function() {
     // {pastaMealid: 1, chickenMealid: 2}
     expect(employer.mealTotals()[chicken.id]).to.equal(2)
     expect(employer.mealTotals()[pasta.id]).to.equal(1)
->>>>>>> solution
   })
 })
