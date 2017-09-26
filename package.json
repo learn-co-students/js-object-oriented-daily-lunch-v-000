@@ -3,6 +3,10 @@
   "version": "0.2.0",
   "description": "JavaScript Object Oriented Daily Lunch for Learn.co",
   "main": "index.js",
+  "scripts": {
+    "postinstall": "gem install learn-co",
+    "test": "node_modules/browser-sync/bin/browser-sync.js start --config node_modules/learn-browser/bs-config.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/learn-co-curriculum/js-object-oriented-daily-lunch.git"
@@ -11,8 +15,8 @@
     "learn",
     "flatiron school",
     "javascript",
-    "strings",
-    "code-along"
+    "object-oriented",
+    "lab"
   ],
   "author": "@gj",
   "license": "SEE LICENSE IN LICENSE.md",
