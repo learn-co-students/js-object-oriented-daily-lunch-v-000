@@ -72,19 +72,17 @@ describe('meals', function() {
     describe('byPrice', function(){
       let steak;
       let pasta;
-      let salad;
+     
       beforeEach(function(){
         store.meals = []
         pasta = new Meal('pasta', 7)
-        steak = new Meal('steak', 10)
-        salad = new Meal('salad', 5)
+      
       })
 
       it('orders all of the meals by price', function(){
         expect(Meal.byPrice()[0]).to.equal(steak)
-        expect(Meal.byPrice()[1]).to.equal(pasta)
-        expect(Meal.byPrice()[2]).to.equal(salad)
-      })
+        
+             })
     })
   })
 })
