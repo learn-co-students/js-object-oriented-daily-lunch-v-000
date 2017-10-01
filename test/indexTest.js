@@ -76,7 +76,7 @@ describe('meals', function() {
       beforeEach(function(){
         store.meals = []
         pasta = new Meal('pasta', 7)
-      
+        steak = new Meal('steak', 10)      
       })
 
       it('orders all of the meals by price', function(){
@@ -238,66 +238,10 @@ describe('relating a delivery to a meal and a customer', function() {
   })
 })
 
-//describe('relating a driver to a trip and a passenger', function() {
-  //let driver;
-  //let passenger;
-  //let firstTrip;
-  //let susan;
-  //let secondTrip;
-//
-  //beforeEach(function() {
-    //driver = new Driver("Alfie")
-    //passenger = new Passenger("Bob")
-    //firstTrip = new Trip(driver, passenger)
-    //secondPassenger = new Passenger("Susan")
-    //secondTrip = new Trip(driver, secondPassenger)
-  //});
-//
-  //afterEach(function(){
-    //store.drivers = []
-    //store.passengers = []
-    //store.trips = []
-  //})
-//
-  //describe('trip', function(){
-    //it('has a driverId', function(){
-      //expect(firstTrip.driverId).to.equal(driver.id)
-    //})
-//
-    //it('has a passengerId', function() {
-      //expect(firstTrip.passengerId).to.equal(passenger.id)
-    //})
-//
-    //it('has a passenger', function() {
-      //expect(firstTrip.passenger()).to.equal(passenger)
-    //})
-//
-    //it('has a driver', function() {
-      //expect(firstTrip.driver()).to.equal(driver)
-    //})
-  //})
-//
-  //describe('driver', function(){
-    //it('has a trips', function() {
-      //expect(driver.trips()).to.include(firstTrip)
-      //expect(driver.trips()).to.include(secondTrip)
-    //})
-//
-    //it('has passengers', function() {
-      //expect(driver.passengers()).to.include(passenger)
-      //expect(driver.passengers()).to.include(secondPassenger)
-    //})
-  //})
-//
-  //describe('passengers', function(){
-    //it('has a trips', function() {
-      //expect(passenger.trips()).to.include(firstTrip)
-    //})
-//
-    //it('has drivers', function() {
-      //expect(passenger.drivers()).to.include(driver)
-    //})
-  //})
+describe('relating a driver to a trip and a passenger', function() {
+ 
+
+
 
   describe('employers', function(){
     let chicken;

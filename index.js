@@ -73,8 +73,8 @@ class Meal {
 	}
 
 	static byPrice(){
-     	return store.meals.sort((meal) => { return meal.price });
- 	}
+		return store.meals.sort((meal) => { return meal.price });
+	}
 }
 
 class Employer {
