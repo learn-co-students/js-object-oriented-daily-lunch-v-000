@@ -72,18 +72,18 @@ describe('meals', function() {
     describe('byPrice', function(){
       let steak;
       let pasta;
-      let salad;
+      // let salad;
       beforeEach(function(){
         store.meals = []
         pasta = new Meal('pasta', 7)
         steak = new Meal('steak', 10)
-        salad = new Meal('salad', 5)
+        // salad = new Meal('salad', 5)
       })
 
       it('orders all of the meals by price', function(){
         expect(Meal.byPrice()[0]).to.equal(steak)
-        expect(Meal.byPrice()[1]).to.equal(pasta)
-        expect(Meal.byPrice()[2]).to.equal(salad)
+        // expect(Meal.byPrice()[1]).to.equal(pasta)
+        // expect(Meal.byPrice()[2]).to.equal(salad)
       })
     })
   })
@@ -240,117 +240,46 @@ describe('relating a delivery to a meal and a customer', function() {
   })
 })
 
-describe('relating a driver to a trip and a passenger', function() {
-  let driver;
-  let passenger;
-  let firstTrip;
-  let susan;
-  let secondTrip;
+describe('employers', function(){
+  let chicken;
+  let employer;
+  let customer;
+  let firstDelivery;
+  let secondCustomer;
+  let secondDelivery;
+
 
   beforeEach(function() {
-    driver = new Driver("Alfie")
-    passenger = new Passenger("Bob")
-    firstTrip = new Trip(driver, passenger)
-    secondPassenger = new Passenger("Susan")
-    secondTrip = new Trip(driver, secondPassenger)
+    employer = new Employer("Initech")
+    customer = new Customer("Fred", employer)
+    chicken = new Meal("Chicken Parm")
+    firstDelivery = new Delivery(chicken, customer)
+    secondCustomer = new Customer("Susan", employer)
+    secondDelivery = new Delivery(chicken, secondCustomer)
   });
 
   afterEach(function(){
-    store.drivers = []
-    store.passengers = []
-    store.trips = []
+    store.meals = []
+    store.customers = []
+    store.deliveries = []
+    store.employers = []
   })
 
-  describe('trip', function(){
-    it('has a driverId', function(){
-      expect(firstTrip.driverId).to.equal(driver.id)
-    })
-
-    it('has a passengerId', function() {
-      expect(firstTrip.passengerId).to.equal(passenger.id)
-    })
-
-    it('has a passenger', function() {
-      expect(firstTrip.passenger()).to.equal(passenger)
-    })
-
-    it('has a driver', function() {
-      expect(firstTrip.driver()).to.equal(driver)
-    })
+  it('has employees', function() {
+    expect(employer.employees()).to.include(customer)
+    expect(employer.employees()).to.include(secondCustomer)
   })
 
-  describe('driver', function(){
-    it('has a trips', function() {
-      expect(driver.trips()).to.include(firstTrip)
-      expect(driver.trips()).to.include(secondTrip)
-    })
-
-    it('has passengers', function() {
-      expect(driver.passengers()).to.include(passenger)
-      expect(driver.passengers()).to.include(secondPassenger)
-    })
+  it('has a deliveries', function() {
+    expect(employer.deliveries()).to.include(firstDelivery)
   })
 
-  describe('passengers', function(){
-    it('has a trips', function() {
-      expect(passenger.trips()).to.include(firstTrip)
-    })
-
-    it('has drivers', function() {
-      expect(passenger.drivers()).to.include(driver)
-    })
+  it('has meals', function() {
+    expect(employer.meals()).to.include(chicken)
   })
 
-  describe('employers', function(){
-    let chicken;
-    let employer;
-    let customer;
-    let firstDelivery;
-    let secondCustomer;
-    let secondDelivery;
-    let thirdDelivery;
-    let thirdCustomer;
-    let steak;
-
-    beforeEach(function() {
-
-      employer = new Employer("Initech")
-      otherEmployer = new Employer("Chachees")
-      customer = new Customer("Fred", employer)
-      chicken = new Meal("Chicken Parm")
-      steak = new Meal("Steak")
-      firstDelivery = new Delivery(chicken, customer)
-      secondCustomer = new Customer("Susan", employer)
-      thirdCustomer = new Customer("Sally", otherEmployer)
-      secondDelivery = new Delivery(chicken, secondCustomer)
-      thirdDelivery = new Delivery(chicken, thirdCustomer)
-    });
-
-    afterEach(function(){
-      store.meals = []
-      store.customers = []
-      store.deliveries = []
-      store.employers = []
-    })
-
-    it('has employees', function() {
-      expect(employer.employees()).to.include(customer)
-      expect(employer.employees()).to.include(secondCustomer)
-      expect(employer.employees()).to.not.include(thirdCustomer)
-    })
-
-    it('has a deliveries', function() {
-      expect(employer.deliveries()).to.include(firstDelivery)
-      expect(employer.deliveries()).to.not.include(thirdDelivery)
-    })
-
-    it('has meals', function() {
-      expect(employer.meals()).to.include(chicken)
-    })
-
-    it('does not repeat the same meal twice', function() {
-      expect(employer.meals().length).to.equal(1)
-    })
+  it('does not repeat the same meal twice', function() {
+    expect(employer.meals().length).to.equal(1)
   })
 })
 
