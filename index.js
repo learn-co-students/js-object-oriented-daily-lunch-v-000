@@ -61,6 +61,17 @@ class Employer {
     const merged = [].concat.apply([], allDeliveries)
     return merged
   }
+  meals(){
+    const meals = this.deliveries().map(delivery => delivery.meal())
+    const uniqueMeals =[...new Set(meals)] 
+    return uniqueMeals
+  }
+  mealTotals(){
+    let totals = {}
+    const meals = this.deliveries().map(delivery => delivery.mealId)
+    meals.forEach(meal => {totals[meal] = totals[meal] + 1 || 1})
+    return totals
+  }
 }
 
 let customerId = 0
