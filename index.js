@@ -74,20 +74,27 @@ class Employer {
     });
   };
 
-  deliveries() {
-    return this.employees().map((employee) => {
-      return employee.deliveries()[0];
+  deliveries(){
+    let array = []
+    let allDeliveries = this.employees().map((employee)=> {
+      return employee.deliveries();
     });
-  };
+
+    let mergedArray = array.concat.apply(array, allDeliveries)
+    // concat() merges two arrays into one array
+    // apply() takes in an object and array for arguments
+    // as allDeliveries is [[], []], apply will take it as an argument
+    // and concat will merge the two arrays into => one []
+
+    return mergedArray
+  }
 
   meals() {
     let allMeals = this.deliveries().map((delivery) => {
       return delivery.meal();
     });
 
-    console.log(allMeals)
     let uniqueMeals = [...new Set(allMeals)];
-    console.log(uniqueMeals)
     return uniqueMeals;
   };
 
@@ -107,8 +114,6 @@ class Employer {
     allMeals.forEach((meal) => {
       meals[meal.id] += 1
     });
-
-    console.log(meals)
     return meals;
   };
 }
