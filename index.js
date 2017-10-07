@@ -76,7 +76,7 @@ class Employer {
 
   deliveries() {
     return this.employees().map((employee) => {
-      return employee.deliveries();
+      return employee.deliveries()[0];
     });
   };
 
@@ -85,12 +85,31 @@ class Employer {
       return delivery.meal();
     });
 
+    console.log(allMeals)
     let uniqueMeals = [...new Set(allMeals)];
+    console.log(uniqueMeals)
     return uniqueMeals;
   };
 
   mealTotals() {
-    let allMeals = this.meals();
+    let allMeals = this.deliveries().map((delivery) => {
+      return delivery.meal();
+    });
+
+    let meals = {}
+
+    //initialize key: value
+    allMeals.forEach((meal) => {
+      meals[meal.id] = 0;
+    });
+
+    //increment value whenever that key exists
+    allMeals.forEach((meal) => {
+      meals[meal.id] += 1
+    });
+
+    console.log(meals)
+    return meals;
   };
 }
 
