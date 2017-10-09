@@ -37,16 +37,14 @@ class Meal {
   customers() {
     return this.deliveries().map(delivery => delivery.customer())
   }
-  static byPrice() {
-    return store.meals.sort(function(meal1, meal2) {
-      return meal2.price - meal1.price
-    })
+  static byPrice(){
+    return store.meals.sort((meal1, meal2) => meal2.price - meal1.price)
   }
 }
 
 let deliveryId = 0
 class Delivery {
-  constructor(meal = {}, customer = {}) {
+  constructor(meal, customer) {
     this.id = ++deliveryId
     if (meal) {
       this.mealId = meal.id
@@ -77,16 +75,18 @@ class Employer {
     return store.customers.filter(customer => customer.employerId === this.id)
   }
   deliveries() {
-    return this.employees().map(employee => employee.deliveries())
+    const allDeliveries = this.employees().map(employee => employee.deliveries())
+    const merged = [].concat.apply([], allDeliveries)
+    return merged
   }
   meals() {
-    const meals = this.deliveries().map(delivery => delivery[0].meal())
+    const meals = this.deliveries().map(delivery => delivery.meal())
     const uniqueMeals = [...new Set(meals)]
     return uniqueMeals
   }
   mealTotals() {
     let total = {}
-    let meals = this.deliveries().map(delivery => delivery[0].meal())
+    const meals = this.deliveries().map(delivery => delivery.mealId)
     meals.forEach(meal => {total[meal] = total[meal] + 1 || 1})
     return total
   }
