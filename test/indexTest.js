@@ -238,9 +238,9 @@ describe('relating a delivery to a meal and a customer', function() {
       expect(customer.meals()).to.include(meal)
     })
   })
-})
 
-describe('relating a driver to a trip and a passenger', function() {
+
+/* describe('relating a driver to a trip and a passenger', function() {
   let driver;
   let passenger;
   let firstTrip;
@@ -300,7 +300,7 @@ describe('relating a driver to a trip and a passenger', function() {
       expect(passenger.drivers()).to.include(driver)
     })
   })
-
+*/
   describe('employers', function(){
     let chicken;
     let employer;
