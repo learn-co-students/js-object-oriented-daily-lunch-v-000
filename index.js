@@ -70,12 +70,29 @@ class Employer {
     let deliveryList = this.employees().map(function(employee) {
       return employee.deliveries();
     });
-    let total = [].concat.apply([], deliveryList);
-    return total
+    let uniqueList = [].concat.apply([], deliveryList);
+    return uniqueList
   }
-  // meals() {
-  //   return
-  // }
+  meals() {
+    let mealList = this.deliveries().map(function(delivery) {
+      return delivery.meal();
+    });
+    let newMealList = [...new Set(mealList)];
+    return newMealList;
+  }
+  mealTotals() {
+    let allDeliveries = this.deliveries();
+    console.log(allDeliveries);
+    let counter = {};
+    allDeliveries.forEach(function(delivery, index) {
+      if (!counter[delivery.mealId]) {
+        counter[delivery.mealId] = 1;
+      } else {
+        counter[delivery.mealId] ++;
+      }
+    })
+    return counter;
+  }
 }
 
 class Customer {
