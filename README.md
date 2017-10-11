@@ -6,7 +6,7 @@
 
 ## Instructions
 
-In the following lab, we will be modeling a the models for The Daily Deli.  The Daily Deli delivers daily lunches to different offices around US Cities.  A customer orders a meal and it is delivered to the office of the customer's employer.  So The Daily Deli relates a customer to a meal based on whether that meal was delivered to a customer.  The employer of a customer is associated with the deliveries and meals ordered by its employees.  
+In the following lab, we will be modeling all the models for The Daily Deli.  The Daily Deli delivers daily lunches to different offices around US Cities.  A customer orders a meal and it is delivered to the office of the customer's employer.  So The Daily Deli relates a customer to a meal based on whether that meal was delivered to a customer.  The employer of a customer is associated with the deliveries and meals ordered by its employees.  
 
  You will be modeling the following:
 
