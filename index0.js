@@ -1,10 +1,10 @@
-let store = { customers: [], meals: [],  deliveries: [], employers: [] }
+let store = {deliveries: [], employers: [], customers: [], meals: []}
 let customerId = 0
 let mealId = 0
 let deliveryId = 0
 let employerId = 0
 
-class Meal{
+class Meal {
   constructor(title, price){
     this.title = title
     this.price = price
@@ -16,11 +16,11 @@ class Meal{
       return delivery.mealId == this.id
     })
   }
-  customers() {
+  customers(){
     return this.deliveries().map((delivery) => {
       return delivery.customer()
     })
-  } 
+  }
   static byPrice(){
     let sortedMeals = []
     sortedMeals = store.meals.slice().sort(function(a,b){
@@ -28,26 +28,15 @@ class Meal{
     })
     return sortedMeals
   }
-} 
+}
 
-class Customer{
-  constructor(name, employer = {}){
-    this.name = name
-    this.employerId = employer.id
+class Customer {
+  constructor(name, employer = {} ){
+    this.name = name;
+    this.employerId = employer.id;
     this.id = ++customerId
     store.customers.push(this)
   }
-  // totalSpent(){
-  //   let spent = 0
-  //   let meals = []
-  //   let deliveries = this.deliveries()
-  //   for(let member of deliveries){
-  //     if(member.meal){
-  //       spent += parseInt(member.meal.price)
-  //     }
-  //   }
-  //   return spent
-  // }
   totalSpent(){
     return this.meals().reduce(function(sum, meal) { return sum + meal.price }, 0)
   }
@@ -56,33 +45,29 @@ class Customer{
       return delivery.customerId == this.id
     })
   }
-  meals () {
+  meals(){
     return this.deliveries().map((delivery)=> {
-			return delivery.meal()
-		})
-  } 
+      return delivery.meal()
+    })
+  }
 }
 
-class Delivery{
+class Delivery {
   constructor(meal = {}, customer = {}){
-    this.mealId = meal.id
-    this.customerId = customer.id
-    this.id = ++deliveryId  
+    this.mealId = meal.id;
+    this.customerId = customer.id;
+    this.id = ++deliveryId
     store.deliveries.push(this)
   }
   meal(){
-    return store.meals.find((meal) => { 
-      return meal.id === this.mealId
-    })
+    return store.meals.find((meal) => { return meal.id === this.mealId })
   }
-	customer() {
-		return store.customers.find((customer) => {
-      return customer.id == this.customerId
-    })
+  customer(){
+    return store.customers.find((customer) => { return customer.id === this.customerId })
   }
 }
- 
-class Employer{
+
+class Employer {
   constructor(name){
     this.name = name
     this.id = ++employerId
@@ -101,11 +86,10 @@ class Employer{
     })
     return summaryObject;
   }
- 
   employees(){
     return store.customers.filter((customer)=> {
       return customer.employerId == this.id
-    })
+    })  
   }
   deliveries(){
     let allDeliveries = this.employees().map((employee)=> {
