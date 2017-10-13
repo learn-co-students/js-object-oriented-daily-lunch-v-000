@@ -112,23 +112,23 @@ class Employer {
     return mergedDeliveries;
   }
 
-  meals () {
-    const allMeals = this.deliveries().map(function (delivery) {
+  allMeals () {
+    return this.deliveries().map(function (delivery) {
       return delivery.meal();
     });
-    const uniqueMeals = [...new Set(allMeals)];
+  }
+
+  meals () {
+    const uniqueMeals = [...new Set(this.allMeals())];
     return uniqueMeals;
   }
 
   mealTotals () {
-    const allMeals = this.deliveries().map(function (delivery) {
-      return delivery.meal();
-    });
     let summaryObject = {};
-    allMeals.forEach(function (meal) {
+    this.allMeals().forEach(function (meal) {
       summaryObject[meal.id] = 0;
     });
-    allMeals.forEach(function (meal) {
+    this.allMeals().forEach(function (meal) {
       summaryObject[meal.id] += 1;
     });
     return summaryObject;
