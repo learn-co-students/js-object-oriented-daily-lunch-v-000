@@ -6,7 +6,7 @@
 
 ## Instructions
 
-In the following lab, we will be modeling all the models for The Daily Deli.  The Daily Deli delivers daily lunches to different offices around US Cities.  A customer orders a meal and it is delivered to the office of the customer's employer.  So The Daily Deli relates a customer to a meal based on whether that meal was delivered to a customer.  The employer of a customer is associated with the deliveries and meals ordered by its employees.  
+In the following lab, we will be modeling all the models for The Daily Deli.  The Daily Deli delivers daily lunches to different offices around US Cities.  A customer orders a meal and it is delivered to the office of the customer's employer.  So The Daily Deli relates a customer to a meal based on whether that meal was delivered to a customer.  The employer of a customer is associated with the deliveries and meals ordered by its employees.
 
  You will be modeling the following:
 
@@ -35,4 +35,4 @@ In the following lab, we will be modeling all the models for The Daily Deli.  Th
   + `employees()` - returns a list of customers employed by the employer
   + `deliveries()` - returns a list of deliveries ordered by the employer's employees
   + `meals()` - returns a list of meals ordered by the employer's employees.  The method is to not return the same meal multiple times.
-  + `mealTotals()` - returns a JavaScript object displaying each respective meal id ordered by the employer's employees.  The keys of the JavaScript object are the meal ids and associated with each meal id is a value.  For example, `employerOne.mealTotals()` returning an object of `{1: 4, 2: 3}` would mean that the meal with id of 1 was ordered by employerOne's employees four times, and the meal with id of 2 was ordered by employerOne's employees three times.  
+  + `mealTotals()` - returns a JavaScript object displaying each respective meal id ordered by the employer's employees.  The keys of the JavaScript object are the meal ids and associated with each meal id is a value.  For example, `employerOne.mealTotals()` returning an object of `{1: 4, 2: 3}` would mean that the meal with id of 1 was ordered by employerOne's employees four times, and the meal with id of 2 was ordered by employerOne's employees three times.
