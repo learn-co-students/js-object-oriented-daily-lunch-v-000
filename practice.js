@@ -6,6 +6,7 @@ store = {deliveries: [], drivers: [], meals: [], employers: [], customers: []}
 // Customer
 
 let customerId = 0
+let totalAmount = 0
 class Customer {
   // remember: {} is an object
   constructor(name, employer = {}) {
@@ -16,15 +17,9 @@ class Customer {
   }
   meals() {
     // .map generates a new array based on cb or conditions, in this case, we just want to gather all the 'meal'
-    const deliveredMeals = []
-
-    this.deliveries().forEach(delivery => {
-      let meal = store.meals.find(meal => delivery.mealId == meal.id)
-      deliveredMeals.push(meal)
+    return store.meals.map(meal =>{
+      return meal
     })
-
-    return deliveredMeals
-
   }
   deliveries() {
     return store.deliveries.filter(delivery =>{
@@ -33,13 +28,18 @@ class Customer {
   }
   // total amount spent
   totalSpent() {
-    return this.meals().reduce(function(accumulator, currentValue) {
-      let value = accumulator + currentValue.price
-      return value
-    }, 0)
-
-  } // end of totalSpent()
+    return for(meal in this.deliveries) {
+      return totalAmount + meal.price
+    }
+  }
 }
+
+let customer = new Customer('bob')
+// console.log(customer.name)
+// console.log(store.customers)
+console.log(customer.totalSpent())
+
+
 
 // Delivery
 
@@ -91,6 +91,10 @@ class Meal {
   }
 }
 
+let meal = new Meal('sandwich')
+// console.log(meal.title)
+// console.log(store.meals)
+
 // Employer
 let employerId = 0
 class Employer {
@@ -108,39 +112,8 @@ class Employer {
   }
   // deliveries() returns a list of deliveries ordered by the employer's employees
   deliveries() {
-    let deliveries = []
-    this.employees().forEach(employee =>{
-      deliveries.push(employee.deliveries())
+    return store.deliveries.filter(delivery =>{
+      return delivery.customerId === this.id;
     })
-    return [].concat.apply([], deliveries)
-
   }
-  // returns a list of meals ordered by the employer's employees. The method is to not return the same meal multiple times.
-
-  meals() {
-    let meals = []
-    // can I user employees() and then call .meals() on the (customer) employee?
-    this.deliveries().forEach(delivery => {
-      meals.push(delivery.meal())
-    })
-    let uniqueMeals = [...new Set(meals)];
-    // new Set(meals) returns an object of just one, unique, object
-    return uniqueMeals
-  } // end of meals()
-
-  // employerStats
-  mealTotals() {
-   let allMeals = this.deliveries().map(delivery => {
-     return delivery.meal();
-   });
-   let summaryObject = {};
-   allMeals.forEach(function(meal) {
-     summaryObject[meal.id] = 0;
-   });
-   allMeals.forEach(function(meal) {
-     summaryObject[meal.id] += 1;
-   });
-   debugger
-   return summaryObject;
- }
 }
