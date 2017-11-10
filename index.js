@@ -8,19 +8,25 @@ class Customer {
     this.id = ++customerId;
     this.name = name;
     if (employer) { this.employerId = employer.id };
-    store.customers.push(this)
+    store.customers.push(this);
   }
 
   deliveries() {
     return store.deliveries.filter(delivery => {
       return delivery.customerId == this.id;
-    })
+    });
   }
 
   meals() {
-    return this.deliveries().filter(delivery => {
-      return delivery.meal;
-    })
+    return this.deliveries().map(delivery => {
+      return delivery.meal();
+    });
+  }
+
+  totalSpent() {
+    return this.meals().reduce(function(sum, meal) {
+      return sum + meal.price;
+    }, 0);
   }
 }
 
@@ -31,11 +37,23 @@ class Meal {
     this.id = ++mealId;
     this.title = title;
     this.price = price;
-    store.meals.push(this)
+    store.meals.push(this);
   }
 
   static byPrice() {
     return store.meals.sort(function (meal1, meal2) { return meal1.price - meal2.price; }).reverse();
+  }
+
+  deliveries() {
+    return store.deliveries.filter(delivery => {
+      return delivery.mealId == this.id;
+    });
+  }
+
+  customers() {
+    return this.deliveries().map(delivery => {
+      return delivery.customer();
+    });
   }
 
 }
@@ -49,7 +67,19 @@ class Delivery {
       this.mealId = meal.id;
       this.customerId = customer.id;
     }
-    store.deliveries.push(this)
+    store.deliveries.push(this);
+  }
+
+  meal() {
+    return store.meals.find(meal => {
+      return meal.id === this.mealId;
+    });
+  }
+
+  customer() {
+    return store.customers.find(customer => {
+      return customer.id === this.customerId;
+    });
   }
 }
 
@@ -59,6 +89,42 @@ class Employer {
   constructor (name) {
     this.id = ++employerId;
     this.name = name;
-    store.employers.push(this)
+    store.employers.push(this);
   }
+
+  employees() {
+    return store.customers.filter(customer => {
+      return this.id == customer.employerId;
+    });
+  }
+
+  deliveries() {
+    return this.employees().map(employee => {
+      return employee.deliveries();
+    }).reduce(function (a, b) { return a.concat(b)});
+  }
+
+  meals() {
+    const employerMeals = this.employees().map(employee => {
+      return employee.meals().reduce(function (acc, meal) { return meal; }, 0);
+    });
+    return [...new Set(employerMeals)];
+  }
+
+  mealTotals() {
+    const allMeals = this.deliveries().map(delivery => {
+      return delivery.meal();
+    });
+
+    let summaryObject = {};
+    allMeals.forEach(function(meal) {
+      summaryObject[meal.id] = 0;
+    });
+    allMeals.forEach(function(meal) {
+      summaryObject[meal.id] += 1;
+    });
+
+    return summaryObject;
+  }
+
 }
