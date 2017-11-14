@@ -149,26 +149,3 @@ class Employer {
 }
 
 
-
-employer = new Employer('Initech');
-otherEmployer = new Employer('Chachees');
-customer = new Customer('Fred', employer);
-chicken = new Meal('Chicken Parm', 8);
-steak = new Meal('Steak', 20);
-fries = new Meal('Fries', 8);
-
-firstDelivery = new Delivery(chicken, customer);
-secondCustomer = new Customer('Susan', employer);
-thirdCustomer = new Customer('Sally', otherEmployer);
-secondDelivery = new Delivery(chicken, secondCustomer);
-thirdDelivery = new Delivery(chicken, thirdCustomer);
-
-
-fredDelivery2 = new Delivery(steak, customer);
-fredDelivery3 = new Delivery(chicken, customer);
-fredDelivery4 = new Delivery(fries, customer);
-fredDelivery5 = new Delivery(steak, customer);
-
-console.log(employer.employees())
-console.log(employer.meals())
-console.log(employer.mealTotals())
