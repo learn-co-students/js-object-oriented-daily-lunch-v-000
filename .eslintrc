@@ -1,0 +1,29 @@
+{
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "experimentalObjectRestSpread": true
+    },
+    "rules": {
+        "array-callback-return": "error",
+        "no-unused-vars": "off",
+        "no-console": "off"
+    },
+    "env": {
+        "node": true,
+        "es6": true,
+        "browser": true,
+        "mocha": true,
+        "commonjs": true
+    },
+    "overrides": [
+        {
+            "files": ["*.js"],
+            "excludedFiles": "test/*.js"
+        }
+    ],
+    "globals": {
+        "sinon": true,
+        "chai": true
+    }
+}

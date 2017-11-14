@@ -1,0 +1,10 @@
+{
+    "extends": "tslint:latest",
+    "rules": {
+        "no-debugger": false,
+        "no-console": false,
+        "arrow-parens": false,
+        "trailing-comma": false,
+        "max-classes-per-file": false
+    }
+}
