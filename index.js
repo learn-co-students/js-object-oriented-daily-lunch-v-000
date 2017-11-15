@@ -133,9 +133,8 @@ class Employer {
         });
     }
     deliveries() {
-        const employees = this.employees();
         return store.deliveries.filter(delivery => {
-            for (const value of employees) {
+            for (const value of this.employees()) {
                 return delivery.customerId === value.id;
             }
         });
@@ -150,20 +149,17 @@ class Employer {
             }
         });
     }
-    mealCount(array, value) {
-        return array.reduce(function (total, x) {
-            return x === value ? total++ : total;
-        }, 0);
+    mealCount(array) {
+        return array.reduce((tally, meal) => (tally[meal] = ++tally[meal] || 1, tally), {});
     }
     mealTotals() {
-        const deliveries = this.deliveries();
-        const mealIds = deliveries.map(delivery => delivery.mealId);
-        let mealsObject = {};
-        const meals = mealIds.map(value, index);
-        {
-            return mealsObject[`${value}`] = this.mealCount(mealIds, value);
-        }
-        console.log(meals);
+        return this.mealCount(store.deliveries.map(delivery => {
+            for (const value of this.employees()) {
+                if (delivery.customerId === value.id) {
+                    return delivery.mealId;
+                }
+            }
+        }));
     }
 }
 //# sourceMappingURL=index.js.map
