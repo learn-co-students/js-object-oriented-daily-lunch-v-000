@@ -100,30 +100,28 @@ class Employer {
     return merged;
   }
 
-  meals() {
-    let allMeals = this.deliveries().map(delivery => {
-      return delivery.meal();
-    });
-    let uniqueMeals = [...new Set(allMeals)];
-    return uniqueMeals;
+  allMeals(){
+    return this.deliveries().map(delivery=>{
+      return delivery.meal()
+    })
   }
 
-  mealTotals() {
-    let allMeals = this.deliveries().map(delivery=>{
-      return delivery.meal();
-    });
-    let object = {};
-    allMeals.forEach(function(meal) {
-      object[meal.id] = 0;
-    });
-    allMeals.forEach(function(meal) {
-      object[meal.id] += 1;
-    });
-    return object;
-  }
+  meals(){
+    return this.allMeals().filter(function(e, i, a){
+      return a.indexOf(e) === i;});
+    }
+
+  mealTotals(){
+     let mealCount = {}
+     let meals = this.allMeals()
+
+     meals.forEach(function(meal){
+       if(mealCount[meal.id]){
+         mealCount[meal.id]++;
+       }else{
+         mealCount[meal.id] = 1;
+       }
+     })
+     return mealCount;
+   }
 }
-// mealTotals() - returns a JavaScript object displaying each respective meal id
-// ordered by the employer's employees. The keys of the JavaScript object are the meal ids and
-// associated with each meal id is a value. For example, employerOne.mealTotals() returning an object of
-// {1: 4, 2: 3} would mean that the meal with id of 1 was ordered by employerOne's employees four times,
-// and the meal with id of 2 was ordered by employerOne's employees three times.
