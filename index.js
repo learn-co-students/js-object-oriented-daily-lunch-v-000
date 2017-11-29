@@ -112,13 +112,18 @@ class Employer {
     let allMeals = this.deliveries().map(delivery=>{
       return delivery.meal();
     });
-    let summaryObject = {};
+    let object = {};
     allMeals.forEach(function(meal) {
-      summaryObject[meal.id] = 0;
+      object[meal.id] = 0;
     });
     allMeals.forEach(function(meal) {
-      summaryObject[meal.id] += 1;
+      object[meal.id] += 1;
     });
-    return summaryObject;
+    return object;
   }
 }
+// mealTotals() - returns a JavaScript object displaying each respective meal id
+// ordered by the employer's employees. The keys of the JavaScript object are the meal ids and
+// associated with each meal id is a value. For example, employerOne.mealTotals() returning an object of
+// {1: 4, 2: 3} would mean that the meal with id of 1 was ordered by employerOne's employees four times,
+// and the meal with id of 2 was ordered by employerOne's employees three times.
