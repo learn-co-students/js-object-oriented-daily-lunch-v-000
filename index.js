@@ -108,7 +108,7 @@ class Employer {
     for (const meal of this.meals()) {
       let count = 0
       allMeals.forEach(function cb(elem) {
-        elem.title === meal.title? count++ : count
+        elem.title === meal.title? count +=1 : ''
       })
       countedMeals[meal.id] = count
     }
