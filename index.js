@@ -22,7 +22,6 @@ class Customer {
   }
 
   totalSpent() {
-    debugger
     return(this.meals().reduce(function(sum, value) {
       return (sum + value.price)
     }, 0))
@@ -80,8 +79,9 @@ class Employer {
   }
 
    deliveries() {
-     let arr = this.employees().map(employee => employee.id);
-     return(arr.map(empDel => store.deliveries.find(delivery => delivery.id === empDel)))
+    let arr = [];
+    this.employees().map(employee => arr.push(employee.deliveries()))
+    return(arr.reduce((a, b) => a.concat(b), []))
    }
 
    meals() {
@@ -90,28 +90,11 @@ class Employer {
    }
 
    mealTotals() {
-  //    let arr = this.deliveries().map(delivery => delivery.meal());
-  //    let mealCount = {};
-  //    arr.forEach(function(i) {
-  //     mealCount[i.id] = (mealCount[i.id]||0) + 1;});
-  //     console.log(mealCount)
-  //  return(mealCount);
-  //   //  let counter = {}
-  //   //  arr.forEach(function(obj) {
-  //   //    var key = JSON.stringify(obj)
-  //   //    counter[key] = (counter[key] || 0) + 1
-  //   //  })
-  //   // return(counter)
-  debugger
-  console.log(this.employees())
-  let x = this.employees().map(employee => employee.id)
-  console.log(x)
-  let y = x.map(employee => employee.totalSpent())
-  console.log(this.employees().map(employee => employee.totalSpent()))
-  console.log(y)
-  let z = y.reduce((sum, value) => sum + value)
-  console.log(z)
-
-    // employee.totalSpent()))
-   }
+     let arr = this.deliveries().map(delivery => delivery.meal());
+     let mealCount = {};
+     arr.forEach(function(meal) {
+       mealCount[meal.id] = (mealCount[meal.id]||0) + 1;
+     });
+    return(mealCount);
+    }
 }
