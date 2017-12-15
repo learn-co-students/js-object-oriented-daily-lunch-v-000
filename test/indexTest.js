@@ -269,6 +269,8 @@ describe('employers', function() {
   });
 
   it('has employees', function() {
+    expect(employer.id).to.exist;
+    expect(customer.employerId).to.equal(employer.id);
     expect(employer.employees()).to.include(customer);
     expect(employer.employees()).to.include(secondCustomer);
     expect(employer.employees()).to.not.include(thirdCustomer);
