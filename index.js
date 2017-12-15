@@ -12,6 +12,13 @@ let employerId = 0;
 let customerId = 0;
 
 class Delivery {
+  constructor(meal = {}, customer = {}) {
+    this.id = ++deliveryId;
+    this.mealId = meal.id;
+    this.customerId = customer.id;
+    store.deliveries.push(this);
+  }
+
   constructor(meal, customer) {
     this.id = ++deliveryId;
     if (meal && customer) {
@@ -54,23 +61,27 @@ class Meal {
     });
   }
 
+  // customers() {
+  //   return store.customers.filter(customer => {
+  //     return customer.deliveries().filter(delivery => {
+  //       return delivery.mealId === this.id;
+  //     });
+  //   })
+  // }
+
   customers() {
-    return store.customers.filter(customer => {
-      return customer.deliveries().filter(delivery => {
-        return delivery.mealId === this.id;
-      });
-    })
+    return this.deliveries().map(delivery => {
+      return delivery.customer();
+    });
   }
 
 }
 
 class Customer {
-  constructor(name, employer) {
+  constructor(name, employer = {}) {
     this.id = ++customerId;
     this.name = name;
-    if (employer) {
-      this.employerId = employer.id;
-    }
+    this.employerId = employer.id;
     store.customers.push(this);
   }
 
@@ -112,11 +123,27 @@ class Employer {
     });
   }
 
+  // deliveries() {
+  //   let allDeliveries = this.employees().map(employee => {
+  //     return employee.deliveries();
+  //   });
+  //   let merged = [].concat.apply([], allDeliveries);
+  //   return merged;
+  // }
+
   meals() {
     return this.deliveries().map(delivery => {
       return delivery.meal();
     }).unique();
   }
+
+  // meals() {
+  // let allMeals = this.deliveries().map(delivery => {
+  //   return delivery.meal();
+  // });
+  //   let uniqueMeals = [...new Set(allMeals)];
+  //   return uniqueMeals;
+  // }
 
   mealTotals(){
   return this.deliveries().reduce((allMeals, delivery) => {
