@@ -1,6 +1,9 @@
 let store = {customers: [], employers: [], deliveries: [], meals: []}
 
 let customerId = 0;
+let mealId = 0;
+let deliveryId = 0;
+let employerId = 0;
 
 class Customer {
   constructor(name, employer = {}){
@@ -30,8 +33,6 @@ class Customer {
   }
 }
 
-let mealId = 0;
-
 class Meal {
   constructor(title, price){
     this.title = title;
@@ -60,8 +61,6 @@ class Meal {
   }
 }
 
-let deliveryId = 0;
-
 class Delivery {
   constructor(meal = {}, customer = {}) {
     this.mealId = meal.id;
@@ -84,8 +83,6 @@ class Delivery {
   }
 }
 
-let employerId = 0;
-
 class Employer {
   constructor(name) {
     this.name = name;
@@ -104,8 +101,8 @@ class Employer {
     let allDeliveries = this.employees().map(employee => {
       return employee.deliveries();
     });
-    let merged = [].concat.apply([], allDeliveries);
-    return merged;
+
+    return [].concat(...allDeliveries);
   }
 
   meals() {
@@ -113,22 +110,20 @@ class Employer {
       return delivery.meal();
     });
 
-    let uniqueMeals = [...new Set(allMeals)];
-    return uniqueMeals;
+    return [...new Set(allMeals)];
+  }
+
+  allMeals() {
+    return this.deliveries().map(delivery => delivery.meal());
+
   }
 
   mealTotals() {
-    let allMeals = this.deliveries().map(delivery => {
-      return delivery.meal();
-    });
-    let summaryObject = {};
-    allMeals.forEach(function(meal) {
-      summaryObject[meal.id] = 0;
-    });
-    allMeals.forEach(function(meal) {
-      summaryObject[meal.id] += 1;
-    });
-    return summaryObject;
+    return this.allMeals().reduce((totals, meal) => {
+      totals[meal.id] = totals[meal.id] || 0;
+      totals[meal.id] += 1;
+
+      return totals;
+    }, {});
   }
 }
-
