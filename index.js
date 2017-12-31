@@ -137,12 +137,16 @@ class Employer {
   mealTotals() {
     const meals = this.allMeals()
 
-    console.log(meals);
+    let totals = {}
 
-    const byId = function(agg, el, i, arr) {
-      agg[el.id] = 
-    }
+    meals.forEach(function(meal) {
+      totals[meal.id] = 0
+    })
 
-    return meals.reduce(byId, {})
+    meals.forEach(function(meal) {
+      totals[meal.id] += 1
+    })
+
+    return totals
   }
 }
