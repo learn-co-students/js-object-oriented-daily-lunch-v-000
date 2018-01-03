@@ -7,18 +7,32 @@ let store = {drivers: [],
   let deliveryId = 0
   class Delivery {
     constructor(mealId, customerId){
-      this.id = ++deliveryId
-      this.mealId = mealId
-      this.customerId = customerId
-      // insert the delivery to the store
-      store.deliveries.push(this)
+    this.id = ++deliveryId
+    if(mealId){
+      this.mealId = mealId.id
     }
-    meal(){
-      return this.mealId
+    if(customerId){
+      this.customerId = customerId.id
     }
-    customer(){
-      return this.customerId
-    }
+    // insert the delivery to the store
+    store.deliveries.push(this)
+  }
+  meal(){
+    console.log(this.mealId)
+    console.log(store.meals)
+    console.log(store.meals[0].id)
+    return store.meals.find(function(meal){
+      return meal.id === this.mealId
+    })
+  }
+  customer(){
+    console.log(this.customerId)
+    console.log(store.customers)
+    console.log(store.customers[0].id)
+    return store.customers.find(function(customer){
+      return customer.id === this.customerId
+    })
+  }
 }
 
 let mealId = 0
