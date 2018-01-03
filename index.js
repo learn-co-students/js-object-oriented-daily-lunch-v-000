@@ -4,15 +4,21 @@ let store = {drivers: [],
   employers: [],
   customers: []}
 
-let deliveryId = 0
-class Delivery {
-  constructor(meal, customer){
-    this.id = ++deliveryId
-    this.meal = mealId
-    this.customer = customerId
-    // insert the delivery to the store
-    store.deliveries.push(this)
-  }
+  let deliveryId = 0
+  class Delivery {
+    constructor(mealId, customerId){
+      this.id = ++deliveryId
+      this.mealId = mealId
+      this.customerId = customerId
+      // insert the delivery to the store
+      store.deliveries.push(this)
+    }
+    meal(){
+      return this.mealId
+    }
+    customer(){
+      return this.customerId
+    }
 }
 
 let mealId = 0
