@@ -79,7 +79,7 @@ describe('meals', function() {
         salad = new Meal('salad', 5);
       });
 
-      it('orders all of the meals by price', function() {
+      it('orders all of the meals by price, descending', function() {
         expect(Meal.byPrice()[0]).to.equal(steak);
         expect(Meal.byPrice()[1]).to.equal(pasta);
         expect(Meal.byPrice()[2]).to.equal(salad);
@@ -156,13 +156,18 @@ describe('customers', function() {
   });
 
   describe('totalSpent', function() {
+    let employer;
     let customer;
     let chickenParm;
     let steak;
     let firstDelivery;
     let secondDelivery;
     beforeEach(function() {
-      customer = new Customer('Bob');
+      store.meals = [];
+      store.customers = [];
+      store.deliveries = [];
+      employer = new Employer('Initech')
+      customer = new Customer('Bob', employer);
       chickenParm = new Meal('Chicken Parm', 7);
       steak = new Meal('Steak', 10);
       firstDelivery = new Delivery(steak, customer);
