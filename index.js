@@ -88,15 +88,31 @@ class Employer {
     return filterArray
   }
   meals(){
+    // return store.meals.filter(meal => {
+    //   return store.deliveries.filter(delivery => {
+    //       return store.customers.filter(customer => {
+	  //         delivery.mealid === meal.id && delivery.customerId === customer.id && customer.employerId === this.id})
+    //   })
+    // })
+    let filterArray = []
+    for (let i = 0; i < store.meals.length; i++) {
+      for (let j = 0; j < store.deliveries.length; j++) {
+        for (let k = 0; k < store.customers.length; k++) {
+          if (store.deliveries[j].mealId === store.meals[i].id &&
+              store.deliveries[j].customerId === store.customers[k].id &&
+              store.customers[k].employerId === this.id) {
+                filterArray.push(store.meals[i])
+          }
+        }
+      }
+    }
+    let uniqueArray = Array.from(new Set(filterArray))
+    return uniqueArray
+  }
+  mealTotals(){
     console.log(store.meals)
     console.log(store.deliveries)
     console.log(store.customers)
-    return store.meals.filter(meal => {
-      return store.deliveries.filter(delivery => {
-          return store.customers.filter(customer => {
-	          delivery.mealid === meal.id && delivery.customerId === customer.id && customer.employerId === this.id})
-      })
-    })
   }
 }
 
