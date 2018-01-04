@@ -253,6 +253,7 @@ describe('employers', function() {
     otherEmployer = new Employer('Chachees');
     customer = new Customer('Fred', employer);
     chicken = new Meal('Chicken Parm');
+    hotdogs = new Meal('Hot Dogs');
     steak = new Meal('Steak');
     firstDelivery = new Delivery(chicken, customer);
     secondCustomer = new Customer('Susan', employer);
