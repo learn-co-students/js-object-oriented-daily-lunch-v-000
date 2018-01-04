@@ -87,6 +87,17 @@ class Employer {
     }
     return filterArray
   }
+  meals(){
+    console.log(store.meals)
+    console.log(store.deliveries)
+    console.log(store.customers)
+    return store.meals.filter(meal => {
+      return store.deliveries.filter(delivery => {
+          return store.customers.filter(customer => {
+	          delivery.mealid === meal.id && delivery.customerId === customer.id && customer.employerId === this.id})
+      })
+    })
+  }
 }
 
 let customerId = 0
