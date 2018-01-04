@@ -2,11 +2,12 @@ let store = {drivers: [],
   deliveries: [],
   meals: [],
   employers: [],
-  customers: []}
+  customers: []
+}
 
-  let deliveryId = 0
-  class Delivery {
-    constructor(mealId, customerId){
+let deliveryId = 0
+class Delivery {
+  constructor(mealId, customerId){
     this.id = ++deliveryId
     if(mealId){
       this.mealId = mealId.id
@@ -18,19 +19,15 @@ let store = {drivers: [],
     store.deliveries.push(this)
   }
   meal(){
-    console.log(this.mealId)
-    console.log(store.meals)
-    console.log(store.meals[0].id)
+    const thisId = this.mealId
     return store.meals.find(function(meal){
-      return meal.id === this.mealId
+      return meal.id === thisId
     })
   }
   customer(){
-    console.log(this.customerId)
-    console.log(store.customers)
-    console.log(store.customers[0].id)
+    const thisId = this.customerId
     return store.customers.find(function(customer){
-      return customer.id === this.customerId
+      return customer.id === thisId
     })
   }
 }
@@ -43,6 +40,17 @@ class Meal {
     this.price = price
     // insert the meal to the store
     store.meals.push(this)
+  }
+  deliveries(){
+    return store.deliveries.filter(delivery => {
+      return delivery.mealId === this.id
+    })
+  }
+  customers(){
+    return store.customers.filter(customer => {
+      return store.deliveries.filter(delivery => {
+        customer.id === this.id && delivery.customerId === customer.id})
+    })
   }
   static byPrice(){
     return store.meals.sort(function(a, b){
@@ -59,6 +67,26 @@ class Employer {
     // insert the employer to the store
     store.employers.push(this)
   }
+  employees(){
+    return store.customers.filter(customer => {
+      return customer.employerId === this.id
+    })
+  }
+  deliveries(){
+    // return store.deliveries.filter(delivery => {
+    //   return store.customers.filter(customer => {
+    //     delivery.customerId === customer.id && customer.employerId === this.id})
+    // })
+    let filterArray = []
+    for (let i = 0; i < store.deliveries.length; i++) {
+      for (let j = 0; j < store.customers.length; j++) {
+        if (store.deliveries[i].customerId === store.customers[j].id && store.customers[j].employerId === this.id) {
+          filterArray.push(store.deliveries[i])
+        }
+      }
+    }
+    return filterArray
+  }
 }
 
 let customerId = 0
@@ -74,6 +102,17 @@ class Customer {
   }
   setEmployer(employer){
     this.employerId = employer.id
+  }
+  meals(){
+    return store.meals.filter(meal => {
+      return store.deliveries.filter(delivery => {
+        delivery.customer.id === this.id})
+    })
+  }
+  deliveries(){
+    return store.deliveries.filter(delivery => {
+      return delivery.customerId === this.id
+    })
   }
   totalSpent(){
     let meals = store.meals.filter(meal => {
