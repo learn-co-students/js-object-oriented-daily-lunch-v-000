@@ -73,10 +73,6 @@ class Employer {
     })
   }
   deliveries(){
-    // return store.deliveries.filter(delivery => {
-    //   return store.customers.filter(customer => {
-    //     delivery.customerId === customer.id && customer.employerId === this.id})
-    // })
     let filterArray = []
     for (let i = 0; i < store.deliveries.length; i++) {
       for (let j = 0; j < store.customers.length; j++) {
@@ -88,13 +84,36 @@ class Employer {
     return filterArray
   }
   meals(){
-    // return store.meals.filter(meal => {
-    //   return store.deliveries.filter(delivery => {
-    //       return store.customers.filter(customer => {
-	  //         delivery.mealid === meal.id && delivery.customerId === customer.id && customer.employerId === this.id})
-    //   })
-    // })
     let filterArray = []
+    this.mealsArray(filterArray)
+    let uniqueArray = Array.from(new Set(filterArray))
+    return uniqueArray
+  }
+  mealTotals(){
+    console.log(store.meals)
+    console.log(store.deliveries)
+    console.log(store.customers)
+
+    let filterArray = []
+    this.mealsArray(filterArray)
+    let mealsOrdered = {}
+    let idMeal = filterArray[0].id
+    let mealCount = 1
+    for (let i = 1; i < filterArray.length; i++) {
+        if (filterArray[i].id !== idMeal) {
+          mealsOrdered[idMeal] = mealCount
+          idMeal = filterArray[i].id
+          mealCount = 1
+          if (i === (filterArray.length - 1)) {
+            mealsOrdered[idMeal] = mealCount
+          }
+        } else {
+          mealCount += 1
+        }
+    }
+    return mealsOrdered
+  }
+  mealsArray(filterArray){
     for (let i = 0; i < store.meals.length; i++) {
       for (let j = 0; j < store.deliveries.length; j++) {
         for (let k = 0; k < store.customers.length; k++) {
@@ -106,13 +125,6 @@ class Employer {
         }
       }
     }
-    let uniqueArray = Array.from(new Set(filterArray))
-    return uniqueArray
-  }
-  mealTotals(){
-    console.log(store.meals)
-    console.log(store.deliveries)
-    console.log(store.customers)
   }
 }
 
