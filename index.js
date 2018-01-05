@@ -4,7 +4,10 @@ let store = {drivers: [],
   employers: [],
   customers: []
 }
-
+// adds the delivery to the store
+// adds a numerical id to each delivery
+// adds a unique id to each delivery
+// can store drivers
 let deliveryId = 0
 class Delivery {
   constructor(mealId, customerId){
@@ -31,7 +34,13 @@ class Delivery {
     })
   }
 }
-
+// can create a Meal with a name
+// has a price listed as a number
+// adds the meal to the store
+// adds a numerical id to each meal
+// adds a unique id to each meal
+// can store meals
+// orders all of the meals by price, descending
 let mealId = 0
 class Meal {
   constructor(title, price){
@@ -58,7 +67,11 @@ class Meal {
     })
   }
 }
-
+// can create a Employer with a name
+// adds the employer to the store
+// adds a numerical id to each employer
+// adds a unique id to each employer
+// can store employers
 let employerId = 0
 class Employer {
   constructor(name){
@@ -86,9 +99,11 @@ class Employer {
   meals(){
     let filterArray = []
     this.mealsArray(filterArray)
+    // removes duplicates
     let uniqueArray = Array.from(new Set(filterArray))
     return uniqueArray
   }
+  // displays the number of times each meal was ordered
   mealTotals(){
     console.log(store.meals)
     console.log(store.deliveries)
@@ -127,7 +142,12 @@ class Employer {
     }
   }
 }
-
+// can create a Customer with a name
+// adds the customer to the store
+// adds a numerical id to each customer
+// adds a unique id to each customer
+// can store customers
+// returns the total amount spent by the customer
 let customerId = 0
 class Customer {
   constructor(name, employer){
