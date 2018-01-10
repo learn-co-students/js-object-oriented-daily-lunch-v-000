@@ -1,12 +1,12 @@
 let store = {customers: [], meals: [], employers: [], deliveries: []}
-let id = 0
 
+let customerId = 0;
 class Customer {
   constructor(name, employer={}) {
-    this.id = ++id
-    this.name = name
-    this.employerId = employer.id
-    store.customers.push(this)
+    this.id = ++customerId;
+    this.name = name;
+    this.employerId = employer.id;
+    store.customers.push(this);
   }
 
   deliveries() {
@@ -28,13 +28,13 @@ class Customer {
   }
 }
 
-
+let mealId = 0;
 class Meal {
   constructor(title, price) {
-    this.id = ++id
-    this.title = title
-    this.price = price
-    store.meals.push(this)
+    this.id = ++mealId;
+    this.title = title;
+    this.price = price;
+    store.meals.push(this);
   }
 
   deliveries() {
@@ -51,17 +51,17 @@ class Meal {
 
   static byPrice() {
     return store.meals.sort(function(a, b) {
-      return b.price - a.price;
+      return a.price < b.price;
     })
   }
 }
 
-
+let employerId = 0;
 class Employer {
   constructor(name) {
-    this.id = ++id
-    this.name = name
-    store.employers.push(this)
+    this.id = ++employerId;
+    this.name = name;
+    store.employers.push(this);
   }
 
   employees() {
@@ -102,17 +102,17 @@ class Employer {
   }
 }
 
-
+let deliveryId = 0;
 class Delivery {
   constructor(meal, customer) {
-    this.id = ++id
+    this.id = ++deliveryId;
     if (meal) {
       this.mealId = meal.id
-    }
+    };
     if (customer) {
       this.customerId = customer.id
-    }
-    store.deliveries.push(this)
+    };
+    store.deliveries.push(this);
   }
 
   meal() {
