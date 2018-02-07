@@ -99,19 +99,36 @@ class Employer{
   }
 
   deliveries(){
-    return this.employees().map(employee =>{
-      return employee.deliveries()[0];
+    let all = this.employees().map(employee =>{
+      return employee.deliveries();
     })
+
+    return [].concat.apply([], all)
   }
 
   meals(){
-    return this.deliveries().map(delivery => {
+    let all = this.deliveries().map(delivery => {
       return delivery.meal()
     })
+    
+    return [...new Set(all)];
   }
 
   mealTotals(){
-    // {1: 4, 2: 3}
-    // {mealId: number of times ordered}
+    let allMeals = {};
+    let all = this.deliveries().map(delivery => {
+      return delivery.meal();
+    });
+
+    //
+    all.forEach(function(meal){
+      allMeals[meal.id] = 0;
+    });
+
+    all.forEach(function(meal){
+      allMeals[meal.id] += 1;
+    });
+
+    return allMeals;
   }
 }
