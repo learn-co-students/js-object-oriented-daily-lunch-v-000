@@ -101,7 +101,6 @@ class Employer {
   }
   
   deliveries() {
-    // What the fuck...
     // returns a list of deliveries ordered by the employer's employees
     let allDeliveries = this.employees().map(employee => { 
       // Return all deliveries by all customers of this employer
@@ -123,7 +122,6 @@ class Employer {
   }
   
   mealTotals() {
-    // What the even more fuck??
     // returns a JavaScript object displaying each respective meal id ordered by the employer's employees
     // Get all the employees meals by getting every delivery meal per employee
     let allMeals = this.deliveries().map(delivery => {
