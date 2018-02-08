@@ -5,27 +5,23 @@ let mealId = 0;
 let deliveryId = 0;
 let employerId = 0;
 
-
-
 class Customer {
-  constructor(name, employer= {}) {
+  constructor(name, employer){
     this.id = ++customerId
     this.name = name
-    this.employerId = employer.id
+    this.employer = employer
     store.customers.push(this)
   }
   
-  meals() {
-    // returns all of the meals that a customer has had delivered
-    return this.deliveries().map(delivery => { // Return all customer(this).deliveries
-      return delivery.meal()  // By returning all delivery.meal(s)
+  deliveries() {
+    return store.deliveries.filter(delivery => {
+      return delivery.customerId === this.id
     })
   }
   
-  deliveries() {
-    // returns all of the deliveries that customer has received
-    return store.deliveries.filter(delivery => { // Filter all deliveries where
-      return this.id === delivery.customerId // this(customers)id matches delivery.customerId
+  meals() {
+    return this.deliveries().map(delivery =>{
+      return delivery.meal()
     })
   }
   
@@ -41,30 +37,33 @@ class Meal {
     this.id = ++mealId
     this.title = title
     this.price = price
-    
     store.meals.push(this)
   }
-  static byPrice(){
+  
+  static byPrice() {
     return store.meals.sort((a, b) => {
       return a.price < b.price
     })
   }
   
   deliveries() {
-    // returns all of the deliveries that delivered the particular meal.
-    return store.deliveries.filter(el => { // Filter all deliveries where
-      return this.id === el.mealId // this(meal).id matches the delivery.mealId
+    return store.deliveries.filter(delivery => {
+      return delivery.mealId === this.id
     })
   }
   
   customers() {
-    // returns all of the customers who have had the meal delivered.
-    return store.customers
+    return store.customers.filter(customer => {
+      return store.deliveries.filter(delivery =>{
+        return delivery.mealId === this.id
+      })
+    })
   }
+  
 }
 
 class Delivery {
-  constructor(meal= {}, customer= {}) {
+  constructor(meal = {}, customer= {}) {
     this.id = ++deliveryId
     this.mealId = meal.id
     this.customerId = customer.id
@@ -72,16 +71,14 @@ class Delivery {
   }
   
   meal() {
-    // returns the meal associated with the delivery
-    return store.meals.find(meal => { // Find the meal 
-      return this.mealId === meal.id // That matches this(delivery).mealId to meal.id
+    return store.meals.find(meal => {
+      return meal.id === this.mealId
     })
   }
   
   customer() {
-  // returns the customer associated with the delivery
-    return store.customers.find(customer => { // Find the customer
-      return this.customerId === customer.id // That matches this(delivery).customerId to customer.id
+    return store.customers.find(customer => {
+      return customer.id === this.customerId
     })
   }
 }
@@ -94,50 +91,39 @@ class Employer {
   }
   
   employees() {
-    // returns a list of customers employed by the employer
     return store.customers.filter(customer => {
-      return this.id === customer.employerId
+      return customer.employer.id === this.id
     })
   }
   
   deliveries() {
-    // returns a list of deliveries ordered by the employer's employees
-    let allDeliveries = this.employees().map(employee => { 
-      // Return all deliveries by all customers of this employer
-      // This is an array of 2 delivery objects
-      return employee.deliveries()
+    return store.deliveries.filter(delivery => {
+      return delivery.customer().employer.id === this.id
     })
-    // Make new array, concat both arrays while apply each delivery object
-    return [].concat.apply([], allDeliveries)
   }
   
   meals() {
-    // returns a list of meals ordered by the employer's employees. The method is to not return the same meal multiple times.
-    let allMeals = this.deliveries().map(delivery => {
+    let allMeals = this.deliveries().map(delivery =>{
       return delivery.meal()
-    })
+    });
     
     let uniqueMeals = [...new Set(allMeals)]
     return uniqueMeals;
   }
   
   mealTotals() {
-    // returns a JavaScript object displaying each respective meal id ordered by the employer's employees
-    // Get all the employees meals by getting every delivery meal per employee
     let allMeals = this.deliveries().map(delivery => {
-      return delivery.meal()
-    })
-    // Create a new sum object
-    let sumObj = {};
-    // For each delivery meal, set the meal.id = 0
-    allMeals.forEach(meal => {
-      sumObj[meal.id] = 0
-    })
-    // Iterate through each delivery.mealId by adding it to the sumObj
-    allMeals.forEach(meal => {
-      sumObj[meal.id] +=1
-    })
+      return delivery.meal();
+    });
     
-    return sumObj
-  }
+    let sumObj = {};
+    
+    allMeals.forEach(function(meal) {
+      sumObj[meal.id] = 0;
+    });
+    allMeals.forEach(function(meal) {
+      sumObj[meal.id] += 1;
+    });
+    return sumObj;
+    }
 }
