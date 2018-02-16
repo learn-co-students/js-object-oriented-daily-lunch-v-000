@@ -168,7 +168,6 @@ describe('customers', function() {
       firstDelivery = new Delivery(steak, customer);
       secondDelivery = new Delivery(chickenParm, customer);
     });
-
     it('returns the total amount spent by the customer', function() {
       expect(customer.totalSpent()).to.equal(17);
     });
