@@ -61,9 +61,16 @@ class Employer {
     store.employers.push(this)
   }
 
-  //customer belongs to employer
+  //customer/employee belongs to employer
   employees() {
     return store.customers.filter( customer => customer.employerId == this.id)
+  }
+
+  //employer has deliveries through employees/customers
+  deliveries() {
+    return this.employees().map(customer => {
+      return customer.deliveries();
+    })
   }
 }
 
