@@ -72,6 +72,14 @@ class Employer {
       return customer.deliveries();
     })
   }
+
+  //employer has meals through customer/employees
+  meals() {
+    debugger
+    return this.deliveries().map(customer => {
+      return customer.meal();
+    })
+  }
 }
 
 class Customer {
