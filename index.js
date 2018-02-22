@@ -18,12 +18,12 @@ class Delivery {
 
   // delivery belongs to customer
   customer() {
-    return store.customers.find( customer => customer.id === this.customerId )
+    return store.customers.find( customer => customer.id == this.customerId )
   }
 
   // delivery belongs to meal
   meal() {
-    return store.meals.find( meal => meal.id === this.mealId )
+    return store.meals.find( meal => meal.id == this.mealId )
   }
 }
 
@@ -92,11 +92,11 @@ class Customer {
   }
 
   totalSpent() {
-    // use reduce?
+    return this.deliveries().reduce((accm, delivery) => accm + delivery.meal().price, 0)
   }
 
   deliveries() {
-    return store.deliveries.find( delivery => delivery.customerId == this.id)
+    return store.deliveries.filter( delivery => delivery.customerId == this.id)
   }
 
   meals() {
