@@ -37,6 +37,10 @@ class Meal {
   static byPrice() {
     return store.meals.concat().sort( (a,b) => b.price - a.price)
   }
+
+  deliveries() {
+    return store.deliveries.filter( delivery => delivery.mealId == this.id )
+  }
 }
 
 class Employer {
