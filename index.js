@@ -16,10 +16,12 @@ class Delivery {
     store.deliveries.push(this) 
   }
 
+  // delivery belongs to customer
   customer() {
     return store.customers.find( customer => customer.id === this.customerId )
   }
 
+  // delivery belongs to meal
   meal() {
     return store.meals.find( meal => meal.id === this.mealId )
   }
@@ -42,6 +44,13 @@ class Meal {
   deliveries() {
     return store.deliveries.filter( delivery => delivery.mealId == this.id )
   }
+
+  // meal has customers through deliveries
+  customers() {
+    return this.deliveries().map(delivery => {
+      return delivery.customer();
+    })
+  }
 }
 
 class Employer {
@@ -51,12 +60,20 @@ class Employer {
 
     store.employers.push(this)
   }
+
+  //customer belongs to employer
+  employees() {
+    return store.customers.filter( customer => customer.employerId == this.id)
+  }
 }
 
 class Customer {
-  constructor(name){
+  constructor(name, employer){
     this.id = ++customerId
     this.name = name
+    if(employer) {
+      this.employerId = employer.id
+    }
 
     store.customers.push(this)
   }
