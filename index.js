@@ -73,14 +73,12 @@ class Employer {
     })
   }
 
-  //employer has meals through customer/employees
+  //employer has meals through deliveries
+  // does not return the same meal twice
   meals() {
-    debugger
-    return this.deliveries().map(customer => {
-      return customer.meal();
-    })
+    return [...new Set(this.deliveries().map(customer => customer.meal()))]
+    }
   }
-}
 
 class Customer {
   constructor(name, employer){
