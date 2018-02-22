@@ -38,6 +38,7 @@ class Meal {
     return store.meals.concat().sort( (a,b) => b.price - a.price)
   }
 
+  // meal belongs to delivery
   deliveries() {
     return store.deliveries.filter( delivery => delivery.mealId == this.id )
   }
@@ -62,6 +63,14 @@ class Customer {
 
   totalSpent() {
     // use reduce?
+  }
+
+  deliveries() {
+    return store.deliveries.find( delivery => delivery.customerId == this.id)
+  }
+
+  meals() {
+    return store.meals.filter( meal => meal.customerId == this.mealId)
   }
 }
 
