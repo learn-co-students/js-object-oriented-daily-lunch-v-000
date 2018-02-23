@@ -43,12 +43,10 @@ class Meal {
     return store.meals.concat().sort((a, b) => b.price - a.price)
   }
 
-  // meal belongs to delivery
   deliveries() {
     return store.deliveries.filter(delivery => delivery.mealId == this.id)
   }
 
-  // meal has customers through deliveries
   customers() {
     return this.deliveries().map(delivery => {
       return delivery.customer();
