@@ -94,27 +94,30 @@ class Employer {
     let newdeliveries=store.deliveries.filter(function(delivery){
       if (customerids.includes(delivery.customerId)){return delivery.mealId}
       })//have matching deliveries mealId
+    let mealIds=newdeliveries.map(function(delivery){return delivery.mealId})
     return store.meals.filter(meal=>{
-      debugger
-      if (newdeliveries.includes(meal.id)){return meal}
+
+      if (mealIds.includes(meal.id)){return meal}
 
   })
 }
 
   mealTotals(){//WILL USING MEALS() and EMPLOYEES() RETURN VALUE WORK?
     let object={}
-    debugger
+
     let meals=this.meals()
-    meals.forEach(function(meal){
+    meals.forEach(meal=>{
       let customerids= this.employees().map(function(customer){return customer.id})
       let deliveriesForEmployersCustomers= store.deliveries.filter(delivery=>{
         if (customerids.includes(delivery.customerId)){return delivery}
       })
       let count=0
-      value= deliveriesForEmployersCustomers.forEach(function(delivery){
+      deliveriesForEmployersCustomers.forEach(function(delivery){ //didnt need let value=
         if (delivery.mealId===meal.id){count+=1}
       })
       object[meal.id]= count
+      debugger
     })
+    return object
   }
 }
