@@ -4,11 +4,14 @@ class Customer {
   constructor(name,employer){
     this.name=name
     this.id=++id1
-    this.employerId=employer.id
+    if (employer) {this.employerId=employer.id}
     store.customers.push(this)
   }
+  setEmployer(employer){
+    this.employerId=employer.id
+  }
   meals(){
-    let newdeliveries=store.deliveries.filter(dilevery=>{return delivery.customerId===this.id})
+    let newdeliveries=store.deliveries.filter(delivery=>{return delivery.customerId===this.id})
     let mealids=newdeliveries.map(function(delivery){return delivery.mealId})
     return store.meals.filter(function(meal){
       if (mealids.includes(meal.id)){return meal}
@@ -16,9 +19,9 @@ class Customer {
 }
   deliveries(){return store.deliveries.filter(dilevery=>{return delivery.customerId===this.id})}
   totalSpent(){//take all the meals and add their prices.
-      let prices=this.meals().map(function(meal){return meal.totalSpent})
+      let prices=this.meals().map(function(meal){return meal.price})
       let total=0
-      for (i=0;i<prices.length;i++){
+      for (let i=0;i<prices.length;i++){
         total += prices[i]
       }
       return total
@@ -46,9 +49,10 @@ class Meal {
   static byPrice(){
     //meals=store.meals
     //const mealsCopy= [...meals]
-    store.meals.sort(function(meal1,meal2){
-      meal1.price-meal2.price
+    let sorted= store.meals.sort(function(meal1,meal2){
+      return meal1.price-meal2.price
     })
+    return sorted.reverse()
   }
 }
 let id3=0
@@ -66,8 +70,8 @@ class Delivery {
   setMeal(meal){
     this.mealId=meal.id
   }
-  customer(){store.customers.find(customer=>customer.id===this.customerId)}
-  meal(){store.meals.find(meal=>meal.id===this.mealId)}
+  customer(){store.customers.find(customer=>return customer.id===this.customerId)}
+  meal(){store.meals.find(meal=>return meal.id===this.mealId)}
 }
 let id4=0
 class Employer {
@@ -87,18 +91,22 @@ class Employer {
   meals(){ //goes through customers then deliveries then meals
     let newcustomers=store.customers.filter(customer=>{return customer.employerId===this.id})
     let customerids=newcustomers.map(function(customer){return customer.id})//have the id's of the customers
-    let newdeliveries=store.deliveries.filter(delivery=>{
-      if (customerids.includes(delivery.customerId)){return delivery.mealId} //have matching deliveries mealId
+    let newdeliveries=store.deliveries.filter(function(delivery){
+      if (customerids.includes(delivery.customerId)){return delivery.mealId}
+      })//have matching deliveries mealId
     return store.meals.filter(meal=>{
+      debugger
       if (newdeliveries.includes(meal.id)){return meal}
-    })
+
   })
 }
 
-  mealTotals(){//WILL USING MEALS() and EMPLOYEES() RETURN VALUE WORK??
+  mealTotals(){//WILL USING MEALS() and EMPLOYEES() RETURN VALUE WORK?
     let object={}
-    this.meals().forEach(function(meal){
-      let customerids= employees().map(function(customer){return customer.id})
+    debugger
+    let meals=this.meals()
+    meals.forEach(function(meal){
+      let customerids= this.employees().map(function(customer){return customer.id})
       let deliveriesForEmployersCustomers= store.deliveries.filter(delivery=>{
         if (customerids.includes(delivery.customerId)){return delivery}
       })
