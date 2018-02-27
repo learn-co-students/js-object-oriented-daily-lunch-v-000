@@ -17,7 +17,7 @@ class Customer {
       if (mealids.includes(meal.id)){return meal}
     })
 }
-  deliveries(){return store.deliveries.filter(dilevery=>{return delivery.customerId===this.id})}
+  deliveries(){return store.deliveries.filter(delivery=>{return delivery.customerId===this.id})}
   totalSpent(){//take all the meals and add their prices.
       let prices=this.meals().map(function(meal){return meal.price})
       let total=0
@@ -38,7 +38,7 @@ class Meal {
     this.id=++id2
     store.meals.push(this)
   }
-  deliveries(){return store.deliveries.filter(function(delivery){return delivery.mealId===this.id})}
+  deliveries(){return store.deliveries.filter(delivery=>{return delivery.mealId===this.id})}
   customers(){
     let newdeliveries=store.deliveries.filter(delivery=>{return delivery.mealId===this.id})
     let customerids=newdeliveries.map(function(delivery){return delivery.customerId})
@@ -70,8 +70,8 @@ class Delivery {
   setMeal(meal){
     this.mealId=meal.id
   }
-  customer(){store.customers.find(customer=>return customer.id===this.customerId)}
-  meal(){store.meals.find(meal=>return meal.id===this.mealId)}
+  customer(){return store.customers.find(customer=> customer.id===this.customerId)}
+  meal(){return store.meals.find(meal=> meal.id===this.mealId)}
 }
 let id4=0
 class Employer {
