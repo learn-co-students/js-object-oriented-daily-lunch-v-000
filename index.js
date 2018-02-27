@@ -82,5 +82,19 @@ class Employer {
     })
   }
 }
-  mealTotals()
+
+  mealTotals(){//WILL USING MEALS() and EMPLOYEES() RETURN VALUE WORK??
+    object={}
+    meals().forEach(function(meal){
+      let customerids= employees().map(function(customer){return customer.id})
+      let deliveriesForEmployersCustomers= store.deliveries.filter(delivery=>{
+        if (customerids.includes(delivery.customerId)){return delivery}
+      })
+      let count=0
+      value= deliveriesForEmployersCustomers.forEach(function(delivery{
+        if (delivery.mealId===meal.id){count+=1}
+      }))
+      object[meal.id]= count
+    })
+  }
 }
