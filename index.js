@@ -14,7 +14,17 @@ class Customer {
     })
 }
   deliveries(){return store.deliveries.filter(dilevery=>{return delivery.customerId===this.id})}
-  totalSpent(){}
+  totalSpent(){//take all the meals and add their prices.
+      let prices=meals().map(function(meal){return meal.totalSpent})
+      let total=0
+      for (i=0;i<prices.length;i++){
+        total += prices[i]
+      }
+      return total
+  }
+//   function totalRevenue(meals){
+//   return meals.reduce(function(agg,el,i,arr){return agg + el.price},0)
+// }
 }
 class Meal {
   let id2=0
@@ -31,7 +41,12 @@ class Meal {
       if (customerids.includes(customer.id)){return customer}
     })
   }
-  static byPrice(){}
+  static byPrice(){
+    const mealsCopy= [...meals]
+    mealsCopy.sort(meal1,meal2){
+      meal1.price-meal2.price
+    }
+  }
 }
 let id3=0
 class Delivery {
@@ -52,10 +67,20 @@ class Employer {
   employees(){return store.customers.filter(customer=>{return customer.employerId===this.id})}
   deliveries(){//linked through customers
     let newcustomers=store.customers.filter(customer=>{return customer.employerId===this.id})
-    let customerids=newcustomers.map(function(customer){return customer.id})
+    let customerids=newcustomers.map(function(customer){return customer.id}) // this step is different.
     return store.deliveries.filter(function(delivery){
       if (customerids.includes(delivery.customerId)){return delivery}
     }
 }
-  meals()
+  meals(){ //goes through customers then deliveries then meals
+    let newcustomers=store.customers.filter(customer=>{return customer.employerId===this.id})
+    let customerids=newcustomers.map(function(customer){return customer.id})//have the id's of the customers
+    let newdeliveries=store.deliveries.filter(delivery=>{
+      if (customerids.includes(delivery.customerId)){return delivery.mealId} //have matching deliveries mealId
+    return store.meals.filter(meal=>{
+      if (newdeliveries.includes(meal.id)){return meal}
+    })
+  }
+}
+  mealTotals()
 }
