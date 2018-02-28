@@ -3,7 +3,7 @@ const expect = chai.expect;
 describe('deliveries', function() {
   describe('creating a new delivery', function() {
     describe('store', function() {
-      it('can store drivers', function() {
+      it('can store deliveries', function() {
         expect(store.deliveries).to.be.instanceof(Array);
       });
     });
