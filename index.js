@@ -4,8 +4,9 @@ let customerId = 0;
   class Customer {
     constructor(name,employer) {
       this.id = ++customerId;
-      if (name) this.name = name;
+      this.name = name;
       if (employer) this.employerId = employer.id;
+
       store.customers.push(this);
     }
     //returns all of the meals that a customer has had delivered
@@ -31,15 +32,12 @@ let customerId = 0;
 let mealId = 0;
 
   class Meal {
-    constructor(title,price) {
+    constructor(title, price) {
       this.id = ++mealId;
-      if (title) {
-          this.title = title;
-        }
-      if (price) {
-          this.price = price;
-        }
-        store.meals.push(this);
+      this.title = title;
+      this.price = price;
+
+      store.meals.push(this);
     }
     //returns all of the deliveries that delivered the particular meal
     deliveries() {
@@ -66,7 +64,7 @@ let mealId = 0;
 let deliveryId = 0;
 
   class Delivery {
-    constructor(meal,customer) {
+    constructor(meal, customer) {
     this.id = ++deliveryId;
     if (meal) {
         this.mealId = meal.id;
@@ -74,6 +72,7 @@ let deliveryId = 0;
     if (customer) {
         this.customerId = customer.id;
     }
+
     store.deliveries.push(this);
     }
     //returns the meal associated with the delivery
@@ -96,6 +95,7 @@ let employerId = 0;
     constructor(name) {
     this.id = ++employerId;
     this.name = name;
+    
     store.employers.push(this);
     }
     //returns a list of customers employed by the employer
