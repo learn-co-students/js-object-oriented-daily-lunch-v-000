@@ -13,6 +13,7 @@ class Delivery {
     if (customer) {
       this.customerId = customer.id;
     }
+
     store.deliveries.push(this);
   }
 
@@ -34,11 +35,18 @@ class Meal {
     store.meals.push(this);
   }
 
-  // byPrice(){
-  //   debugger;
-  //   // return store.meals.sort(function (meal1, meal2) {
-  //   //   return meal1.price - meal2.price;
-  //   // });
+  deliveries() {
+    return store.deliveries.filter(delivery => {return delivery.mealId === this.id})
+  }
+
+  customers() {
+    return this.deliveries().map(delivery => delivery.customer());
+  }
+
+  // static byPrice(){
+  //   return store.meals.sort(function (meal1, meal2) {
+  //     return meal1.price - meal2.price;
+  //   });
   // }
 
 }
@@ -52,6 +60,14 @@ class Customer {
     }
     store.customers.push(this);
   }
+
+  deliveries() {
+    return store.deliveries.filter(delivery => {return delivery.customer().id === this.id});
+  }
+
+  meals() {
+    return this.deliveries().map(delivery => delivery.meal());
+  }
 }
 
 class Employer {
@@ -60,5 +76,14 @@ class Employer {
     this.name = name;
 
     store.employers.push(this)
+  }
+
+  employees() {
+    return store.customers.filter(customer => {return customer.employerId === this.id});
+  }
+
+  deliveries() {
+    // This method is returning nested array, dont think they like that...
+    // return this.employees().filter(customer => customer.deliveries());
   }
 }
