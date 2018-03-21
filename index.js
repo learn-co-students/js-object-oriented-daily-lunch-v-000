@@ -43,11 +43,11 @@ class Meal {
     return this.deliveries().map(delivery => delivery.customer());
   }
 
-  // static byPrice(){
-  //   return store.meals.sort(function (meal1, meal2) {
-  //     return meal1.price - meal2.price;
-  //   });
-  // }
+  static byPrice(){
+    return store.meals.sort(function (meal1, meal2) {
+      return meal2.price - meal1.price;
+    });
+  }
 
 }
 
@@ -68,6 +68,12 @@ class Customer {
   meals() {
     return this.deliveries().map(delivery => delivery.meal());
   }
+
+  totalSpent() {
+    return this.meals().reduce(function (agg, meal, i, arr) {
+      return agg + meal.price;
+    }, 0)
+  }
 }
 
 class Employer {
@@ -83,7 +89,10 @@ class Employer {
   }
 
   deliveries() {
-    return this.employees().map(customer => customer.deliveries().find(delivery => delivery));
+    let deliveries = this.employees().map(customer => customer.deliveries());
+    let array = [];
+
+    return array.concat.apply([], deliveries);
   }
 
   allMeals() {
@@ -91,29 +100,21 @@ class Employer {
   }
 
   meals() {
-    return this.allMeals().unique();
-  }
+    return this.deliveries().map(delivery => delivery.meal()).unique();
+   }
 
-
-  mealTotals(){
-    // get Id of each meal1
-    // count the number of times Id appears in array
+  mealTotals()  {
     let newObject = {};
 
-    this.meals().forEach(function (meal) {
+    this.allMeals().forEach(function (meal) {
       newObject[meal.id] = 0;
     });
 
-    debugger;
     this.allMeals().forEach(function (meal) {
-      if (newObject.hasOwnProperty(meal.id)) {
-        newObject[meal.id] += 1;
-      }
+      newObject[meal.id] += 1;
     });
 
-    console.log(newObject)
     return newObject;
-
   }
 
 }
