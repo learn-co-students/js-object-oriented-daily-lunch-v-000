@@ -62,7 +62,7 @@ class Customer {
   }
 
   deliveries() {
-    return store.deliveries.filter(delivery => {return delivery.customer().id === this.id});
+    return store.deliveries.filter(delivery => {return delivery.customerId === this.id});
   }
 
   meals() {
@@ -83,7 +83,45 @@ class Employer {
   }
 
   deliveries() {
-    // This method is returning nested array, dont think they like that...
-    // return this.employees().filter(customer => customer.deliveries());
+    return this.employees().map(customer => customer.deliveries().find(delivery => delivery));
   }
+
+  allMeals() {
+    return this.deliveries().map(delivery => delivery.meal());
+  }
+
+  meals() {
+    return this.allMeals().unique();
+  }
+
+
+  mealTotals(){
+    // get Id of each meal1
+    // count the number of times Id appears in array
+    let newObject = {};
+
+    this.meals().forEach(function (meal) {
+      newObject[meal.id] = 0;
+    });
+
+    debugger;
+    this.allMeals().forEach(function (meal) {
+      if (newObject.hasOwnProperty(meal.id)) {
+        newObject[meal.id] += 1;
+      }
+    });
+
+    console.log(newObject)
+    return newObject;
+
+  }
+
+}
+
+//
+
+Array.prototype.unique = function() {
+  return this.filter(function (value, index, self) {
+    return self.indexOf(value) === index;
+  });
 }
