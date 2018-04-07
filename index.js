@@ -93,21 +93,32 @@ class Employer {
     })
   }
 
-  // mealTotals(){
-  //   let allMeals = this.meals()
+  mealTotals(){
+   // get all meals, repeats included
+   let allMeals = this.employees().map((employee) => {
+     return employee.meals()
+   })
 
-    // let initVal = 0
-    // let initObj = {}
+   let mergedMeals = [].concat.apply([], allMeals)
 
-    // for(let i = 0; i < allMeals.length; i++) {
-    //   let currentMeal = allMeals[i]
-    //   if initObj.keys().includes(i){
-    //     initObj[i] =
-    //   } else {
-    //
-    //   }
-    // }
-  // }
+   //create a store for allMeals where each key is a mealId
+   let mealStore = {}
+
+   //update the store with info from each employees meals
+   for(const meal of mergedMeals) {
+     let mealId = meal.id.toString()
+
+     // if mealStore[mealId] exists, update value
+     if (mealStore[mealId]) {
+       mealStore = Object.assign({}, mealStore, mealStore[mealId]++)
+     } else {
+    // else, add mealStore[mealId] and value starts at 1
+       mealStore = Object.assign({}, mealStore, mealStore[mealId] = 1)
+     }
+   }
+
+   return mealStore
+ }
 }
 
 let customerId = 0
