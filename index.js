@@ -16,7 +16,7 @@ class Meal {
     return this.deliveries().map(delivery => delivery.customer()); //gives array of customers who've ordered this meal
   }
   static byPrice() {
-    return store.meals.sort((meal1, meal2) => meal1.price < meal2.price); //sort meals by desc. price
+    return store.meals.sort((meal1, meal2) => meal2.price - meal1.price); //sort meals by desc. price
   }
 }
 
