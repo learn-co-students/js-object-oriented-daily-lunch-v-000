@@ -52,12 +52,45 @@ class Employer {
     this.id = ++employerId;
     store.employers.push(this);
   }
+  employees(){
+    return store.customers.filter(customer => {
+      return customer.employerId == this.id;
+    })
+  }
+  deliveries(){
+    let allDeliveries = this.employees().map(employee => {
+      return employee.deliveries();
+    });
+    let merged = [].concat.apply([], allDeliveries);
+    return merged;
+  }
+  meals(){
+    let allMeals = this.deliveries().map(delivery => {
+      return delivery.meal();
+    });
+    let uniqueMeals = [...new Set(allMeals)];
+    return uniqueMeals;
+  }
+  mealTotals(){
+    let allMeals = this.deliveries().map(delivery =>{
+      return delivery.meal();
+    });
+    let summaryObject = {};
+    allMeals.forEach(meal => {
+      summaryObject[meal.id] = 0;
+    });
+    allMeals.forEach(meal => {
+      summaryObject[meal.id] += 1;
+    });
+    return summaryObject;
+  }
 }
 
 let customerId = [];
 class Customer {
-  constructor(name, employer){
+  constructor(name, employer = {}){
     this.name = name;
+    this.employerId = employer.id;
     this.id = ++customerId;
     store.customers.push(this);
   }
