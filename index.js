@@ -116,4 +116,9 @@ class Employer{
       return meal.customerId === this.id
     })
   }
+  mealTotals(){
+    return store.meals.filter(meal => {
+      return meal.mealId === this.id
+    })
+  }
 }
