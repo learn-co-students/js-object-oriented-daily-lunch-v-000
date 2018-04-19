@@ -31,7 +31,6 @@ class Delivery{
 }
 
 // `Customer` class:
-//
 // + `new Customer()` — initialized with both name, and an instance of an `employer`; returns a JavaScript object that has attributes of `id`, `employerId`, and `name`
 // + `meals()` - returns all of the meals that a customer has had delivered
 // + `deliveries()` — returns all of the deliveries that customer has received
@@ -53,6 +52,11 @@ class Customer{
   deliveries(){
     return store.deliveries.filter(delivery => {
       return delivery.customersId === this.id
+    })
+  }
+  totalSpent(){
+    return store.meals.filter(meal => {
+      return meal.mealId === this.id
     })
   }
 }
@@ -80,8 +84,8 @@ class Meal{
       return delivery.mealId === this.id
     })
   }
-  static byPrice(price){
-    return Meal.price;
+  static byPrice(){
+    return store.meals.sort(function(a, b){return b.price - a.price});
   }
 }
 
@@ -103,22 +107,22 @@ class Employer{
   }
   employees(){
     return store.customers.filter(customer => {
-      return customer.employerId === this.id
+      return customer.employerId === this
     })
   }
   deliveries(){
     return store.deliveries.filter(delivery => {
-      return delivery.employerId === this.id
+      return delivery.employerId === this
     })
   }
   meals(){
     return store.meals.filter(meal => {
-      return meal.customerId === this.id
+      return meal.employerId === this.mealId
     })
   }
   mealTotals(){
     return store.meals.filter(meal => {
-      return meal.mealId === this.id
+      return mealId === this.id
     })
   }
 }
