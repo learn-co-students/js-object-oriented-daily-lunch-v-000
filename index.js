@@ -14,21 +14,26 @@ let employerId = 0;
 class Delivery{
   constructor(meal, customer){
     this.id = ++deliveryId;
-    this.mealId = meal;
-    this.customerId = customer;
+    this.meal = meal;
+    this.customer = customer;
+    if(meal){
+      this.mealId = meal.id;
+      this.customerId = customer.id;
+    }
     store.deliveries.push(this);
   }
   meal(){
-    return store.meals.find(meal => {
-      return meals.deliveryId === this.id
+    return store.meals.find(function(meal){
+      return meal.id === this.deliveryId
     })
   }
   customer(){
-    return store.customers.find(customer => {
-      return customers.deliveryId === this.id
+    return store.customers.find(function(customer){
+      return customer.id === this.customerId
     })
   }
 }
+
 
 // `Customer` class:
 // + `new Customer()` — initialized with both name, and an instance of an `employer`; returns a JavaScript object that has attributes of `id`, `employerId`, and `name`
@@ -46,12 +51,12 @@ class Customer{
   }
   meals(){
     return store.meals.filter(meal => {
-      return meal.customerId === this.id
+      return meal.customerId === this.deliveryId
     })
   }
   deliveries(){
     return store.deliveries.filter(delivery => {
-      return delivery.customersId === this.id
+      return delivery.customerId === this
     })
   }
   totalSpent(){
@@ -117,7 +122,7 @@ class Employer{
   }
   meals(){
     return store.meals.filter(meal => {
-      return meal.employerId === this.mealId
+      return meal.mealId === this.employerId
     })
   }
   mealTotals(){
