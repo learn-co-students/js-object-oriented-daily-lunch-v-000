@@ -6,12 +6,10 @@ let mealId = 0;
 let deliveryId = 0;
 
 class Customer {
-  constructor(name, employer) {
+  constructor(name, employer = {}) {
     this.id = ++customerId;
     this.name = name;
-    if (employer){
-      this.employerId = employer.id;
-    }
+    this.employerId = employer.id;
     store.customers.push(this);
   }
 
@@ -28,11 +26,9 @@ class Customer {
   }
 
   totalSpent() {
-    let total = 0;
-    for (const meal of this.meals()){
-      total += meal.price;
-    }
-    return total;
+    return this.meals().reduce(function(sum, meal) {
+      return sum + meal.price;
+    }, 0);
   }
 }
 
@@ -63,9 +59,11 @@ class Employer {
 
   mealTotals() {
     let totals = {};
+
     let meals = this.employees().map(employee => {
       return employee.meals();
     }).reduce((acc, val) => acc.concat(val), []);
+
     for (const meal of meals){
       if (meal.id in totals){
         totals[meal.id] += 1;
@@ -73,6 +71,7 @@ class Employer {
         totals[meal.id] = 1;
       }
     }
+    
     return totals;
   }
 }
@@ -99,18 +98,16 @@ class Meal {
 
   static byPrice() {
     return store.meals.slice().sort(function(mealA, mealB){
-      return mealB.price - mealA.price;
+      return mealA.price < mealB.price;
     });
   }
 }
 
 class Delivery {
-  constructor(meal, customer) {
+  constructor(meal = {}, customer = {}) {
     this.id = ++deliveryId;
-    if (meal && customer){
-      this.mealId = meal.id;
-      this.customerId = customer.id;
-    }
+    this.mealId = meal.id;
+    this.customerId = customer.id;
     store.deliveries.push(this);
   }
 
