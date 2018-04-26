@@ -85,7 +85,7 @@ class Meal{
   
   deliveries(){
     return store.deliveries.filter(delivery => {
-      //debugger
+      debugger
       return delivery.mealId === this.id
     })
   }
@@ -126,11 +126,29 @@ class Employer{
       return customer.employerId === this.id    
     })
   }
+
   deliveries(){
-    return store.deliveries.find(delivery =>{
-      //console.log("HHH", this.employees())
-      return this.employees();
+    const d = this.employees().map(employee =>{
+      return employee.deliveries()
+    })  
+    return [].concat.apply([], d)
+    // return store.deliveries.find(delivery =>{
+    //   //console.log("HHH", this.employees())
+    //   return this.employees();
+    // })
+  }
+  meals(){
+    const a = this.deliveries().map(delivery =>{
+      return delivery.meal()
     })
+    const b = [...new Set(a)]
+    return b;
+    // const a = store.meals.map(delivery => {
+    //   return this.meal
+    //   //console.log(delivery.meal())
+    // })
+    // const b = [...new Set(a)];
+    // return b;
   }
   // meals(){
   //   const a = store.meals.find(meal =>{
@@ -140,16 +158,7 @@ class Employer{
   //   const uMeals = [...new Set(a)]
   //   return uMeals;
   // }
-meals(){
-    const a = store.meals.map(delivery => {
-      //console.log(delivery.meal())
-      return this.meal
-    })
-    const b = [...new Set(a)];
-    return b;
-  }
 
-  
 // BRADS: meals() {
 // 		let allMeals = this.deliveries().map((delivery) => {
 // 			return delivery.meal()
@@ -157,7 +166,6 @@ meals(){
 // 		let uniqueMeals = [...new Set(allMeals)]
 // 		return uniqueMeals;
 // 	}
-
 
   mealTotals(){
     return store.meals.sort(function(a, b){return(b.price - a.price)});
