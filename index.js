@@ -19,6 +19,7 @@ class Customer{
   }
   meals(){
     return this.deliveries().map(delivery =>{
+      //console.log("TTT", delivery.meal())
       return delivery.meal()
     })
     // return store.meals.filter(meal => {
@@ -36,6 +37,7 @@ class Customer{
     }, 0);
    }   
   }            
+
 
 // Delivery` class:
 //   + `new Delivery()` — initialized with `meal` and `customer`; returns an object that has attributes of `mealId`, `customerId`, and `id`
@@ -56,6 +58,7 @@ class Delivery{
     // }
   }
   meal(){
+    //console.log("SSS", this.mealId) 
     return store.meals.find(meal => {
       return meal.id === this.mealId
     })
@@ -85,7 +88,7 @@ class Meal{
   
   deliveries(){
     return store.deliveries.filter(delivery => {
-      debugger
+      //debugger
       return delivery.mealId === this.id
     })
   }
@@ -129,9 +132,11 @@ class Employer{
 
   deliveries(){
     const d = this.employees().map(employee =>{
+      //console.log(employee.deliveries())
       return employee.deliveries()
     })  
     return [].concat.apply([], d)
+    
     // return store.deliveries.find(delivery =>{
     //   //console.log("HHH", this.employees())
     //   return this.employees();
@@ -143,31 +148,21 @@ class Employer{
     })
     const b = [...new Set(a)]
     return b;
-    // const a = store.meals.map(delivery => {
-    //   return this.meal
-    //   //console.log(delivery.meal())
-    // })
-    // const b = [...new Set(a)];
-    // return b;
   }
-  // meals(){
-  //   const a = store.meals.find(meal =>{
-  //     //console.log("MMM", this.employees())
-  //     return this.employees();
-  //   })
-  //   const uMeals = [...new Set(a)]
-  //   return uMeals;
-  // }
 
-// BRADS: meals() {
-// 		let allMeals = this.deliveries().map((delivery) => {
-// 			return delivery.meal()
-// 		})
-// 		let uniqueMeals = [...new Set(allMeals)]
-// 		return uniqueMeals;
-// 	}
-
-  mealTotals(){
-    return store.meals.sort(function(a, b){return(b.price - a.price)});
+// `mealTotals()` - returns a JavaScript object displaying each respective meal id ordered by the employer's employees.  
+// The keys of the JavaScript object are the meal ids and associated with each meal id is a value.  
+// For example, `employerOne.mealTotals()` returning an object of `{1: 4, 2: 3}` would mean that the meal with id of 1 was 
+// ordered by employerOne's employees four times, and the meal with id of 2 was ordered by employerOne's employees three times.  
+  
+mealTotals(){
+    return store.deliveries.reduce((acc, curr) => {  
+      acc[curr.mealId] += curr.mealId;
+      return acc;
+    }, {});
   }
 }
+
+
+
+  
