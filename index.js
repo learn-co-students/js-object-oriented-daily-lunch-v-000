@@ -161,11 +161,6 @@ class Employer {
     return merged;
   }
 
-	// meals(){
-	// 	let customers = this.employees()
-	// 	return customers.meals()
-	// }
-
 	meals() {
     let allMeals = this.deliveries().map(delivery => {
       return delivery.meal();
@@ -174,37 +169,18 @@ class Employer {
     return uniqueMeals;
   }
 
-	mealTotals(){
-	  let allDeliveries = this.deliveries()
-	  // using the delivery method of Meal class
-	  let allMeals = allDeliveries.map(meal => {return meal.delivery()})
-      let allPrices = allMeals.map(meal => {return meal.price})
-      let sumPrices = allPrices.reduce(function(sum, currentPrice) {return sum += currentPrice}, 0)
-	}
-
+// we want to return an object {indexOfMeal: numbOfMealsOrdered}    {1: 4, 2: 3}
 	
-	// }
-
-	// mealTotals() {
- //    let allMeals = this.deliveries().map(delivery => {
- //      return delivery.meal();
- //    });
- //    let summaryObject = {};
- //    allMeals.forEach(function(meal) {
- //      summaryObject[meal.id] = 0;
- //    });
- //    allMeals.forEach(function(meal) {
- //      summaryObject[meal.id] += 1;
- //    });
- //    return summaryObject;
- //  }
-
+	mealTotals() {
+    let allMeals = this.deliveries().map(delivery => {return delivery.meal();});
+    let summaryObject = {};
+    allMeals.forEach(function(meal) {summaryObject[meal.id] = 0; });
+    allMeals.forEach(function(meal) {summaryObject[meal.id] += 1;});
+    return summaryObject;
+  }
 }
-
-
-
-
-
+	
+	
 
 
 
