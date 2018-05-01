@@ -1,38 +1,61 @@
 # Daily Lunch Lab
 
 ## Objectives
-+ Build a domain model with class relations using JavaScript iterator methods
-+ Use JavaScript to write query methods on our classes to answer questions about data in the store
+
+* Build a domain model with class relations using JavaScript iterator methods
+* Use JavaScript to answer questions about data stored in our application
+* For the purposes of this lab, we're using a global store variable as our database.
 
 ## Instructions
 
-In the following lab, we will be modeling all the models for The Daily Deli.  The Daily Deli delivers daily lunches to different offices around US Cities.  A customer orders a meal and it is delivered to the office of the customer's employer.  So The Daily Deli relates a customer to a meal based on whether that meal was delivered to a customer.  The employer of a customer is associated with the deliveries and meals ordered by its employees.  
+In this lab, we will be creating a meal delivery service.
 
- You will be modeling the following:
+## The Domain
 
-`Customer` class:
+<!-- TODO: add location -->
 
-+ `new Customer()` — initialized with both name, and an instance of an `employer`; returns a JavaScript object that has attributes of `id`, `employerId`, and `name`
-+ `meals()` - returns all of the meals that a customer has had delivered
-+ `deliveries()` — returns all of the deliveries that customer has received
-+ `totalSpent()` - returns the total amount that the customer has spent, as a function of the cost of the meals he has had delivered
+* A meal has many customers
+* A delivery belongs to a meal, belongs to a customer
+* A customer has many deliveries
+* A customer has many meals through deliveries
 
-`Meal` class:
-  + `new Meal()` — initialized with `title` and `price`; returns an object that has attributes of`title`, `price`, and `id`
-  + `deliveries()` - returns all of the deliveries that delivered the particular meal.
-  + `customers()` - returns all of the customers who have had the meal delivered.
-  + `byPrice()` -  A class method that orders the meals by their price.  Use the `static` keyword to write a class method.
+---
 
-  > Class methods are methods that are not called on an instance of the class, but on the class itself, for example Meal.byPrice() is a class method as it is called on the `Meal` class.  You can write a class method simply by preceding a method on a class with JavaScript's `static` keyword.  You can read more about class methods in JavaScript [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static).
+Please note: the tests do not check these methods in order. Some of these
+methods rely on the relationships between classes to be working already. Use the
+tests as a guide and refer to this reading if you need more information about
+what a method is supposed to be doing.
 
-`Delivery` class:
-  + `new Delivery()` — initialized with `meal` and `customer`; returns an object that has attributes of `mealId`, `customerId`, and `id`
-  + `meal()` - returns the meal associated with the delivery
-  + `customer()` - returns the customer associated with the delivery
+---
 
-`Employer` class:
-  + `new Employer()` — initialized with `name`; returns an object that has attributes of `name` and `id`
-  + `employees()` - returns a list of customers employed by the employer
-  + `deliveries()` - returns a list of deliveries ordered by the employer's employees
-  + `meals()` - returns a list of meals ordered by the employer's employees.  The method is to not return the same meal multiple times.
-  + `mealTotals()` - returns a JavaScript object displaying each respective meal id ordered by the employer's employees.  The keys of the JavaScript object are the meal ids and associated with each meal id is a value.  For example, `employerOne.mealTotals()` returning an object of `{1: 4, 2: 3}` would mean that the meal with id of 1 was ordered by employerOne's employees four times, and the meal with id of 2 was ordered by employerOne's employees three times.  
+You will be modeling the following:
+
+#### Customer class:
+
+* `new Customer()` — should expect to be initialized with a name. It returns an object that has attributes of `id`, and `name`.
+* `deliveries()` — returns all of the deliveries that customer has received
+* `meals()` - returns all of the **unique** meals that a customer has ordered
+* `totalSpent()` - returns the total amount that the customer has spent on food.
+
+#### Meal class:
+
+* `new Meal()` — initialized with `title` and `price`. It returns an object that has attributes of `title`, `price`, and `id`. Meal Ids should automatically increment.
+* `deliveries()` - returns all of the deliveries associated with a particular meal.
+* `customers()` - returns all of the customers who have had the meal delivered. Be careful not to return the same customer twice if they have ordered this meal multiple times.
+* `byPrice()` - A **[class method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static)** that orders all meal instances by their price in descending order. Use the `static` keyword to write a class method.
+
+#### Delivery class:
+
+* `new Delivery()` — initialized with `mealId` and `customerId`. It returns an object that has attributes of `mealId`, `customerId`, and `id`
+* `meal()` - returns the meal associated with a particular delivery
+* `customer()` - returns the customer associated with a particular delivery
+
+<!-- #### Office class:
+
+* `new Office()` — initialized with `name`. It returns an object that has attributes of `name` and `id`
+* `employees()` - returns all employees
+* `deliveries()` - returns a list of all deliveries placed by the company's employees -->
+
+  <!-- * `mealTotals()` - returns an object containing each respective meal id ordered by the employer's employees. The keys of the JavaScript object are the meal ids and associated with each meal id is a value. For example, `employerOne.mealTotals()` returning an object of `{1: 4, 2: 3}` would mean that the meal with id of 1 was ordered by employerOne's employees four times, and the meal with id of 2 was ordered by employerOne's employees three times. -->
+
+![paul rudd delivers food](https://media.giphy.com/media/3oz8xuoxXfXb1ONus8/giphy.gif)
