@@ -156,13 +156,23 @@ class Employer{
 // ordered by employerOne's employees four times, and the meal with id of 2 was ordered by employerOne's employees three times.  
   
 mealTotals(){
-    return store.deliveries.reduce((acc, curr) => {  
-      acc[curr.mealId] += curr.mealId;
-      return acc;
-    }, {});
-  }
-}
+  debugger
+    return store.deliveries.reduce(function (acc, curr) {
+    if (typeof acc[curr.mealId] == 'undefined'){
+      acc[curr.mealId] = 1;
+    } else {
+      acc[curr.mealId] += 1;
+    }
+    return acc;
+  }, {});
+ }
+} 
 
 
 
-  
+
+
+
+
+
+
