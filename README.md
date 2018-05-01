@@ -12,8 +12,6 @@ In this lab, we will be creating a meal delivery service.
 
 ## The Domain
 
-<!-- TODO: add location -->
-
 * A meal has many customers
 * A delivery belongs to a meal, belongs to a customer
 * A customer has many deliveries
@@ -50,12 +48,5 @@ You will be modeling the following:
 * `meal()` - returns the meal associated with a particular delivery
 * `customer()` - returns the customer associated with a particular delivery
 
-<!-- #### Office class:
-
-* `new Office()` — initialized with `name`. It returns an object that has attributes of `name` and `id`
-* `employees()` - returns all employees
-* `deliveries()` - returns a list of all deliveries placed by the company's employees -->
-
-  <!-- * `mealTotals()` - returns an object containing each respective meal id ordered by the employer's employees. The keys of the JavaScript object are the meal ids and associated with each meal id is a value. For example, `employerOne.mealTotals()` returning an object of `{1: 4, 2: 3}` would mean that the meal with id of 1 was ordered by employerOne's employees four times, and the meal with id of 2 was ordered by employerOne's employees three times. -->
 
 ![paul rudd delivers food](https://media.giphy.com/media/3oz8xuoxXfXb1ONus8/giphy.gif)
