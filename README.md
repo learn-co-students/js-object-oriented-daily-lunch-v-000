@@ -4,7 +4,7 @@
 
 * Build a domain model with class relations using JavaScript iterator methods
 * Use JavaScript to answer questions about data stored in our application
-* For the purposes of this lab, we're using a global store variable as our database.
+* In this lab, we're using a global store variable to manage application state; it's our frontend 'database'.
 
 ## Instructions
 
@@ -13,9 +13,13 @@ In this lab, we will be creating a meal delivery service.
 ## The Domain
 
 * A meal has many customers
-* A delivery belongs to a meal, belongs to a customer
+* A delivery belongs to a meal, belongs to a customer, and belongs to a neighborhood
 * A customer has many deliveries
 * A customer has many meals through deliveries
+* A customer belongs to a neighborhood
+* A neighborhood has many deliveries
+* A neighborhood has many customers through deliveries
+* A neighborhood has many meals through deliveries
 
 ---
 
@@ -28,11 +32,18 @@ what a method is supposed to be doing.
 
 You will be modeling the following:
 
+#### Neighborhood class:
+
+* `new Neighborhood()` - initialized with `name`. It returns an object that has attributes of `id` and `name`
+* `deliveries()` - returns a list of all deliveries placed in a neighborhood
+* `customers()` - returns all of the customers that live in a particular neighborhood
+* `meals()` - returns a **unique** list of meals that have been ordered in a particular neighborhood (you might want to do this one last)
+
 #### Customer class:
 
-* `new Customer()` — should expect to be initialized with a name. It returns an object that has attributes of `id`, and `name`.
+* `new Customer()` — should expect to be initialized with a name and a neighborhoodId. It returns an object that has attributes of `id`, `neighborhoodId`, and `name`.
 * `deliveries()` — returns all of the deliveries that customer has received
-* `meals()` - returns all of the **unique** meals that a customer has ordered
+* `meals()` - returns all meals that a customer has ordered
 * `totalSpent()` - returns the total amount that the customer has spent on food.
 
 #### Meal class:
@@ -44,9 +55,9 @@ You will be modeling the following:
 
 #### Delivery class:
 
-* `new Delivery()` — initialized with `mealId` and `customerId`. It returns an object that has attributes of `mealId`, `customerId`, and `id`
+* `new Delivery()` — initialized with `mealId`, `neighborhoodId`, and `customerId`. It returns an object that has attributes of `mealId`, `neighborhoodId`, `customerId`, and `id`
 * `meal()` - returns the meal associated with a particular delivery
 * `customer()` - returns the customer associated with a particular delivery
-
+* `neighborhood()` - returns the neighborhood associated with a particular delivery
 
 ![paul rudd delivers food](https://media.giphy.com/media/3oz8xuoxXfXb1ONus8/giphy.gif)
