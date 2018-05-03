@@ -21,6 +21,7 @@ class Customer {
   
   totalSpent() {
     return this.meals().reduce((sum, meal) => sum.price + meal.price);
+    // or return this.meals().reduce((sum, meal) => {sum + meal.price}, 0);
   }
 }
 
@@ -87,7 +88,7 @@ class Employer {
   mealTotals() {
     let totals = {};
     this.meals().forEach(meal => { 
-      const mealTotal = store.deliveries.filter(delivery => delivery.mealId === meal.id && delivery.customer().employerId === this.id).length;
+      const mealTotal = this.deliveries().filter(delivery => delivery.mealId === meal.id).length;
       totals[meal.id] = mealTotal;
     });
     return totals;
