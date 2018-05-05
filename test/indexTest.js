@@ -317,7 +317,7 @@ describe('employerStats', function() {
 
   it('displays the number of times each meal was ordered', function() {
     // {pastaMealid: 1, chickenMealid: 2}
-    expect(employer.mealTotals()[chicken.id]).to.equal(3);
-    expect(employer.mealTotals()[pasta.id]).to.equal(3);
+    expect(employer.mealTotals()[chicken.id]).to.equal(2);
+    expect(employer.mealTotals()[pasta.id]).to.equal(1);
   });
 });
