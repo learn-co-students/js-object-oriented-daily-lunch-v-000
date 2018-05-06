@@ -3,7 +3,7 @@ const expect = chai.expect;
 describe('deliveries', function() {
   describe('creating a new delivery', function() {
     describe('store', function() {
-      it('can store drivers', function() {
+      it('can store deliveries', function() {
         expect(store.deliveries).to.be.instanceof(Array);
       });
     });
@@ -37,7 +37,7 @@ describe('meals', function() {
       });
     });
 
-    it('can create a Meal with a name', function() {
+    it('can create a Meal with a title', function() {
       let meal = new Meal('Chicken Parm');
       expect(meal.title).to.equal('Chicken Parm');
     });
