@@ -14,9 +14,7 @@ class Customer {
   }
 
   meals() {
-    return store.meals.filter(meal => {
-      return meal.customers().map = 
-    })}
+ }
 
   deliveries() {
 
@@ -37,8 +35,9 @@ class Meal {
   }
 
   deliveries() {
-
-  }
+    return store.deliveries.map(delivery => {
+      return delivery.meal();
+    })}
 
   customers() {
 
@@ -59,14 +58,16 @@ class Delivery {
   }
 
   meal() {
-
-  }
+    return store.meals.find(meal => {
+      return meal.id === this.mealId;
+    })}
 
   customer() {
-
-  }
-
+    return store.customers.find(customer => {
+      return customer.id === this.customerId;
+    })}
 }
+
 
 class Employer {
   constructor (name) {
