@@ -24,7 +24,9 @@ class Customer {
     })}
 
   totalSpent() {
-
+    let total = 0;
+    let theMeals = meals();
+    
   }
 
 }
@@ -49,8 +51,12 @@ class Meal {
   }
 
   static byPrice () {
-
+    return store.meals.sort((meal1, meal2) => {
+      return meal1.price < meal2.price
+    })
   }
+
+  
 
 }
 
@@ -83,7 +89,7 @@ class Employer {
 
   employees() {
     return store.customers.filter(customer => {
-      return customer.employerId === this.id
+      return customer.employerId === this.id;
     })}
 
   deliveries() {
