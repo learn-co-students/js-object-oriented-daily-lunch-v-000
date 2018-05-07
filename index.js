@@ -82,12 +82,14 @@ class Employer {
   }
 
   employees() {
-    
-  }
+    return store.customers.filter(customer => {
+      return customer.employerId === this.id
+    })}
 
   deliveries() {
-
-  }
+    return store.deliveries.map(delivery => {
+      return delivery.customer()
+    })}
 
   meals() {
 
