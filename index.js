@@ -87,12 +87,10 @@ class Employer {
     })}
 
   deliveries() {
-    return store.deliveries.map(delivery => {
-      return delivery.customer()
-    })}
+  }
 
   meals() {
-
+    return this.employees()
   }
 
   mealTotals() {
