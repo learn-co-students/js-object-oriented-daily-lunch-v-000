@@ -110,7 +110,19 @@ class Employer {
   }
 
   mealTotals() {
-    
+    let meals = this.deliveries().map(delivery => {
+      return delivery.meal();
+    });
+    let obj = {};
+    for (const meal of meals) {
+      obj[meal.id] = 0;
+    }
+    for (const meal of meals) {
+      obj[meal.id] += 1;
+    }
+    return obj;
   }
+
 }
+
 
