@@ -93,17 +93,24 @@ class Employer {
     })}
 
   deliveries() {
-    return store.
+    let all = this.employees().map(employee => {
+      return employee.deliveries();
+    });
+    let merge = [].concat.apply([], all);
+    return merge;
   }
 
   meals() {
-    return this.employees()
+    let all = this.deliveries().map(delivery => {
+        return delivery.meal()
+    })
+    // Sets are ordered lists of values that contain no duplicates. Instead of being indexed like arrays are, sets are accessed using keys.
+    let uniq = [...new Set(all)];
+    return uniq;
   }
 
   mealTotals() {
-
+    
   }
-
-
-
 }
+
