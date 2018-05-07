@@ -14,11 +14,14 @@ class Customer {
   }
 
   meals() {
- }
+    return store.deliveries.map(delivery => {
+      return delivery.meal()
+    })}
 
   deliveries() {
-
-  }
+    return store.deliveries.filter(delivery => {
+      return delivery.customerId === this.id;
+    })}
 
   totalSpent() {
 
@@ -35,12 +38,14 @@ class Meal {
   }
 
   deliveries() {
-    return store.deliveries.map(delivery => {
-      return delivery.meal();
+    return store.deliveries.filter(delivery => {
+      return delivery.mealId === this.id;
     })}
 
   customers() {
-
+    return store.deliveries.map(delivery => {
+      return delivery.customer();
+    })
   }
 
   static byPrice () {
@@ -77,7 +82,7 @@ class Employer {
   }
 
   employees() {
-
+    
   }
 
   deliveries() {
