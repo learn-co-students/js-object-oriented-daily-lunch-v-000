@@ -122,5 +122,4 @@ class Employer {
     });
     return totals;
   }
-
-}
+}                                   //come back and look at the tests and code here.  Lot of good info.
