@@ -6,11 +6,24 @@ let employerId = 0;
 const store = {customers: [], meals: [], deliveries: [], employers: []};
 
 class Customer {
-  constructor(name, employer) {
+  constructor(name, employer = {}) {
     this.name = name;
     this.employerId = employer.id;
     this.id = ++customerId;
     store.customers.push(this);
+  }
+
+  meals() {
+    return store.meals.filter(meal => {
+      return meal.customers().map = 
+    })}
+
+  deliveries() {
+
+  }
+
+  totalSpent() {
+
   }
 
 }
@@ -23,14 +36,34 @@ class Meal {
     store.meals.push(this);
   }
 
+  deliveries() {
+
+  }
+
+  customers() {
+
+  }
+
+  static byPrice () {
+
+  }
+
 }
 
 class Delivery {
-  constructor(meal, customer) {
+  constructor(meal = {}, customer = {}) {
     this.mealId = meal.id;
     this.customerId = customer.id;
     this.id = ++deliveryId;
     store.deliveries.push(this);
+  }
+
+  meal() {
+
+  }
+
+  customer() {
+
   }
 
 }
@@ -41,4 +74,23 @@ class Employer {
     this.id = ++employerId;
     store.employers.push(this);
   }
+
+  employees() {
+
+  }
+
+  deliveries() {
+
+  }
+
+  meals() {
+
+  }
+
+  mealTotals() {
+
+  }
+
+
+
 }
