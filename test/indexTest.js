@@ -1,323 +1,265 @@
 const expect = chai.expect;
-
-describe('deliveries', function() {
-  describe('creating a new delivery', function() {
-    describe('store', function() {
-      it('can store drivers', function() {
-        expect(store.deliveries).to.be.instanceof(Array);
-      });
+describe('index.js', () => {
+  describe('Global Data Store', () => {
+    it('can store neighborhoods', () => {
+      expect(store.neighborhoods).to.be.instanceof(Array);
     });
-
-    it('adds the delivery to the store', function() {
-      store.deliveries = [];
-      let delivery = new Delivery();
-      expect(store.deliveries[0]).to.be.instanceof(Delivery);
+    it('can store meals', () => {
+      expect(store.meals).to.be.instanceof(Array);
     });
-
-    it('adds a numerical id to each delivery', function() {
-      store.deliveries = [];
-      let delivery = new Delivery();
-      expect(typeof store.deliveries[0].id).to.equal('number');
+    it('can store customers', () => {
+      expect(store.customers).to.be.instanceof(Array);
     });
-
-    it('adds a unique id to each delivery', function() {
-      store.deliveries = [];
-      let delivery = new Delivery();
-      let otherDelivery = new Delivery();
-      expect(delivery.id).to.not.equal(otherDelivery.id);
-    });
-  });
-});
-
-describe('meals', function() {
-  describe('creating a new meal', function() {
-    describe('store', function() {
-      it('can store meals', function() {
-        expect(store.meals).to.be.instanceof(Array);
-      });
-    });
-
-    it('can create a Meal with a name', function() {
-      let meal = new Meal('Chicken Parm');
-      expect(meal.title).to.equal('Chicken Parm');
-    });
-
-    it('has a price listed as a number', function() {
-      let meal = new Meal('Chicken Parm', 7);
-      expect(meal.price).to.equal(7);
-    });
-
-    it('adds the meal to the store', function() {
-      store.meals = [];
-      let meal = new Meal('Chicken Parm');
-      expect(store.meals[0].title).to.equal('Chicken Parm');
-    });
-
-    it('adds a numerical id to each meal', function() {
-      store.meals = [];
-      let meal = new Meal('Chicken Parm');
-      expect(typeof store.meals[0].id).to.equal('number');
-    });
-
-    it('adds a unique id to each meal', function() {
-      store.meals = [];
-      let meal = new Meal('Chicken Parm');
-      let otherMeal = new Meal('Salmon');
-      expect(meal.id).to.not.equal(otherMeal.id);
+    it('can store deliveries', () => {
+      expect(store.deliveries).to.be.instanceof(Array);
     });
   });
 
-  describe('aggregate methods', function() {
-    describe('byPrice', function() {
-      let steak;
-      let pasta;
-      let salad;
-      beforeEach(function() {
-        store.meals = [];
-        pasta = new Meal('pasta', 7);
-        steak = new Meal('steak', 10);
-        salad = new Meal('salad', 5);
-      });
-
-      it('orders all of the meals by price', function() {
-        expect(Meal.byPrice()[0]).to.equal(steak);
-        expect(Meal.byPrice()[1]).to.equal(pasta);
-        expect(Meal.byPrice()[2]).to.equal(salad);
-      });
-    });
-  });
-});
-
-describe('employers', function() {
-  describe('creating a new employer', function() {
-    describe('store', function() {
-      it('can store employers', function() {
-        expect(store.employers).to.be.instanceof(Array);
-      });
-    });
-
-    it('can create a Employer with a name', function() {
-      let employer = new Employer('Initech');
-      expect(employer.name).to.equal('Initech');
-    });
-
-    it('adds the employer to the store', function() {
-      store.employers = [];
-      let employer = new Employer('Initech');
-      expect(store.employers[0]).to.be.instanceof(Employer);
-    });
-
-    it('adds a numerical id to each employer', function() {
-      store.employers = [];
-      let employer = new Employer();
-      expect(typeof store.employers[0].id).to.equal('number');
-    });
-
-    it('adds a unique id to each employer', function() {
-      store.employers = [];
-      let employer = new Employer();
-      let otherEmployer = new Employer();
-      expect(employer.id).to.not.equal(otherEmployer.id);
-    });
-  });
-});
-
-describe('customers', function() {
-  describe('creating a new customer', function() {
-    describe('store', function() {
-      it('can store customers', function() {
-        expect(store.customers).to.be.instanceof(Array);
-      });
-    });
-
-    it('can create a Customer with a name', function() {
-      let customer = new Customer('Sam');
-      expect(customer.name).to.equal('Sam');
-    });
-
-    it('adds the customer to the store', function() {
-      store.customers = [];
-      let customer = new Customer('Sam');
-      expect(store.customers[0]).to.be.instanceof(Customer);
-    });
-
-    it('adds a numerical id to each customer', function() {
-      store.customers = [];
-      let customer = new Customer();
-      expect(typeof store.customers[0].id).to.equal('number');
-    });
-
-    it('adds a unique id to each customer', function() {
-      store.customers = [];
-      let customer = new Customer();
-      let otherCustomer = new Customer();
-      expect(customer.id).to.not.equal(otherCustomer.id);
-    });
-  });
-
-  describe('totalSpent', function() {
+  describe('Basic Class Properties', () => {
+    let meal;
+    let secondMeal;
     let customer;
-    let chickenParm;
-    let steak;
-    let firstDelivery;
+    let secondCustomer;
+    let delivery;
     let secondDelivery;
-    beforeEach(function() {
-      customer = new Customer('Bob');
-      chickenParm = new Meal('Chicken Parm', 7);
-      steak = new Meal('Steak', 10);
-      firstDelivery = new Delivery(steak, customer);
-      secondDelivery = new Delivery(chickenParm, customer);
+    let thirdDelivery;
+    let neighborhood;
+    let secondNeighborhood;
+
+    beforeEach(() => {
+      store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
+      neighborhood = new Neighborhood('Dumbo');
+      secondNeighborhood = new Neighborhood('Hamsterdam');
+      meal = new Meal('5 lbs of Fruity Pebbles', 25);
+      secondMeal = new Meal('An entire large stuffed crust pizza from pizza hut', 20);
+      customer = new Customer('Paul Rudd', neighborhood.id);
+      secondCustomer = new Customer('Todd', secondNeighborhood.id);
+      delivery = new Delivery(meal.id, neighborhood.id, customer.id);
+      secondDelivery = new Delivery(secondMeal.id, secondNeighborhood.id, secondCustomer.id);
+      thirdDelivery = new Delivery(secondMeal.id, secondNeighborhood.id, secondCustomer.id);
     });
 
-    it('returns the total amount spent by the customer', function() {
-      expect(customer.totalSpent()).to.equal(17);
-    });
-  });
-});
-
-describe('relating a delivery to a meal and a customer', function() {
-  let meal;
-  let customer;
-  let firstDelivery;
-  let secondCustomer;
-  let secondDelivery;
-
-  beforeEach(function() {
-    meal = new Meal('Chicken Parm');
-    customer = new Customer('Bob');
-    firstDelivery = new Delivery(meal, customer);
-    secondCustomer = new Customer('Susan');
-    secondDelivery = new Delivery(meal, secondCustomer);
-  });
-
-  afterEach(function() {
-    store.meals = [];
-    store.customers = [];
-    store.deliveries = [];
-  });
-
-  describe('delivery', function() {
-    it('has a mealId', function() {
-      expect(firstDelivery.mealId).to.equal(meal.id);
+    describe('Neighborhood class', () => {
+      describe('creating a new neighborhood', () => {
+        it('can create a new neighborhood with a name', () => {
+          expect(neighborhood.name).to.equal('Dumbo');
+        });
+        it('is created with a unique id', () => {
+          expect(typeof neighborhood.id).to.equal('number');
+          expect(secondNeighborhood.id).to.not.equal(neighborhood.id);
+        });
+        it('adds the neighborhood to the store', () => {
+          expect(store.neighborhoods[0]).to.be.instanceof(Neighborhood);
+        });
+      });
     });
 
-    it('has a customerId', function() {
-      expect(firstDelivery.customerId).to.equal(customer.id);
+    describe('Customer class', () => {
+      describe('creating a new Customer', () => {
+        it('can create a new Customer with a name', () => {
+          expect(customer.name).to.equal('Paul Rudd');
+        });
+        it('can create a new customer with a neighborhoodId', () => {
+          expect(customer.neighborhoodId).to.equal(neighborhood.id);
+        });
+
+        it('adds the customer to the store', () => {
+          expect(store.customers[0]).to.be.instanceof(Customer);
+        });
+
+        it('adds a unique id to each customer', () => {
+          expect(typeof customer.id).to.equal('number');
+          expect(customer.id).to.not.equal(secondCustomer.id);
+        });
+      });
     });
 
-    it('has a customer', function() {
-      expect(firstDelivery.customer()).to.equal(customer);
+    describe('Meal class', () => {
+      describe('new Meal()', () => {
+        it('can create a new Meal with a title', () => {
+          expect(meal.title).to.equal('5 lbs of Fruity Pebbles');
+        });
+        it('can create a new Meal with a price', () => {
+          expect(meal.price).to.equal(25);
+          expect(typeof meal.price).to.equal('number');
+        });
+        it('has a price listed as a number', () => {
+          expect(meal.price).to.equal(25);
+        });
+
+        it('adds the meal to the store', () => {
+          expect(store.meals[0].title).to.equal('5 lbs of Fruity Pebbles');
+        });
+        it('adds a unique id to each meal', () => {
+          expect(typeof meal.id).to.equal('number');
+          expect(meal.id).to.not.equal(secondMeal.id);
+        });
+      });
     });
 
-    it('has a meal', function() {
-      expect(firstDelivery.meal()).to.equal(meal);
+    describe('Delivery class', () => {
+      describe('creating a new Delivery', () => {
+        it('creates a new delivery with a mealId', () => {
+          expect(delivery.mealId).to.equal(meal.id);
+        });
+        it('creates a new delivery with a customerId', () => {
+          expect(delivery.customerId).to.equal(customer.id);
+        });
+        it('creates a new delivery with a neighborhoodId', () => {
+          expect(delivery.neighborhoodId).to.equal(neighborhood.id);
+        });
+        it('adds the delivery to the store', () => {
+          expect(store.deliveries[0]).to.be.instanceof(Delivery);
+        });
+
+        it('adds a unique id to each delivery', () => {
+          expect(typeof store.deliveries[0].id).to.equal('number');
+          expect(delivery.id).to.not.equal(secondDelivery.id);
+        });
+      });
     });
   });
 
-  describe('meal', function() {
-    it('has a deliveries', function() {
-      expect(meal.deliveries()).to.include(firstDelivery);
-      expect(meal.deliveries()).to.include(secondDelivery);
+  describe('Object Relationships', () => {
+    let redHook;
+    let guy;
+    let marioBatali;
+    let friedCheesecake;
+    let macAndCheese;
+    let flavortownDelivery;
+    let guysAmericanDelivery;
+    let guysDuplicateDelivery;
+    let batalisDessert;
+    beforeEach(() => {
+      store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
+      redHook = new Neighborhood('Red Hook');
+      guy = new Customer('Guy Fieri', redHook.id);
+      marioBatali = new Customer('Iron Chef Mario Batali', redHook.id);
+      friedCheesecake = new Meal('Fried Cheesecake', 30);
+      macAndCheese = new Meal('Fried Macaroni and Cheese', 15);
+      flavortownDelivery = new Delivery(friedCheesecake.id, redHook.id, guy.id);
+      guysAmericanDelivery = new Delivery(macAndCheese.id, redHook.id, guy.id);
+      guysDuplicateDelivery = new Delivery(macAndCheese.id, redHook.id, guy.id);
+      batalisDessert = new Delivery(friedCheesecake.id, redHook.id, marioBatali.id);
     });
 
-    it('has customers', function() {
-      expect(meal.customers()).to.include(customer);
-      expect(meal.customers()).to.include(secondCustomer);
+    describe('Neighborhood', () => {
+      describe('deliveries()', () => {
+        it('returns all unique deliveries associated with a particular neighborhood', () => {
+          expect(redHook.deliveries()).to.deep.equal([
+            flavortownDelivery,
+            guysAmericanDelivery,
+            guysDuplicateDelivery,
+            batalisDessert,
+          ]);
+        });
+      });
+      describe('customers()', () => {
+        it('returns all customer instances associated with a particular neighborhood', () => {
+          expect(redHook.customers()).to.deep.equal([guy, marioBatali]);
+        });
+      });
+    });
+
+    describe('Delivery', () => {
+      describe('meal()', () => {
+        it('returns the meal instance associated with a particular delivery; delivery belongs to a meal', () => {
+          expect(batalisDessert.meal()).to.equal(friedCheesecake);
+        });
+      });
+      describe('customer()', () => {
+        it('returns the customer instance associated with a particular delivery; delivery belongs to a customer', () => {
+          expect(guysAmericanDelivery.customer()).to.equal(guy);
+        });
+      });
+      describe('neighborhood()', () => {
+        it('returns the neighborhood in which a delivery was placed', () => {
+          expect(guysAmericanDelivery.neighborhood()).to.equal(redHook);
+        });
+      });
+    });
+
+    describe('Customer', () => {
+      describe('deliveries()', () => {
+        it('returns all deliveries a customer has placed', () => {
+          expect(guy.deliveries()).to.deep.equal([
+            flavortownDelivery,
+            guysAmericanDelivery,
+            guysDuplicateDelivery,
+          ]);
+        });
+      });
+
+      describe('meals()', () => {
+        it('returns all unique meals a customer has ordered', () => {
+          expect(guy.meals()).to.deep.equal([friedCheesecake, macAndCheese, macAndCheese]);
+        });
+      });
+    });
+
+    describe('Meal', () => {
+      describe('deliveries()', () => {
+        it('returns all deliveries associated with a given meal', () => {
+          expect(macAndCheese.deliveries()).to.deep.equal([
+            guysAmericanDelivery,
+            guysDuplicateDelivery,
+          ]);
+        });
+      });
+      describe('customers()', () => {
+        it('returns a unique list of customers who have ordered this meal', () => {
+          expect(friedCheesecake.customers()).to.deep.equal([guy, marioBatali]);
+        });
+      });
     });
   });
 
-  describe('customers', function() {
-    it('has a deliveries', function() {
-      expect(customer.deliveries()).to.include(firstDelivery);
+  describe('Aggregate Methods', () => {
+    let upperEast;
+    let bigSpender;
+    let lobster;
+    let turducken;
+    let fancyPizza;
+    let deliveryOne;
+    let deliveryTwo;
+    let deliveryThree;
+    let deliveryFour;
+    beforeEach(() => {
+      store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
+      upperEast = new Neighborhood('Upper East Side');
+      bigSpender = new Customer('DJ MoneyBags', upperEast.id);
+      lobster = new Meal('lobster', 500);
+      turducken = new Meal('turducken', 750);
+      fancyPizza = new Meal('fancy pizza', 600);
+      deliveryOne = new Delivery(lobster.id, upperEast.id, bigSpender.id);
+      deliveryTwo = new Delivery(turducken.id, upperEast.id, bigSpender.id);
+      deliveryThree = new Delivery(fancyPizza.id, upperEast.id, bigSpender.id);
+      deliveryFour = new Delivery(fancyPizza.id, upperEast.id, bigSpender.id);
+    });
+    describe('Meal methods', () => {
+      describe('Meal.byPrice()', () => {
+        it('orders all of the meals by price', () => {
+          expect(Meal.byPrice()[0]).to.equal(turducken);
+          expect(Meal.byPrice()[1]).to.equal(fancyPizza);
+          expect(Meal.byPrice()[2]).to.equal(lobster);
+        });
+      });
     });
 
-    it('has meals', function() {
-      expect(customer.meals()).to.include(meal);
+    describe('Customer methods', () => {
+      describe('totalSpent()', () => {
+        it('calculates the total amount spent by a customer', () => {
+          expect(bigSpender.totalSpent()).to.equal(2450);
+        });
+      });
     });
-  });
-});
 
-describe('employers', function() {
-  let chicken;
-  let employer;
-  let customer;
-  let firstDelivery;
-  let secondCustomer;
-  let secondDelivery;
-  let thirdDelivery;
-  let thirdCustomer;
-  let steak;
-
-  beforeEach(function() {
-    employer = new Employer('Initech');
-    otherEmployer = new Employer('Chachees');
-    customer = new Customer('Fred', employer);
-    chicken = new Meal('Chicken Parm');
-    steak = new Meal('Steak');
-    firstDelivery = new Delivery(chicken, customer);
-    secondCustomer = new Customer('Susan', employer);
-    thirdCustomer = new Customer('Sally', otherEmployer);
-    secondDelivery = new Delivery(chicken, secondCustomer);
-    thirdDelivery = new Delivery(chicken, thirdCustomer);
-  });
-
-  afterEach(function() {
-    store.meals = [];
-    store.customers = [];
-    store.deliveries = [];
-    store.employers = [];
-  });
-
-  it('has employees', function() {
-    expect(employer.employees()).to.include(customer);
-    expect(employer.employees()).to.include(secondCustomer);
-    expect(employer.employees()).to.not.include(thirdCustomer);
-  });
-
-  it('has a deliveries', function() {
-    expect(employer.deliveries()).to.include(firstDelivery);
-    expect(employer.deliveries()).to.not.include(thirdDelivery);
-  });
-
-  it('has meals', function() {
-    expect(employer.meals()).to.include(chicken);
-  });
-
-  it('does not repeat the same meal twice', function() {
-    expect(employer.meals().length).to.equal(1);
-  });
-});
-
-describe('employerStats', function() {
-  let chicken;
-  let employer;
-  let customer;
-  let firstDelivery;
-  let secondCustomer;
-  let secondDelivery;
-  let pasta;
-
-  beforeEach(function() {
-    employer = new Employer('Initech');
-    customer = new Customer('Fred', employer);
-    chicken = new Meal('Chicken Parm');
-    pasta = new Meal('Pasta');
-    firstDelivery = new Delivery(chicken, customer);
-    secondCustomer = new Customer('Susan', employer);
-    secondDelivery = new Delivery(chicken, secondCustomer);
-    thirdDelivery = new Delivery(pasta, secondCustomer);
-  });
-
-  afterEach(function() {
-    store.meals = [];
-    store.customers = [];
-    store.deliveries = [];
-    store.employers = [];
-  });
-
-  it('displays the number of times each meal was ordered', function() {
-    // {pastaMealid: 1, chickenMealid: 2}
-    expect(employer.mealTotals()[chicken.id]).to.equal(2);
-    expect(employer.mealTotals()[pasta.id]).to.equal(1);
+    describe('Neighborhood methods', () => {
+      describe('meals()', () => {
+        it('returns a unique list of meals orderd in a neighborhood', () => {
+          expect(upperEast.meals().length).to.equal(3);
+        });
+      });
+    });
   });
 });
