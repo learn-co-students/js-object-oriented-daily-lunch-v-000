@@ -1,8 +1,18 @@
 const expect = chai.expect;
+master
+
+describe('deliveries', function() {
+  describe('creating a new delivery', function() {
+    describe('store', function() {
+      it('can store deliveries', function() {
+        expect(store.deliveries).to.be.instanceof(Array);
+      });
+
 describe('index.js', () => {
   describe('Global Data Store', () => {
     it('can store neighborhoods', () => {
       expect(store.neighborhoods).to.be.instanceof(Array);
+master
     });
     it('can store meals', () => {
       expect(store.meals).to.be.instanceof(Array);
@@ -14,6 +24,23 @@ describe('index.js', () => {
       expect(store.deliveries).to.be.instanceof(Array);
     });
   });
+master
+});
+
+describe('meals', function() {
+  describe('creating a new meal', function() {
+    describe('store', function() {
+      it('can store meals', function() {
+        expect(store.meals).to.be.instanceof(Array);
+      });
+    });
+
+    it('can create a Meal with a title', function() {
+      let meal = new Meal('Chicken Parm');
+      expect(meal.title).to.equal('Chicken Parm');
+    });
+=======
+master
 
   describe('Basic Class Properties', () => {
     let meal;
