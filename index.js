@@ -24,8 +24,7 @@ class Customer {
     })}
 
   totalSpent() {
-    let total = 0;
-    let theMeals = meals();
+    return this.meals.reduce(meal => {})
     
   }
 
