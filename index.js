@@ -1,3 +1,4 @@
+master
 let store = { customers: [], meals: [], deliveries: [], employers: [] }
 
 let customerId = 0
@@ -123,3 +124,7 @@ class Employer {
     return totals;
   }
 }                                   //come back and look at the tests and code here.  Lot of good info.
+=======
+// global datastore
+let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
+master
