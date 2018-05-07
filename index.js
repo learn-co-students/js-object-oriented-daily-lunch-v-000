@@ -13,9 +13,8 @@ class Customer {
     store.customers.push(this);
   }
 
-  
   meals() {
-    return store.deliveries.map(delivery => {
+    return this.deliveries().map(delivery => {
       return delivery.meal()
     })}
     
@@ -24,12 +23,15 @@ class Customer {
       return delivery.customerId === this.id;
   })}
       
-    totalSpent() {
-      const sum = this.meals().reduce((total, meal) => total + meal);
-      return sum;
-      }
+  totalSpent() {
+    return this.meals().reduce(function(sum, meal) {
+      return sum + meal.price;
+    }, 0);
+  }
   
 }
+
+
 
 class Meal {
   constructor(title, price) {
