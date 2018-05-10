@@ -20,9 +20,10 @@ class Neighborhood {
   }
 
   meals() {
-    let deliveries = this.deliveries().map(delivery => delivery.meal())
-    return deliveries.filter(function(delivery, index, deliveries) {
-      return deliveries.indexOf(delivery) === index;
+    let meals = this.deliveries().map(delivery => delivery.meal());
+
+    return meals.filter(function(meal, index, meals) {
+      return meals.indexOf(meal) === index;
     });
   }
 }
