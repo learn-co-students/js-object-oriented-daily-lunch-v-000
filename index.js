@@ -50,10 +50,7 @@ class Customer {
   };
 
   meals() {
-    let matches = store.deliveries.filter(delivery => {
-      return delivery.customerId === this.id
-    });
-    return matches.map(function (delivery) {
+    return this.deliveries().map(function (delivery) {
         return delivery.meal();
     });
   };
