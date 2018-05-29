@@ -18,13 +18,14 @@ class Neighborhood {
   }
 
   meals() {
-
+    let array = this.deliveries().map(delivery => delivery.meal())
+      return [...new Set(array)]
+    }
   }
-}
 
 let customerId = 0
 class Customer {
-  constructor(name. neighborhoodId) {
+  constructor(name, neighborhoodId) {
     this.name = name
     this.id = ++customerId
     this.neighborhoodId = neighborhoodId
@@ -41,7 +42,8 @@ class Customer {
   }
 
   totalSpent() {
-    return this.meals().reduce(meal => meal.price)
+    let initialValue = 0
+    return this.meals().reduce((sum, meal) => sum + meal.price, initialValue)
   }
 }
 
@@ -60,11 +62,11 @@ class Meal {
   }
 
   customers() {
-    return this.deliveries().
+    return this.deliveries().map(delivery => delivery.customer())
   }
 
   static byPrice() {
-
+    return store.meals.sort(function(a, b){return b.price - a.price})
   }
 }
 
@@ -80,14 +82,14 @@ class Delivery {
   }
 
   meal() {
-
+    return store.meals.filter(meal => {return meal.id === this.mealId})[0]
   }
 
   customer() {
-
+    return store.customers.filter(customer => {return customer.id === this.customerId})[0]
   }
 
   neighborhood() {
-
+    return store.neighborhoods.filter(neighborhood => {return neighborhood.id === this.neighborhoodId})[0]
   }
 }
