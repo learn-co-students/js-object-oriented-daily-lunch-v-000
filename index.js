@@ -54,13 +54,15 @@ customers(){
 }
 
 meals(){
+  // found this solution here:
+  // https://www.youtube.com/watch?v=dvPybpgk5Y4&list=PLzglM4eAT6Oo9-D6a1re7WjvDqPwWK-_H
   let neighborhoodMeals =  this.deliveries().map(delivery => {
       return delivery.meal()
   })
  let uniqArray = [... new Set(neighborhoodMeals)]
  return uniqArray
 }
-
+//
 }
 
 class Meal{
