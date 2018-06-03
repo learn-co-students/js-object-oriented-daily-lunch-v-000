@@ -20,23 +20,23 @@ class Neighborhood {
   }
 
   customers () {
-    return this.deliveries().map(delivery => {
-      return delivery.customer()
-    })
+    return [...new Set(this.deliveries().map(delivery =>
+    delivery.customer()))]
   }
 
   meals () {
+    let meals = this.deliveries().map(delivery =>
+    delivery.meal())
 
+    return [...new Set(meals)]
+    }
   }
-}
 
 class Customer {
-  constructor(neighborhoodId, name) {
-    this.name = name
+  constructor(name, neighborhoodId) {
     this.id = customerId++
-    if (neighborhood) {
-      this.neighborhoodId = neighborhoodId
-    }
+    this.name = name
+    this.neighborhoodId = neighborhoodId
 
     store.customers.push(this)
   }
@@ -54,7 +54,9 @@ class Customer {
   }
 
   totalSpent() {
-    // use reduce sum and meal.price
+    return this.meals().reduce(function(sum, meal) {
+      return sum + meal.price
+    }, 0)
   }
 }
 
@@ -80,8 +82,8 @@ class Meal {
   }
 
   static byPrice() {
-    return store.meals.sort((first, second) => {
-      returnfirst.price < second.price
+    return store.meals.sort(function(first, second) {
+      return second.price - first.price
     })
   }
 }
@@ -89,16 +91,10 @@ class Meal {
 class Delivery {
   constructor(mealId, neighborhoodId, customerId) {
 
-    this.id = deliverId++
-    if (meal) {
-      this.mealId = mealId
-    }
-    if (neighborhood) {
-      this.neighborhoodId = neighborhoodId
-    }
-    if (customer) {
-      this.customerId = customerId
-    }
+    this.id = deliveryId++
+    this.mealId = mealId
+    this.neighborhoodId = neighborhoodId
+    this.customerId = customerId
 
     store.deliveries.push(this)
   }
