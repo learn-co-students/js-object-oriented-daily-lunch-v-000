@@ -28,7 +28,6 @@ class Neighborhood {
   }
 
   meals() {
-    // debugger;
     let mealNames = this.deliveries().map(delivery => {
       return delivery.meal();
     })
@@ -60,7 +59,7 @@ class Customer {
   }
 
   totalSpent() {
-    return this.meals().reduce(function(acc, cv, ci, a) {
+    return this.meals().reduce(function(acc, cv) {
       return acc + cv.price
     }, 0);
   }
@@ -91,9 +90,7 @@ class Meal {
 
   static byPrice() {
     let cp = store.meals.slice()
-    return cp.sort(function(a, b) {
-      return b.price - a.price
-    });
+    return cp.sort((a, b) => b.price - a.price);
   }
 }
 
