@@ -45,11 +45,11 @@ class Customer {
     })
   }
 
-  // meals() {
-  //   return store.meals.filter(meal => {
-  //     return 
-  //   })
-  // }
+  meals() {
+    return this.deliveries().map(delivery => {
+      return delivery.meal();
+    })
+  }
 }
 
 
@@ -73,6 +73,12 @@ class Meal {
     return this.deliveries().map(delivery => {
       return delivery.customer();
     })
+  }
+
+  static byPrice() {
+    return store.meals.sort(function(a, b) {
+      return b.price - a.price
+    });
   }
 }
 
