@@ -26,6 +26,14 @@ class Neighborhood {
       return customer.neighborhoodId === this.id
     })
   }
+
+  meals() {
+    // debugger;
+    let mealNames = this.deliveries().map(delivery => {
+      return delivery.meal();
+    })
+    return Array.from(new Set(mealNames));
+  }
 }
 
 
@@ -49,6 +57,12 @@ class Customer {
     return this.deliveries().map(delivery => {
       return delivery.meal();
     })
+  }
+
+  totalSpent() {
+    return this.meals().reduce(function(acc, cv, ci, a) {
+      return acc + cv.price
+    }, 0);
   }
 }
 
@@ -76,7 +90,8 @@ class Meal {
   }
 
   static byPrice() {
-    return store.meals.sort(function(a, b) {
+    let cp = store.meals.slice()
+    return cp.sort(function(a, b) {
       return b.price - a.price
     });
   }
