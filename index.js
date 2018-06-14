@@ -56,11 +56,7 @@ class Customer {
   }
 
   totalSpent(){
-    let result = 0;
-    for (const obj of this.meals()){
-      result = result + obj.price
-    }
-    return result;
+    return this.meals().reduce((total, meal) => total + meal.price, 0)
   }
 }
 
