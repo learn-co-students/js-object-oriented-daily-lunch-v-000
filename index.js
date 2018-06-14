@@ -22,13 +22,16 @@ class Neighborhood {
   }
 
   meals(){
-    let result = []
-    for (const obj of this.customers()){
-      for (const meal in obj){
-        result.push(meal)
-      }
-    }
-    return result
+    const allMeals = this.customers().map(customer => customer.meals());
+    const merged = [].concat.apply([], allMeals);
+    return [...new Set(merged)];
+    // let result = []
+    // for (const obj of this.customers()){
+    //   for (const meal in obj){
+    //     result.push(meal)
+    //   }
+    // }
+    // return result
   }
 }
 
@@ -45,14 +48,15 @@ class Customer {
   }
 
   meals(){
-    let delivArray = this.deliveries()
-    let result = []
-    for (const obj of delivArray){
-      result.push(
-        store.meals.find(m => {return m.id === obj.mealId})
-      )
-    }
-    return result;
+    return this.deliveries().map(delivery => delivery.meal());
+    // let delivArray = this.deliveries()
+    // let result = []
+    // for (const obj of delivArray){
+    //   result.push(
+    //     store.meals.find(m => {return m.id === obj.mealId})
+    //   )
+    // }
+    // return result;
   }
 
   totalSpent(){
@@ -73,14 +77,16 @@ class Meal {
   }
 
   customers(){
-    let delivArray = this.deliveries()
-    let result = []
-    for (const obj of delivArray){
-      result.push(
-        store.customers.find(m => {return m.id === obj.customerId})
-      )
-    }
-    return result;
+    const allCustomers = this.deliveries().map(delivery => delivery.customer());
+    return [...new Set(allCustomers)];
+    // let delivArray = this.deliveries()
+    // let result = []
+    // for (const obj of delivArray){
+    //   result.push(
+    //     store.customers.find(m => {return m.id === obj.customerId})
+    //   )
+    // }
+    // return result;
   }
 
   static byPrice(){
