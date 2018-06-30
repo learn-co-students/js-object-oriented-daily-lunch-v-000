@@ -49,7 +49,7 @@ class Customer {
   };
 
   meals() {
-    return this.deliveries().map(function (delivery) {
+    return this.deliveries().filter(function (delivery) {
         return delivery.meal()
     });
   };
@@ -58,8 +58,8 @@ class Customer {
     let customerMeals = this.meals()
     return customerMeals.reduce(function (acc, meal) {
       return acc + meal.price
-    }, 0);
-  };
+    }, 0)
+  }
 }
 
 class Meal {
