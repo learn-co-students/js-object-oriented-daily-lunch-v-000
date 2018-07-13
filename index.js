@@ -23,16 +23,18 @@ class Neighborhood{
     store.neighborhoods.push(this)
   }
   deliveries(){
-    return store.deliveries.filter(delivery => {
-      return delivery.neighborhood();
-    });
+    return store.deliveries.filter(delivery => delivery.neighborhoodId === this.id);
   }
   customers(){
     return store.customers.filter(customer => {
-      return customer.neighborhoodId;
+      return (customer.neighborhoodId === this.id);
     });
   }
-
+  meals(){
+    const allMeals = this.customers().map(customer => customer.meals());
+          const merged = [].concat.apply([], allMeals);
+          return [...new Set(merged)];
+  }
 }
 
 class Customer{
@@ -43,15 +45,16 @@ class Customer{
     store.customers.push(this)
   }
   deliveries(){
-    return store.deliveries.filter(delivery => {
-      return delivery.customerId;
-    });
+    return store.deliveries.filter(delivery => delivery.customerId === this.id);
   }
-  meals(){
-    return store.meals.filter(meal => {
-      return meal.mealId;
-    });
-  }
+  meals() {
+     return this.deliveries().map(delivery => delivery.meal());
+   }
+
+   totalSpent() {
+     return this.meals().reduce((total, meal) => (total += meal.price), 0);
+   }
+
 }
 
 
@@ -72,6 +75,10 @@ class Meal{
       return customer.mealId;
     });
   }
+
+  static byPrice() {
+      return store.meals.sort((a, b) => a.price < b.price);
+    }
 }
 
 class Delivery{
@@ -87,14 +94,17 @@ class Delivery{
      return meal.id === this.mealId;
    });
   }
-  customer(){
-    return store.customers.find(customer => {
-     return customer.id === this.customerId;
-   });
-  }
+
   neighborhood(){
     return store.neighborhoods.find(neighborhood => {
      return neighborhood.id === this.neighborhoodId;
    });
   }
+
+  customer(){
+    return store.customers.find(customer => {
+     return customer.id === this.customerId;
+   });
+  }
+
 }
