@@ -21,7 +21,6 @@ class Neighborhood {
     
     customers() {
         const cDeliveries = this.deliveries();
-        // console.log('Customer Deliveries : ', cDeliveries);
         const customerList = [];
         cDeliveries.forEach(function (delivery) {
             if (!customerList.includes(delivery.customer())){
@@ -35,9 +34,7 @@ class Neighborhood {
         const nDeliveries = this.deliveries();
         const nMeals = [];
         nDeliveries.forEach(function (delivery) {
-            // console.log('Order', delivery);
             if (!nMeals.includes(delivery.meal())){
-                // console.log('Add order', delivery.mealId);
                 nMeals.push(delivery.meal());
             }
         });
@@ -61,21 +58,15 @@ class Customer {
     
     meals() {
         const cMeals = this.deliveries();
-        // console.log('Customer Orders : ', cMeals);
         const cOrders = [];
         cMeals.forEach(function (delivery) {
-            // console.log('Order', delivery);
-            // if (!cOrders.includes(delivery.meal())){
-            //     console.log('Add order', delivery.mealId);
                 cOrders.push(delivery.meal());
-            // }
         });
         return cOrders;
     }
     
     totalSpent() {
         const mealsList = this.meals();
-        // console.log('mealsList = ', mealsList);
         let totalPrice = 0;
         mealsList.forEach(function (meal) {
             totalPrice += meal.price;
