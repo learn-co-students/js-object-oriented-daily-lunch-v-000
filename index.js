@@ -42,20 +42,27 @@ class  Neighborhood {
 
     meals(){
       const allMeals = this.deliveries()
-      const uniqueMeals = [...new Set(allMeals.map(deliveries =>deliveries.mealId))]
-      // console.log(allMeals)
-      // console.log(uniqueMeals)
-      return uniqueMeals
+      return allMeals.map(delivery => delivery.meal())
     }
 
-    totalSpent(){
-      let meals = this.deliveries()
-
-      return meals.reduce(function(acc,cur) {
-        console.log(acc)
-        return acc + cur.price
-      }, 0 )
-    }
+  //   totalSpent(){
+  //     let deliveredMeals = this.deliveries()
+  //     let allMeals = store.meals
+  //     // console.log(deliveredMeals)
+  //     // console.log(allMeals)
+  //     for(var i = 0; i<deliveredMeals.length;i++){
+  //     let meals = allMeals.filter(meal =>{
+  //         return deliveredMeals[i].mealId == allMeals.id
+  //       })
+  //       }
+  //
+  //     }
+  //     console.log(meals)
+  //     return meals.reduce(function(acc,cur) {
+  //       console.log(acc)
+  //       return acc + cur.price
+  //     }, 0 )
+  //   }
   }
 
   class Meal {
