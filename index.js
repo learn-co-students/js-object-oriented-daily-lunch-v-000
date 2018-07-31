@@ -24,9 +24,10 @@ class Neighborhood {
   }
 
   meals() {
-    return this.deliveries().filter(delivery => {
+    let allMeals = this.deliveries().map(delivery => {
       return delivery.meal()
-    }).filter((value, index, self) => {return self.indexOf(value) === index})
+    })
+    return allMeals.filter((v, i, a) => a.indexOf(v) === i)
   }
 
 
