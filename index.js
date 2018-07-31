@@ -26,7 +26,7 @@ class Neighborhood {
   meals() {
     return this.deliveries().filter(delivery => {
       return delivery.meal()
-    })
+    }).filter((value, index, self) => {return self.indexOf(value) === index})
   }
 
 
@@ -87,9 +87,11 @@ class Meal {
     })
   }
 
+
+
   static byPrice() {
     return store.meals.slice().sort(function (mealOne, mealTwo) {
-      return mealOne.price - mealTwo.price
+      return mealTwo.price - mealOne.price
     })
   }
 
