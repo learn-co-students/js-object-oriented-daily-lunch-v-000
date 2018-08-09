@@ -25,9 +25,21 @@ class Neighborhood {
   customers() {
     // returns all customer instances associated with a particular neighborhood
     return store.customers.filter(customer => {
-      return customer.name
+      return customer.name;
       // debugger;
     })
+  }
+  meals() {
+    // returns a unique list of meals ordered in a neighborhood
+    // I need to return the list of deliveries for this instance of the neighborhood
+    // Make it a unique list with set 
+    // debugger;
+    const neighborhoodMeals = this.deliveries().map(delivery => {
+      return delivery.meal();
+    })
+    // debugger;
+    // console.log([...new Set(neighborhoodMeals)])
+    return [...new Set(neighborhoodMeals)];
   }
 }
 
@@ -57,6 +69,14 @@ class Customer {
         return delivery.meal();
     })
   }
+  totalSpent() {
+    // calculate the total amount spent by a customer on food
+    // debugger;
+    let initialValue = 0;
+    return this.meals().reduce((accumulator, currentValue) =>
+      accumulator + currentValue.price, initialValue
+    );
+  }
 }
 
 class Meal {
@@ -75,13 +95,30 @@ class Meal {
       return delivery.mealId === this.id;
     })
   }
+
   customers(){
     // return a unique list of customers who have orded this meal
     // use deliveries to return the delivery and then grab the customer from the meal
     // I'm trying to add a method to the end of my return from iterating through deliveries
-    return this.deliveries().map(delivery => {
-      console.log(delivery.customer())
-      return delivery.customer();
+    // The meal is mealId 51 (Fried Cheesecake). I need to return the two customerIds for mealId
+    // Why won't it give me the second customer?
+    // Why is it return "Guy Fieri" for customerId 51
+    // debugger;
+    const allCustomers = store.deliveries.map(delivery => {
+      return delivery.customer()
+    });
+    return [...new Set(allCustomers)];
+  }
+
+  static byPrice() {
+    // A class method that orders all meal instances by their price in descending order.
+    // Use the static keyword to write a class method
+    // turducken - Meal('turducken', 750) - object
+    // fancyPizza - Meal('fancy pizza', 600) - object
+    // lobster - Meal('lobster', 500) - object
+    // return objects ordered by price
+    return store.meals.sort(function(mealOne, mealTwo) {
+      return mealTwo.price - mealOne.price;
     })
   }
 }
@@ -108,7 +145,7 @@ class Delivery {
     // delivery belongs to a customer
     return store.customers.find(customer => {
       // debugger;
-      return customer.name;
+      return customer.id === this.customerId;
     })
   }
   neighborhood(){
