@@ -169,6 +169,7 @@ describe('index.js', () => {
       });
       describe('customer()', () => {
         it('returns the customer instance associated with a particular delivery; delivery belongs to a customer', () => {
+
           expect(guysAmericanDelivery.customer()).to.equal(guy);
         });
       });
@@ -249,6 +250,7 @@ describe('index.js', () => {
     describe('Customer methods', () => {
       describe('totalSpent()', () => {
         it('calculates the total amount spent by a customer', () => {
+
           expect(bigSpender.totalSpent()).to.equal(2450);
         });
       });
@@ -257,6 +259,7 @@ describe('index.js', () => {
     describe('Neighborhood methods', () => {
       describe('meals()', () => {
         it('returns a unique list of meals orderd in a neighborhood', () => {
+    
           expect(upperEast.meals().length).to.equal(3);
         });
       });
