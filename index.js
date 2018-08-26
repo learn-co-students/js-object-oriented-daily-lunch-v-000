@@ -21,11 +21,10 @@ class Neighborhood {
   }
   
   
-  // array.map(item => item.age)
-  // .filter((value, index, self) => self.indexOf(value) === index)
-  
+
   meals(){
-    return this.deliveries().map(delivery => delivery.meal).filter(value, index, self) =>indexOf(value) === index)
+    let meals = this.deliveries().map(delivery => delivery.meal())
+    return [...new Set(meals) ];
   }
 }
 
