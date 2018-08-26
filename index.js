@@ -34,7 +34,7 @@ class Customer {
     return store.deliveries.filter(delivery => delivery.customerID === this.id)
   }
   meals() {
-    return this.deliveries().map(delivery => delivery.meal)
+    return this.deliveries().map(delivery => delivery.meal())
   }
   totalSpend() {
     return meals
@@ -52,7 +52,7 @@ class Meal {
     return store.deliveries.filter(delivery => delivery.mealID === this.id)
   }
   customers(){
-    return store.customers.filter(customer => customers.mealID === this.id)
+    return this.deliveries().map(delivery => delivery.customer())
   }
   byPrice() (a,b) {
     return a - b;
