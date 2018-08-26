@@ -2,6 +2,8 @@
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
 let neighborhoodID = 0
+let customerID = 0
+let mealID = 0
 
 class Neighborhood {
   constructor (name) {
@@ -10,6 +12,42 @@ class Neighborhood {
   }
   deliveries() {
     return store.deliveries.filter(delivery => delivery.neighborhoodID === this.id)
+  }
+  customers() {
+    return store.customers.filter(customer => customer.neighborhoodID === this.id)
+  }
+  meals() {
+    return store.meals.filter(meal => meals.neighborhoodID ===this.id)
+  }
+}
+
+class Customer {
+  constructor(name){
+    this.name = name
+    this.id = customerID++
+  }
+  deliveries() {
+    return store.deliveries.filter(delivery => delivery.customerID === this.id)
+  }
+  meals() {
+    return this.deliveries().map(delivery => delivery.meal)
+  }
+  totalSpend() {
+    return meals
+  }
+}
+
+class Meal {
+  constructor(title,price) {
+    this.title = title
+    this.price = price
+    this.id = mealID++
+  }
+  deliveries(){
+    return store.deliveries.filter(delivery => delivery.mealID === this.id)
+  }
+  customers(){
+    return s
   }
 }
 
