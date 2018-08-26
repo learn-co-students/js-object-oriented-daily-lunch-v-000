@@ -19,13 +19,16 @@ class Neighborhood {
   customers(){
     return store.customers.filter(customer => customer.neighborhoodId === this.id)
   }
+  
+  
+  // array.map(item => item.age)
+  // .filter((value, index, self) => self.indexOf(value) === index)
+  
   meals(){
-    let meals = this.deliveries().map(delivery => delivery.meal())
-    return meals.filter(function(meal, index, meals) {
-      return meals.indexOf(meal) === index
-    })
+    return this.deliveries().map(delivery => delivery.meal).filter(value, index, self) =>indexOf(value) === index)
   }
 }
+
 
 
 
@@ -43,8 +46,7 @@ class Customer {
     return this.deliveries().map(delivery => delivery.meal())
   }
   
-  
-  // const arrSum = arr => arr.reduce((a,b) => a + b, 0)
+
   totalSpent(){
     return this.meals().reduce((total, meal) => total + meal.price,0)
   }
