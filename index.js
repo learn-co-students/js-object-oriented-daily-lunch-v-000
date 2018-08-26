@@ -4,11 +4,14 @@ let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 let neighborhoodID = 0
 let customerID = 0
 let mealID = 0
+let deliveryID = 0
+
 
 class Neighborhood {
   constructor (name) {
     this.name = name
     this.id = neighborhoodID++
+    store.neighborhoods.push(this);
   }
   deliveries() {
     return store.deliveries.filter(delivery => delivery.neighborhoodID === this.id)
@@ -25,6 +28,7 @@ class Customer {
   constructor(name){
     this.name = name
     this.id = customerID++
+    store.customers.push(this);
   }
   deliveries() {
     return store.deliveries.filter(delivery => delivery.customerID === this.id)
@@ -42,14 +46,40 @@ class Meal {
     this.title = title
     this.price = price
     this.id = mealID++
+    store.meals.push(this);
   }
   deliveries(){
     return store.deliveries.filter(delivery => delivery.mealID === this.id)
   }
   customers(){
-    return s
+    return store.customers.filter(customer => customers.mealID === this.id)
+  }
+  byPrice() (a,b) {
+    return a - b;
   }
 }
+
+
+class Delivery {
+  constructor(mealID, neighborhoodID,customerID) {
+    this.mealID = mealID
+    this.neighborhoodID = neighborhoodID 
+    this.customerID = customerID 
+    this.id = deliveryID++
+    store.deliveries.push(this);
+  }
+  meal(){
+    return store.meals.filter(meal => mealID === this.mealID)
+  }
+  customer() {
+    return store.customers.filter(customer => customer.id === this.customerID)
+  }
+  neighborhood() {
+    return store.neighborhoods.filter(neighborhood => neighborhood.id === this.neighborhoodID)
+  }
+}
+
+
 
 
 
