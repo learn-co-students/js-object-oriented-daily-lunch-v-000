@@ -37,7 +37,7 @@ class Customer {
     return this.deliveries().map(delivery => delivery.meal())
   }
   totalSpend() {
-    return meals
+    return this.meals().map(price).reduce(sum);
   }
 }
 
@@ -54,9 +54,12 @@ class Meal {
   customers(){
     return this.deliveries().map(delivery => delivery.customer())
   }
-  byPrice() (a,b) {
-    return a - b;
+  static byPrice() {
+    return store.meals.sort(function (a, b){
+      return b.price > a.price
+    });
   }
+  
 }
 
 
