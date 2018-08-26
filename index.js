@@ -25,8 +25,9 @@ class Neighborhood {
 }
 
 class Customer {
-  constructor(name){
+  constructor(name, neighborhoodID){
     this.name = name
+    this.neighborhoodID = neighborhoodID
     this.id = customerID++
     store.customers.push(this);
   }
@@ -36,7 +37,7 @@ class Customer {
   meals() {
     return this.deliveries().map(delivery => delivery.meal())
   }
-  totalSpend() {
+  totalSpent() {
     return this.meals().map(price).reduce(sum);
   }
 }
