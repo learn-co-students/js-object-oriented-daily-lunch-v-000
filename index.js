@@ -69,13 +69,13 @@ class Delivery {
     store.deliveries.push(this);
   }
   meal(){
-    return store.meals.filter(meal => mealID === this.mealID)
+    return store.meals.find(meal => mealID === this.mealID)
   }
   customer() {
-    return store.customers.filter(customer => customer.id === this.customerID)
+    return store.customers.find(customer => customer.id === this.customerID)
   }
   neighborhood() {
-    return store.neighborhoods.filter(neighborhood => neighborhood.id === this.neighborhoodID)
+    return store.neighborhoods.find(neighborhood => neighborhood.id === this.neighborhoodID)
   }
 }
 
