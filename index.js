@@ -37,9 +37,14 @@ class Neighborhood {
   // }
 
   meals(){
-    const allMeals = this.meals.map(item => {
-
+    return store.meals.filter(meal =>{
+      return meal.customers().filter(customer =>{
+        return customer.neighborhoodId === this.id
+      })
     })
+
+
+
   }
   // returns a unique list of meals orderd in a neighborhood
 }
@@ -143,7 +148,6 @@ class Delivery {
 
   meal(){
     return store.meals.find(meal => {
-
       return meal.id === this.mealId;
     })
   }
