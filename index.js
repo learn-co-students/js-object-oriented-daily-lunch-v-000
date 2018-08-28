@@ -40,7 +40,7 @@ class Neighborhood {
     const allMeals = this.customers().map(customer => customer.meals());
     
     return [...new Set(allMeals[0])];
-    //returns unique list of meals that have been ordered in a neighborhood DO LAST neighborhood.deliveries (iterate for meals. )
+    //returns unique list of meals that have been ordered in a neighborhood DO LAST 
    
   } 
 }
