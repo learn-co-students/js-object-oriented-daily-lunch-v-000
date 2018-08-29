@@ -12,19 +12,23 @@ class Neighborhood {
     store.neighborhoods.push(this)
   }
   deliveries(){
+    //solution:
+    //return store.deliveries.filter(delivery => delivery.neighborhoodId === this.id);
     return store.deliveries.filter(delivery => {
       return delivery.neighborhoodId === this.id
     })
   }
   customers(){
+    // solution:
+    // return store.customers.filter(customer => customer.neighborhoodId === this.id);
+
     return store.customers.filter(customer => {
       return customer.neighborhoodId === this.id
     })
   }
   meals(){
-    return store.meals.filter(meal => {
-      return meal.neighborhoodId === this.id
-    })
+    let allMeals = this.deliveries().map(delivery => delivery.meal())
+    return [...new Set(allMeals)]
   }
 } //Ends Neighborhood
 
@@ -43,15 +47,16 @@ class Customer {
   }
 
   meals(){
-    return store.meals.filter(meal => {
-      return meal.customerId === this.id
-    })
+    return this.deliveries().map(delivery => delivery.meal())
   }
 
-  totalSpent(meals){
-    return store.meals.reduce(function (total, currentMeal){
+  totalSpent(){
+    return this.meals().reduce(function(total, currentMeal){
       return currentMeal.price + total
     }, 0)
+    //solution:
+    // return this.meals().reduce((total, meal) => (total += meal.price), 0);
+    // }
   }
 } //ends Customer
 
@@ -65,18 +70,20 @@ class Meal {
   }
 
   deliveries(){
+
     return store.deliveries.filter(delivery => {
       return delivery.mealId === this.id
     })
   }
 
   customers(){
-    return store.customers.filter(customer => {
-      return customer.mealId === this.id
-    })
+    let allDeliveries = this.deliveries().map(delivery => delivery.customer())
+    return [...new Set(allDeliveries)]
   }
 
   static byPrice(){
+    //solution:
+    //return store.meals.sort((a, b) => a.price < b.price);
     return store.meals.slice().sort(function (mealOne, mealTwo) {
       return mealTwo.price - mealOne.price
     })
@@ -104,6 +111,8 @@ class Meal {
     }
 
     neighborhood(){
+      // solution:
+      // return store.neighborhoods.find(neighborhood => neighborhood.id === this.neighborhoodId);
       return store.neighborhoods.find(neighborhood => {
         return neighborhood.id === this.neighborhoodId
       })
