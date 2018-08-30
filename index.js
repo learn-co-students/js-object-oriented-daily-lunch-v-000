@@ -4,6 +4,13 @@ let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 let neighborhoodId = 0;
 let customerId = 0;
 let mealId = 0;
+let deliveryId = 0;
+
+function arrayRemoveDuplicates(arr){
+    return arr.filter(function(elem, index, self) {
+        return index == self.indexOf(elem);
+    });
+}
 
 class Neighborhood {
   constructor (name) {
@@ -22,9 +29,9 @@ class Neighborhood {
 }
 
 class Customer {
-  constructor (name, neighborHoodId) {
+  constructor (name, neighborhoodId) {
     this.name = name;
-    this.neighborHoodId = neighborHoodId;
+    this.neighborhoodId = neighborhoodId;
     this.id = ++customerId;
     store.customers.push(this);
   }
@@ -34,11 +41,20 @@ class Customer {
   }
 
   meals() {
-    return this.deliveries().map ( delivery => delivery.mealId );
+    return this.deliveries().map ( delivery => delivery.meal() );
   }
 
   totalSpent() {
-    return this.meals.reduce( function )
+    let m = this.meals();
+    console.log("Meals",m);
+    let t = m.reduce( function(total,meal) {
+      console.log("--- total",total,"meal price",meal.price);
+      return total+=meal.price;
+    });
+    // return this.meals().reduce( function (total, meal) {
+    //   return total += meal.price;
+    // });
+    return t;
   }
 }
 
@@ -53,4 +69,30 @@ class Meal {
   deliveries() {
     return store.deliveries.filter( delivery => delivery.mealId === this.id)
   }
+
+  customers() {
+    let c = this.deliveries().map( delivery => delivery.customer());
+    return arrayRemoveDuplicates(c);
+  }
+}
+
+class Delivery {
+  constructor (mealId, neighborhoodId, customerId ) {
+    this.mealId = mealId;
+    this.neighborhoodId = neighborhoodId;
+    this.customerId = customerId;
+    this.id = ++deliveryId;
+    store.deliveries.push(this);
+  }
+
+  meal() {
+    return store.meals.find( meal => meal.id === this.mealId );
+  }
+  customer() {
+    return store.customers.find( customer => customer.id === this.customerId );
+  }
+  neighborhood() {
+    return store.neighborhoods.find( neighborhood => neighborhood.id === this.neighborhoodId );
+  }
+
 }
