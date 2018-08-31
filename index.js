@@ -26,6 +26,11 @@ class Neighborhood {
   customers() {
     return store.customers.filter( customer => customer.neighborhoodId === this.id);
   }
+
+  meals() {
+    let m = this.deliveries().map( delivery => delivery.meal());
+    return arrayRemoveDuplicates(m);
+  }
 }
 
 class Customer {
@@ -45,16 +50,10 @@ class Customer {
   }
 
   totalSpent() {
-    let m = this.meals();
-    console.log("Meals",m);
-    let t = m.reduce( function(total,meal) {
-      console.log("--- total",total,"meal price",meal.price);
-      return total+=meal.price;
-    });
-    // return this.meals().reduce( function (total, meal) {
-    //   return total += meal.price;
-    // });
-    return t;
+    let tally = function (total, meal) {
+      return total+meal.price;
+    };
+    return this.meals().reduce(tally,0);
   }
 }
 
@@ -73,6 +72,11 @@ class Meal {
   customers() {
     let c = this.deliveries().map( delivery => delivery.customer());
     return arrayRemoveDuplicates(c);
+  }
+  static byPrice() {
+    return store.meals.sort ( function (a,b) {
+       return b.price - a.price;
+    });
   }
 }
 
