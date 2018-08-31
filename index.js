@@ -39,8 +39,8 @@ class Customer{
 
   deliveries(){
     // return store.deliveries.map(d => d.id === ?)
-    console.log(this.id);
-    console.log(store.deliveries.filter(d => d.customerId === this.id));
+    // console.log(this.id);
+    // console.log(store.deliveries.filter(d => d.customerId === this.id));
     return store.deliveries.filter(d => d.customerId === this.id);
   }
   meals(){
@@ -48,8 +48,11 @@ class Customer{
   }
   totalSpent(){
     // let total = 0;
-    return this.meals().reduce((acc, curr) => {
-    return acc.price + curr.price;}, 0);
+    // console.log(this.meals());
+    // console.log(this.meals().map(value => value.price).reduce((acc, curr) => acc + curr, 0));
+    // var total = this.meals().reduce((acc, curr) => acc.price + curr.price, 0);
+    // console.log(total);
+    return this.meals().map(value => value.price).reduce((acc, curr) => acc + curr, 0);
   }
 }
 
@@ -62,10 +65,13 @@ class Meal{
     store.meals.push(this);
   }
   deliveries(){
-    return store.deliveries.find(d => d.mealId === this.id);
+    // console.log(store.deliveries.filter(d => this.id === d.mealId));
+    return store.deliveries.filter(d => this.id === d.mealId);
   }
   customers(){
-    return this.deliveries().map(d => d.customer());
+    // console.log(store.customers.filter(c => c.id == this.deliveries().customerId));
+    // console.log(this.deliveries().map(delivery => delivery.customer()));
+    return this.deliveries().map(delivery => delivery.customer());
   }
   static byPrice(){
     return store.meals.sort(function(a, b) {
@@ -109,10 +115,31 @@ class Employer{
     // console.log(this.id);
   }
   deliveries(){
-    return this.employees().map(employee => employee.deliveries());
+    // return this.deliveries().map(delivery => delivery.customer());
+    // console.log(this.id);
+    console.log(this.employees());
+    // console.log(this.employees().map(e => e.deliveries()));
+    console.log( this.employees().map(e => e.id));
+    // return store.deliveries.filter(delivery => delivery.id ===);
+    let deliveryIds = this.employees().map(e => e.id);
+    let allDeliveries = [];
+    deliveryIds.forEach(function(item){
+      var found = store.deliveries.find(d => d.id === item);
+      if (!allDeliveries.find(m => m.mealId === found.mealId)){
+        allDeliveries.push(found);
+      }
+    })
+    return allDeliveries;
+    // return this.employees().map(e => e.deliveries());
   }
+
   meals(){
     return this.deliveries().map(m => m.meal());
+  }
+
+  mealTotals(){
+    // console.log(this.meals().reduce());
+    // return this.meals().map(value => value.price).reduce((acc, curr) => acc + curr, 0);
   }
 
 }
