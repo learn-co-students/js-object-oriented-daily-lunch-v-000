@@ -47,7 +47,9 @@ class Customer{
     return this.deliveries().map( delivery => delivery.meal());
   }
   totalSpent(){
-
+    // let total = 0;
+    return this.meals().reduce((acc, curr) => {
+    return acc.price + curr.price;}, 0);
   }
 }
 
@@ -65,9 +67,11 @@ class Meal{
   customers(){
     return this.deliveries().map(d => d.customer());
   }
-  // static byPrice(){
-  //   return
-  // }
+  static byPrice(){
+    return store.meals.sort(function(a, b) {
+      return a.price - b.price;
+    }).reverse();
+  }
 }
 
 let deliveryIdCounter = 0;
