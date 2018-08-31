@@ -1,19 +1,22 @@
-store = {
-  meal: [has_many_customers],
-  customers: [has_many deliveries, has_many meals through deliveries, belongs_to neighborhood],
-  deliveries: [belongs_to meal, belongs_to customer, belongs_to neighborhood],
-  neighborhoods: [has_many deliveries, has_many customers through deliveries, has_many meals through deliveries]
-}
+// store = {
+//   meal: [has_many_customers],
+//   customers: [has_many deliveries, has_many meals through deliveries, belongs_to neighborhood],
+//   deliveries: [belongs_to meal, belongs_to customer, belongs_to neighborhood],
+//   neighborhoods: [has_many deliveries, has_many customers through deliveries, has_many meals through deliveries]
+// }
+let store = {meals: [], customers:[], deliveries: [], neighborhoods: []};
 
+let neighborhoodIdCounter = 0;
 class Neighborhood{
   constructor(name){
-    this.name = name
+    this.name = name;
+    store.customers.push(this);
   }
   deliveries(){
     return store.deliveries.find(d => d.neighborhoodId === this.id);
   }
   customers(){
-    this.deliveries().map(d => d.customerId === ?)
+    return this.deliveries().map(delivery => delivery.customer());
   }
   // meals(){
   //
@@ -21,22 +24,22 @@ class Neighborhood{
 }
 
 let customerIdCounter = 0;
-class customer{
-  let total = 0;
+class Customer{
   constructor(neighborhoodId, name){
     this.id = ++customerIdCounter;
     this.neighborhoodId = neighborhoodId;
     this.name = name;
+    store.customers.push(this);
   }
 
   deliveries(){
-    return store.deliveries.map(d => d.id === ?)
+    // return store.deliveries.map(d => d.id === ?)
   }
   meals(){
-    return store.meals.map(m => m.id === ?)
+    return this.deliveries().map( delivery => delivery.meal());
   }
   totalSpent(){
-    
+
   }
 }
 
@@ -46,12 +49,13 @@ class Meal{
     this.title = title;
     this.price = price;
     this.id = ++mealIdCounter;
+    store.meals.push(this);
   }
   deliveries(){
     return store.deliveries.find(d => d.mealId === this.id);
   }
   customers(){
-    this.deliveries().map(d => d.customerId === ?)
+    return this.deliveries().map(d => d.customer());
   }
   // static byPrice(){
   //   return
@@ -65,6 +69,7 @@ class Delivery{
     this.neighborhoodId = neighborhoodId;
     this.customerId = customerId;
     this.id = ++deliveryIdCounter;
+    store.deliveries.push(this);
   }
   meal(){
     return store.meals.find(m => m.id === this.mealId);
