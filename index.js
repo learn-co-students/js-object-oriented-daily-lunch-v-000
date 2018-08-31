@@ -117,9 +117,9 @@ class Employer{
   deliveries(){
     // return this.deliveries().map(delivery => delivery.customer());
     // console.log(this.id);
-    console.log(this.employees());
+    // console.log(this.employees());
     // console.log(this.employees().map(e => e.deliveries()));
-    console.log( this.employees().map(e => e.id));
+    // console.log( this.employees().map(e => e.id));
     // return store.deliveries.filter(delivery => delivery.id ===);
     let deliveryIds = this.employees().map(e => e.id);
     let allDeliveries = [];
@@ -136,9 +136,21 @@ class Employer{
   meals(){
     return this.deliveries().map(m => m.meal());
   }
+  // {pastaMealid: 1, chickenMealid: 2}
 
   mealTotals(){
-    // console.log(this.meals().reduce());
+    let mealsHash = {};
+    let all = store.deliveries.map(delivery => delivery.mealId);
+    console.log(all);
+    all.forEach(function(item){
+      if (mealsHash[item]){
+        mealsHash[item] = ++mealsHash[item];
+      }else{
+        mealsHash[item] = 1;
+      }
+    })
+    console.log(mealsHash);
+    return mealsHash;
     // return this.meals().map(value => value.price).reduce((acc, curr) => acc + curr, 0);
   }
 
