@@ -48,21 +48,18 @@ class Customer {
   }
   
   meals() {
-  	for (const meal of store.meals) {
-  	 let a = []
-    	while (meal.deliveryId === this.deliveryId) {
-    	   a.push(meal.title)
-	    }
-	    return a
-  	}
+    return this.deliveries().map(delivery => {
+      return delivery.meal()
+    })
   }
   
   totalSpent() {
-    return store.meals.reduce(function(agg, el, i, arr) {
-      return agg + el.price
+    return this.meals().reduce(function(agg, el, i, arr) {
+    	return agg + el.price
     }, 0)
   }
 }
+
 
 let mealId = 0
 
@@ -81,17 +78,16 @@ class Meal {
     })
   }
   
-   customers() {
-    let a = store.customers.filter(customer => {
-      return customer.mealId === this.id
+  customers() {
+    return store.customers.filter(customer => {
+      return customer.deliveryId === this.deliveryId
     })
-    return a.reduce(function(agg, el, i, arr) {
-      return [...agg, el.name]
-    }, [])
   }
   
   static byPrice() {
-    
+    return store.meals.sort(function(meal1, meal2){
+      return meal2.price - meal1.price
+    })
   }
 }
 
