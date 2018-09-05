@@ -2,27 +2,31 @@
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
 let neighborhoodIds = 0
-
+//
 class Neighborhood {
   constructor(name){
     this.id = ++neighborhoodIds;
     this.name = name;
     store.neighborhoods.push(this);
   }
-
+//
   customers(){
     return store.customers.filter(customer => customer.neighborhoodId === this.id);
   }
-
+//
   deliveries(){
     return store.deliveries.filter(delivery => delivery.neighborhoodId === this.id );
   }
 
   meals(){
-    const allMeals = this.customers().map(customer => customer.meals())
-    return Array.from(new Set(allMeals))
-  }
+    const neighborhoodMeals = this.deliveries().sort(function(a, b){return a.mealId - b.mealId})
 
+    return neighborhoodMeals.filter(function(el, i, arr){
+        return i === arr.findIndex(function(j){
+          return j.mealId === el.mealId
+        })
+    })
+  }
 }
 
 let customerIds = 0
@@ -71,7 +75,7 @@ class Meal {
   }
 
   static byPrice(){
-    return store.meals.sort((a, b) => b.price - a.price;)
+    return store.meals.slice().sort(function(a,b){return b.price > a.price})
   }
 
 }
@@ -79,11 +83,11 @@ class Meal {
 let deliveryIds = 0
 
 class Delivery {
-  constructor(mealId, customerId, neighborhoodId){
+  constructor(mealId, neighborhoodId, customerId){
     this.id = ++deliveryIds
     this.mealId = mealId
-    this.customerId = customerId
     this.neighborhoodId = neighborhoodId
+    this.customerId = customerId
     store.deliveries.push(this)
   }
 
