@@ -48,10 +48,13 @@ class Customer {
   }
   
   meals() {
-    return store.meals.filter(meal => {
-      return meal.deliveryId === this.deliveryId
-    })
-    
+  	for (const meal of store.meals) {
+  	 let a = []
+    	while (meal.deliveryId === this.deliveryId) {
+    	   a.push(meal.title)
+	    }
+	    return a
+  	}
   }
   
   totalSpent() {
