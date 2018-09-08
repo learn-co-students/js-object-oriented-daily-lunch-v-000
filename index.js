@@ -11,19 +11,11 @@ class Neighborhood {
     }
 
     deliveries(){
-      return store.deliveries.filter(
-          function(delivery) {
-            return delivery.neighborhoodId === this.id;
-          }.bind(this)
-      )
+      return store.deliveries.filter( delivery => delivery.neighborhoodId === this.id)
     }
 
     customers() {
-      return store.customers.filter(
-          function(customer) {
-            return customer.neighborhoodId === this.id
-          }.bind(this)
-      )
+      return store.customers.filter(customer => customer.neighborhoodId === this.id)
     }
 
     meals(){
@@ -45,19 +37,11 @@ let customerId = 0
       }
 
     deliveries() {
-        return store.deliveries.filter(
-          function(delivery) {
-            return delivery.customerId === this.id;
-          }.bind(this)
-        )
+        return store.deliveries.filter(delivery => delivery.customerId === this.id)
       }
 
     meals() {
-      return this.deliveries().map(
-          function(delivery) {
-            return delivery.meal();
-          }.bind(this)
-      )
+      return this.deliveries().map(delivery => delivery.meal())
     }
 
     totalSpent() {
@@ -77,20 +61,12 @@ let customerId = 0
       }
 
     deliveries() {
-      return store.deliveries.filter(
-          function(delivery) {
-            return delivery.mealId === this.id;
-          }.bind(this)
-      )
+      return store.deliveries.filter(delivery => delivery.mealId === this.id)
     }
 
     // not fixed
     customers() {
-      return this.deliveries().map(
-        function(delivery) {
-          return delivery.customer()
-        }.bind(this)
-      )
+      return this.deliveries().map(delivery => delivery.customer())
     }
 
     static byPrice(price) {
@@ -111,26 +87,14 @@ let customerId = 0
     }
 
     meal() {
-      return store.meals.find(
-          function(meal) {
-            return meal.id === this.mealId
-          }.bind(this)
-      )
+      return store.meals.find(meal => meal.id === this.mealId)
     }
 
     customer() {
-      return store.customers.find(
-          function(customer) {
-            return customer.id === this.customerId
-          }.bind(this)
-      )
+      return store.customers.find(customer => customer.id === this.customerId)
     }
 
     neighborhood() {
-      return store.neighborhoods.find(
-          function(neighborhood) {
-            return neighborhood.id === this.neighborhoodId
-          }.bind(this)
-      )
+      return store.neighborhoods.find(neighborhood => neighborhood.id === this.neighborhoodId)
     }
   }
