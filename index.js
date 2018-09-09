@@ -1,5 +1,5 @@
 // global datastore
-let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
+let store = { neighborhoods: [], customers: [],  meals: [], deliveries: [] };
 
 // new Neighborhood() - initialized with name. It returns an object that has attributes of id and name
 // deliveries() - returns a list of all deliveries placed in a neighborhood
@@ -21,8 +21,8 @@ class Neighborhood {
     })
   }
   deliveries(){
-    return store.customers().filter(delivery => {
-          return delivery.neighborhood === this.id
+    return store.deliveries.filter(delivery => {
+      return delivery.neighborhood === this.id
     })
   }
 }
@@ -35,7 +35,7 @@ class Neighborhood {
 
 let customerId = 0
 
-class Customer{
+class Customer {
   constructor(name, neighborhoodId) {
     this.id = ++customerId;
     this.name = name;
@@ -46,11 +46,12 @@ class Customer{
     store.customers.push(this)
   }
   deliveries(){
-    return store.customers().filter(delivery => {
-          return delivery.cutomerId === this.id
+    return store.customers.filter(delivery => {
+      return delivery.cutomerId === this.id
     })
   }
 }
+
 
 // new Meal() — initialized with title and price. It returns an object that has attributes of title, price, and id. Meal Ids should automatically increment.
 // deliveries() - returns all of the deliveries associated with a particular meal.
