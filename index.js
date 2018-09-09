@@ -18,14 +18,18 @@ function getDeliveries(idValue) {
   return store.deliveries.filter(item => this.id === item[idValue])
 }
 
-function getCustomersOrMeals(values, idValue, uniqueness) {
-  let ids = this.deliveries().map(delivery => delivery[idValue]);
-  ids = uniqueness ? [...new Set(ids)] : ids;
-  return ids.map(id => store[values].find(value => id === value.id));
+// function getCustomersOrMeals(values, idValue, uniqueness) {
+//   let ids = this.deliveries().map(delivery => delivery[idValue]);
+//   ids = uniqueness ? [...new Set(ids)] : ids;
+//   return ids.map(id => store[values].find(value => id === value.id));
+// }
+
+function getCustomersOrMeals(type) {
+  return this.deliveries().map(delivery => delivery[type]())
 }
 
 function getItem(items, idValue) {
-  return store[items].find(meal => this[idValue] = meal.id);
+  return store[items].find(meal => this[idValue] === meal.id);
 }
 
 function addToStore(item) {
@@ -45,11 +49,13 @@ class Neighborhood {
   }
 
   customers() {
-    return getCustomersOrMeals.call(this, 'customers', 'customerId', true)
+    const customers = getCustomersOrMeals.call(this, 'customer');
+    return [...new Set(customers)];
   }
 
   meals() {
-    return getCustomersOrMeals.call(this, 'meals', 'mealId', true);
+    const meals = getCustomersOrMeals.call(this, 'meal');
+    return [...new Set(meals)];
   }
 
 }
@@ -68,11 +74,11 @@ class Customer {
   }
 
   meals() {
-    return getCustomersOrMeals.call(this, 'meals', 'mealId', false);
+    return getCustomersOrMeals.call(this, 'meal');
   }
 
   totalSpent() {
-    return this.meals().reduce((sum, meal, i) => sum += meal.price, 0)
+    return this.meals().reduce((sum, meal) => sum += meal.price, 0)
   }
 }
 
@@ -90,7 +96,7 @@ class Meal {
   }
 
   customers() {
-    return getCustomersOrMeals.call(this, 'customers', 'customerId', true);
+    return getCustomersOrMeals.call(this, 'customer');
   }
 
   static byPrice() {
