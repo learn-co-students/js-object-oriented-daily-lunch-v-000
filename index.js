@@ -15,6 +15,16 @@ class Neighborhood {
 
     store.neighborhoods.push(this)
   }
+  customers(){
+    return store.customers.filter(customer => {
+      return customer.neighborhood === this.id
+    })
+  }
+  deliveries(){
+    return store.customers().filter(delivery => {
+          return delivery.neighborhood === this.id
+    })
+  }
 }
 
 
@@ -26,18 +36,21 @@ class Neighborhood {
 let customerId = 0
 
 class Customer{
-  constructor(name, neighborhood) {
+  constructor(name, neighborhoodId) {
     this.id = ++customerId;
     this.name = name;
-
     if(neighborhood) {
       this.neighborhoodId = neighborhood.id;
     }
 
     store.customers.push(this)
   }
+  deliveries(){
+    return store.customers().filter(delivery => {
+          return delivery.cutomerId === this.id
+    })
+  }
 }
-
 
 // new Meal() — initialized with title and price. It returns an object that has attributes of title, price, and id. Meal Ids should automatically increment.
 // deliveries() - returns all of the deliveries associated with a particular meal.
@@ -65,9 +78,8 @@ class Meal {
 let deliverylId = 0
 
 class Delivery {
-  constructor(meal, neighborhood, customer) {
+  constructor(mealId, neighborhoodId, customerId) {
     this.id = ++deliverylId;
-
     if(meal) {
       this.mealId = meal.id;
     }
@@ -77,7 +89,6 @@ class Delivery {
     if(customer) {
       this.customer = customer.id;
     }
-
     store.deliveries.push(this)
   }
 }
