@@ -32,11 +32,11 @@ class Neighborhood {
       }
 
       meals() {
-          return this.deliveries().unique().map(
-              function(delivery) {
-                  return delivery.meal();
-              }.bind(this)
-          );
+        const neighborhood_meals = this.deliveries().map(function(delivery) {return delivery.meal()}.bind(this));
+
+        return neighborhood_meals.filter(function(meal, index, neighborhood_meals) {
+          return neighborhood_meals.indexOf(meal) == index;
+        });
       }
   }
 
@@ -59,7 +59,7 @@ class Customer {
       }
 
       meals() {
-          return this.deliveries().unique().map(
+          return this.deliveries().map(
               function(delivery) {
                   return delivery.meal();
               }.bind(this)
@@ -74,12 +74,10 @@ class Customer {
           );
       }
 
-      static totalSpent() {
-          return this.meals().map(
-              function(meal) {
-                  return meal.price;
-              }.bind(this)
-          );
+      totalSpent() {
+          return this.meals().reduce(function(agg, el, i, arr) {
+            return agg + el.price;
+          }, 0);
       }
   }
 
@@ -102,11 +100,9 @@ class Customer {
         }
 
         customers() {
-            return store.customers().filter(
-                function(customer) {
-                    return customer.mealId === this.id;
-                }.bind(this)
-            );
+            const meal_customers = this.deliveries().map(function(delivery) {return delivery.customer()}.bind(this));
+
+            return [...new Set(meal_customers)];
         }
 
         neighborhood() {
@@ -115,6 +111,14 @@ class Customer {
                     return neighborhood.id === this.neighborhoodId;
                 }.bind(this)
             );
+        }
+
+        static byPrice() {
+          return store.meals.sort(
+            function(a, b) {
+                return (b.price-a.price);
+            }.bind(this)
+          );
         }
   }
 
