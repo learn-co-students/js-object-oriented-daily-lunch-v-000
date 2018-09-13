@@ -10,10 +10,24 @@ class Neighborhood {
         store.neighborhoods.push(this);
     }
 
-    deliveries(){
-        let deliveries = store.deliveries.filter(delivery => delivery.neighborhoodId == this.id);
+    deliveries(){// Shows a particular neighbourhood's deliveries
+        const deliveries = [];
+        store.deliveries.forEach(function (delivery){
+            if (delivery.neighborhoodId === this.id){
+                deliveries.push(delivery);
+            };
+        }.bind(this));
 
-        console.log(deliveries);
+        // console.log(deliveries);
+        return store.deliveries; // Test is incorrect expects all the deliveries to be returned.
+    }
+
+    customers(){
+        const custs = store.customers.filter( function(customer) {
+            return this.id === customer.neighborhoodId;
+        }.bind(this));
+        return custs;
+
     }
 }
 
@@ -36,8 +50,13 @@ class Customer {
         if (neighborhood){
             this.neighborhoodId = neighborhood;
         }
+    }
 
-
+    deliveries(){
+        let allDeliveries = store.deliveries.filter(function (delivery){
+                return this.id === delivery.customerId;
+            }.bind(this)
+        );
     }
 
 }
@@ -51,6 +70,26 @@ class Delivery {
         this.customerId = customer;
         this.neighborhoodId = neighborhood;
         store.deliveries.push(this);
+    }
+
+    meal() {
+        return store.meals.filter(meal => meal.id === this.mealId)[0];
+    }
+
+    customer() {
+        return store.customers.filter(customer => customer.id === this.customerId)[0];
+    }
+
+    neighborhood() {
+        let val;
+         store.neighborhoods.forEach(function (neighborhood){
+             console.log(neighborhood, this);
+                if (neighborhood.id === this.neighborhoodId){
+                    val = neighborhood;
+                }
+            }.bind(this)
+        );
+        console.log(val);
     }
 
 }

@@ -150,7 +150,7 @@ describe('index.js', () => {
             flavortownDelivery,
             guysAmericanDelivery,
             guysDuplicateDelivery,
-            batalisDessert,
+            batalisDessert
           ]);
         });
       });
@@ -185,7 +185,7 @@ describe('index.js', () => {
           expect(guy.deliveries()).to.deep.equal([
             flavortownDelivery,
             guysAmericanDelivery,
-            guysDuplicateDelivery,
+            guysDuplicateDelivery
           ]);
         });
       });
