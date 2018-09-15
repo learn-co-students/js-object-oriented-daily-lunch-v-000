@@ -10,25 +10,31 @@ class Neighborhood {
         store.neighborhoods.push(this);
     }
 
-    // deliveries(){// Shows a particular neighbourhood's deliveries
-    //     const deliveries = [];
-    //     store.deliveries.forEach(function (delivery){
-    //         if (delivery.neighborhoodId === this.id){
-    //             deliveries.push(delivery);
-    //         };
-    //     }.bind(this));
-    //
-    //     // console.log(deliveries);
-    //     return store.deliveries; // Test is incorrect expects all the deliveries to be returned.
-    // }
+    deliveries(){// Shows a particular neighbourhood's deliveries
+        return store.deliveries.filter(function (delivery){
+                return delivery.neighborhoodId === this.id
+            }.bind(this)
+        );
+    }
 
-    // customers(){
-    //     const custs = store.customers.filter( function(customer) {
-    //         return this.id === customer.neighborhoodId;
-    //     }.bind(this));
-    //     return custs;
-    //
-    // }
+    customers(){
+        return store.customers.filter(function(customer) {
+            return this.id === customer.neighborhoodId;
+        }.bind(this));
+    }
+
+    allMealsNotUnique(){
+        return store.meals.forEach(function(meal){
+                return this.deliveries().filter(function(delivery){
+                    return delivery.mealId === meal.id;
+                });
+        }.bind(this));
+    }
+
+    meals(){
+        //First find all meals by neighborhood = allMealsNotUnique()
+        return allMealsNotUnique();
+    }
 }
 
 
@@ -43,13 +49,12 @@ class Meal {
         store.meals.push(this);
     }
 
-    // deliveries(){
-    //     let deliveries = store.deliveries.filter(function (delivery){
-    //             return delivery.mealId === this.id
-    //         }.bind(this)
-    //     );
-    //     return deliveries;
-    // }
+    deliveries(){
+        return store.deliveries.filter(function (delivery){
+                return delivery.mealId === this.id
+            }.bind(this)
+        );
+    }
 
 
     customers() {
@@ -81,32 +86,41 @@ class Customer {
                 return this.id === delivery.customerId;
             }.bind(this)
         );
-        
+
     }
 
-    // meals() {
-    //     let customersDeliveries = this.deliveries();
-    //
-    //     let mealIds = customersDeliveries.map(function (delivery){
-    //         return delivery.mealId;
-    //      }
-    //     );
-    //
-    //     return store.meals.forEach(function(meal) {
-    //
-    //             return mealIds.filter(id => meal.id === id);
-    //         }
-    //     );
-    //
-    //
-    // }
+    meals() {
+        // const customersDeliveriesMeals = this.deliveries().map(obj => Object.assign({}, obj));
+        //
+        // //get each meal from eah delivery
+        // const meals = customersDeliveriesMeals.forEach(function(delivery){
+        //
+        //         console.log(delivery.meal());
+        //     }
+        // );
+
+        //
+        // let unique = [];
+        // customersDeliveries.filter(function(delivery){
+        //     let i = unique.findIndex(x => x.id == delivery.id);
+        //     if(i <= -1){
+        //         unique.push(delivery);
+        //     }
+        //     return null;
+        // });
+
+        // console.log(this.deliveries());
+        // console.log(unique);
+        // return unique;
+
+    }
 
 }
 
 let deliveryId = 0;
 
 class Delivery {
-    constructor (meal, customer, neighborhood){
+    constructor (meal, neighborhood, customer){
         this.id = ++deliveryId;
         this.mealId = meal;
         this.customerId = customer;
@@ -115,27 +129,22 @@ class Delivery {
     }
 
     meal() {
-        return store.meals.filter(meal => meal.id === this.mealId)[0];
+        return store.meals.find(meal => meal.id === this.mealId);
     }
 
     customer() {
-         return store.customers.find(function(neighborhood){
-                console.log(this);
-                return neighborhood.id === this.neighborhoodId;
+         return store.customers.find(function(customer){
+
+                return customer.id === this.customerId;
             }.bind(this)
         );
     }
 
-    // neighborhood() {
-    //     let val;
-    //      store.neighborhoods.forEach(function (neighborhood){
-    //
-    //             if (neighborhood.id === this.neighborhoodId){
-    //                 val = neighborhood;
-    //             }
-    //         }.bind(this)
-    //     );
-    //
-    // }
+    neighborhood() {
+         return store.neighborhoods.find(function (neighborhood){
+                return neighborhood.id === this.neighborhoodId
+            }.bind(this)
+        );
+    }
 
 }
