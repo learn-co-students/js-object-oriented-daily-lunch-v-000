@@ -41,9 +41,10 @@ class Neighborhood {
     meals(){
         const allMeals = [...this.allMealsNotUnique()];
         const uniqueMeals = [...(new Set(allMeals.map(function({ id }){
-                                 return id;
-                            }
-                        )))];
+                     return id ;
+            }
+        )))];
+
         return uniqueMeals;
     }
 }
@@ -54,9 +55,9 @@ class Neighborhood {
 let mealId = 0;
 class Meal {
     constructor (title, price) {
+        this.id = ++mealId;
         this.title = title;
         this.price = price;
-        this.id = ++mealId;
         store.meals.push(this);
     }
 
@@ -69,12 +70,19 @@ class Meal {
 
 
     customers() {
-        return store.deliveries.filter(function (delivery){
-            // console.log(delivery);
-            // console.log(this);
-                return delivery.mealId === this.id;
-            }.bind(this)
+        const c = []
+        this.deliveries().forEach(function (delivery){
+                c.push(delivery.customer());
+            }
         );
+        return c;
+    }
+
+    static byPrice() {
+        return store.meals.sort(function(a, b){
+            return b.price - a.price;
+        });
+
     }
 }
 
@@ -105,9 +113,35 @@ class Customer {
     }
 
     meals() {
-        // console.log(this.customerNeighborhood());
-        const newInstance = new getCustomersMeals(this.customerNeighborhood().meals());
-        console.log(newInstance.meals());
+        // Find neighborhood
+        const neighborhood = this.customerNeighborhood();
+        //then call neighborhood.meals() will return the correct meals.
+        const mealz = []
+        store.meals.forEach(function (meal1) {
+            neighborhood.meals().filter(function(meal2){
+                 if (meal1.id === meal2){
+                     mealz.push(meal1);
+                 }
+            });
+        });
+        return mealz;
+    }
+
+    customersMeals(){
+
+        const c = []
+        this.deliveries().forEach(function(delivery){
+            c.push(delivery.meal());
+        });
+        return c;
+    }
+
+    totalSpent(){
+        let total = 0
+        this.customersMeals().forEach(function(meal){
+            total = total + meal.price;
+        });
+        return total;
     }
 
 }
