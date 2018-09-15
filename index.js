@@ -10,26 +10,29 @@ class Neighborhood {
         store.neighborhoods.push(this);
     }
 
-    deliveries(){// Shows a particular neighbourhood's deliveries
-        const deliveries = [];
-        store.deliveries.forEach(function (delivery){
-            if (delivery.neighborhoodId === this.id){
-                deliveries.push(delivery);
-            };
-        }.bind(this));
+    // deliveries(){// Shows a particular neighbourhood's deliveries
+    //     const deliveries = [];
+    //     store.deliveries.forEach(function (delivery){
+    //         if (delivery.neighborhoodId === this.id){
+    //             deliveries.push(delivery);
+    //         };
+    //     }.bind(this));
+    //
+    //     // console.log(deliveries);
+    //     return store.deliveries; // Test is incorrect expects all the deliveries to be returned.
+    // }
 
-        // console.log(deliveries);
-        return store.deliveries; // Test is incorrect expects all the deliveries to be returned.
-    }
-
-    customers(){
-        const custs = store.customers.filter( function(customer) {
-            return this.id === customer.neighborhoodId;
-        }.bind(this));
-        return custs;
-
-    }
+    // customers(){
+    //     const custs = store.customers.filter( function(customer) {
+    //         return this.id === customer.neighborhoodId;
+    //     }.bind(this));
+    //     return custs;
+    //
+    // }
 }
+
+
+
 
 let mealId = 0;
 class Meal {
@@ -39,7 +42,28 @@ class Meal {
         this.id = ++mealId;
         store.meals.push(this);
     }
+
+    // deliveries(){
+    //     let deliveries = store.deliveries.filter(function (delivery){
+    //             return delivery.mealId === this.id
+    //         }.bind(this)
+    //     );
+    //     return deliveries;
+    // }
+
+
+    customers() {
+        return store.deliveries.filter(function (delivery){
+            // console.log(delivery);
+            // console.log(this);
+                return delivery.mealId === this.id;
+            }.bind(this)
+        );
+    }
 }
+
+
+
 
 let customerId = 0;
 class Customer {
@@ -53,11 +77,29 @@ class Customer {
     }
 
     deliveries(){
-        let allDeliveries = store.deliveries.filter(function (delivery){
+        return store.deliveries.filter(function (delivery){
                 return this.id === delivery.customerId;
             }.bind(this)
         );
+        
     }
+
+    // meals() {
+    //     let customersDeliveries = this.deliveries();
+    //
+    //     let mealIds = customersDeliveries.map(function (delivery){
+    //         return delivery.mealId;
+    //      }
+    //     );
+    //
+    //     return store.meals.forEach(function(meal) {
+    //
+    //             return mealIds.filter(id => meal.id === id);
+    //         }
+    //     );
+    //
+    //
+    // }
 
 }
 
@@ -77,19 +119,23 @@ class Delivery {
     }
 
     customer() {
-        return store.customers.filter(customer => customer.id === this.customerId)[0];
-    }
-
-    neighborhood() {
-        let val;
-         store.neighborhoods.forEach(function (neighborhood){
-             console.log(neighborhood, this);
-                if (neighborhood.id === this.neighborhoodId){
-                    val = neighborhood;
-                }
+         return store.customers.find(function(neighborhood){
+                console.log(this);
+                return neighborhood.id === this.neighborhoodId;
             }.bind(this)
         );
-        console.log(val);
     }
+
+    // neighborhood() {
+    //     let val;
+    //      store.neighborhoods.forEach(function (neighborhood){
+    //
+    //             if (neighborhood.id === this.neighborhoodId){
+    //                 val = neighborhood;
+    //             }
+    //         }.bind(this)
+    //     );
+    //
+    // }
 
 }
