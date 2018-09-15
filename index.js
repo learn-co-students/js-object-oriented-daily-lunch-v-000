@@ -24,16 +24,27 @@ class Neighborhood {
     }
 
     allMealsNotUnique(){
-        return store.meals.forEach(function(meal){
-                return this.deliveries().filter(function(delivery){
-                    return delivery.mealId === meal.id;
-                });
+
+        let instanceOfNeighborhood = this;
+        let allMealsFound = []
+        store.meals.forEach(function(meal){
+                this.deliveries().filter(function(delivery){
+                    if (delivery.mealId === meal.id){
+                            allMealsFound.push(meal);
+                    }
+                }.bind(this));
         }.bind(this));
+
+        return allMealsFound;
     }
 
     meals(){
-        //First find all meals by neighborhood = allMealsNotUnique()
-        return allMealsNotUnique();
+        const allMeals = [...this.allMealsNotUnique()];
+        const uniqueMeals = [...(new Set(allMeals.map(function({ id }){
+                                 return id;
+                            }
+                        )))];
+        return uniqueMeals;
     }
 }
 
@@ -89,30 +100,14 @@ class Customer {
 
     }
 
+    customerNeighborhood(){
+        return store.neighborhoods.find(neighborhood => neighborhood.id === this.neighborhoodId);
+    }
+
     meals() {
-        // const customersDeliveriesMeals = this.deliveries().map(obj => Object.assign({}, obj));
-        //
-        // //get each meal from eah delivery
-        // const meals = customersDeliveriesMeals.forEach(function(delivery){
-        //
-        //         console.log(delivery.meal());
-        //     }
-        // );
-
-        //
-        // let unique = [];
-        // customersDeliveries.filter(function(delivery){
-        //     let i = unique.findIndex(x => x.id == delivery.id);
-        //     if(i <= -1){
-        //         unique.push(delivery);
-        //     }
-        //     return null;
-        // });
-
-        // console.log(this.deliveries());
-        // console.log(unique);
-        // return unique;
-
+        // console.log(this.customerNeighborhood());
+        const newInstance = new getCustomersMeals(this.customerNeighborhood().meals());
+        console.log(newInstance.meals());
     }
 
 }
