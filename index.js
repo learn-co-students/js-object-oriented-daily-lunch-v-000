@@ -10,7 +10,7 @@ let neighborhoodId = 0;
 let mealId = 0;
 let customerId = 0;
 let deliveryId = 0;
-
+// https://coderwall.com/p/nilaba/simple-pure-javascript-array-unique-method-with-5-lines-of-code
 function unique(value, index, self) {
   return self.indexOf(value) === index;
 }
