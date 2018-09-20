@@ -25,6 +25,10 @@ class Meal {
     // debugger
     return sorter.sort(function(meal1, meal2){ return meal2.price - meal1.price});
   }
+
+  // static byPrice() {
+  //   return store.meals.sort((a, b) => a.price < b.price);
+  // }
 }
 
 let neighborhoodId = 0;
