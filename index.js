@@ -26,6 +26,7 @@ class Neighborhood {
       }.bind(this)
     );
   }
+  /*comment*/
 
   customers() {
     return store.customers.filter(
