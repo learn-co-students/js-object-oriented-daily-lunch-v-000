@@ -16,7 +16,9 @@ class Neighborhood{
       return store.customers.filter( (customer) => { return customer.neighborhoodId === this.id })
   }
   meals(){
-    return store.meals.filter( (meal) => { return meal.neighborhoodId === this.id })
+    let uniqueList = []
+    this.deliveries().map( (delivery) => {if(!uniqueList.includes(delivery.meal())){ uniqueList.push(delivery.meal()); return delivery.meal() }  })
+   return uniqueList
  }
 }
 class Customer{
@@ -32,6 +34,10 @@ class Customer{
   meals(){
     return this.deliveries().map( (myDelivery) => { return myDelivery.meal() })
   }
+  totalSpent(){
+    return this.meals().reduce( (accumulator, currentValue) => { return currentValue.price + accumulator; },0 )
+  }
+  
 }
 
 class Meal{
@@ -40,6 +46,7 @@ class Meal{
     this.price = price
     addMeToStore.call(this)
   }
+
  deliveries(){
     return store.deliveries.filter( (delivery) => { return delivery.mealId === this.id })
   }
@@ -57,9 +64,6 @@ class Delivery{
     this.customerId = (customer) ? customer : 0
     this.neighborhoodId = (neighborhood) ? neighborhood : 0
     this.id = store["deliveries"].push(this) - 1
-  }
-  neighborhood(){
-      return store.neighborhoods.filter( (neighborhood) => { return neighborhood.neighborhoodId === this.id })
   }
   meal(){
     return store.meals.find( (meal) => { return meal.id === this.mealId})
