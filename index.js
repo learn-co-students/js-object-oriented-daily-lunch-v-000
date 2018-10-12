@@ -31,6 +31,14 @@ class Customer {
     this.id = ++customerId
     store.customers.push(this)
   }
+  deliveries () {
+    return store.deliveries.filter(function (delivery) {
+      return this.id === delivery.customerId
+    }.bind(this))
+  }
+  meals() {
+        return this.deliveries().map(delivery => delivery.meal());
+      }
 }
 
 class Meal {
@@ -50,11 +58,9 @@ class Delivery {
     this.id = ++deliveryId
     store.deliveries.push(this)
   }
-  meal () {
-    return store.meals.find(function (meal) {
-      return this.mealId === meal.id
-    }.bind(this))
-  }
+  meal() {
+        return store.meals.find(meal => meal.id === this.mealId);
+      }
   customer () {
     return store.customers.find(function (customer) {
       return this.customerId === customer.id
