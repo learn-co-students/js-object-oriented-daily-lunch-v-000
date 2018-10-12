@@ -1,4 +1,3 @@
-// global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
 let neighborhoodId = 0
@@ -22,6 +21,11 @@ class Neighborhood {
       return this.id === customer.neighborhoodId
     }.bind(this))
   }
+  meals() {
+  const allMeals = this.customers().map(customer => customer.meals());
+  const merged = [].concat.apply([], allMeals);
+  return [...new Set(merged)];
+}
 }
 
 class Customer {
@@ -36,9 +40,12 @@ class Customer {
       return this.id === delivery.customerId
     }.bind(this))
   }
-  meals() {
-        return this.deliveries().map(delivery => delivery.meal());
-      }
+  meals () {
+    return this.deliveries().map(delivery => delivery.meal())
+  }
+  totalSpent() {
+  return this.meals().reduce((total, meal) => (total += meal.price), 0);
+}
 }
 
 class Meal {
@@ -48,6 +55,17 @@ class Meal {
     this.id = ++mealId
     store.meals.push(this)
   }
+  deliveries() {
+    return store.deliveries.filter(delivery => delivery.mealId === this.id);
+  }
+  customers() {
+  const allCustomers = this.deliveries().map(delivery => delivery.customer());
+  return [...new Set(allCustomers)];
+}
+
+static byPrice() {
+  return store.meals.sort((a, b) => a.price < b.price);
+}
 }
 
 class Delivery {
@@ -58,9 +76,11 @@ class Delivery {
     this.id = ++deliveryId
     store.deliveries.push(this)
   }
-  meal() {
-        return store.meals.find(meal => meal.id === this.mealId);
-      }
+  meal () {
+    return store.meals.find(function (meal) {
+      return this.mealId === meal.id
+    }.bind(this))
+  }
   customer () {
     return store.customers.find(function (customer) {
       return this.customerId === customer.id
