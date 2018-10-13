@@ -26,9 +26,11 @@ class Neighborhood{
     })
   }
 
-  //returns all meals in a specific neighborhood
+  //Aggregate Methods
   meals(){
-
+    const allMeals = this.customers().map(customer => customer.meals());
+    const merged = [].concat.apply([], allMeals);
+    return [...new Set(merged)];
   }
 }
 
@@ -47,9 +49,12 @@ class Customer{
   }
 
   meals(){
-    return store.meals.filter(meal => {
-      return meal.customerId == this.id;
-    })
+    return this.deliveries().map(delivery => delivery.meal());
+  }
+
+  //Aggregate Methods
+  totalSpent(){
+    return this.meals().reduce((total, meal) => (total += meal.price), 0)
   }
 }
 
@@ -59,6 +64,22 @@ class Meal{
     this.price = price;
     this.id = ++mealId;
     store.meals.push(this)
+  }
+
+  deliveries(){
+    return store.deliveries.filter(delivery => {
+      return delivery.mealId == this.id;
+    })
+  }
+
+  customers(){
+    const allCustomers = this.deliveries().map(delivery => delivery.customer());
+    return [...new Set(allCustomers)];
+  }
+
+  //Aggregate Methods
+  static byPrice(){
+    return store.meals.sort((a,b) => a.price < b.price);
   }
 }
 
@@ -71,8 +92,21 @@ class Delivery{
     store.deliveries.push(this);
   }
 
-  meal(delivery){
-    //Stoppping Point 
+  meal(){
+    return store.meals.find(meal => {
+      return meal.id == this.mealId;
+    })
+  }
+
+  customer(){
+    return store.customers.find(customer => {
+      return customer.id == this.customerId;
+    })
+  }
+
+  neighborhood(){
+    return store.neighborhoods.find(neighborhood => {
+      return neighborhood.id == this.neighborhoodId;
     })
   }
 }
