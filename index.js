@@ -28,6 +28,12 @@ class Neighborhood {
     let unique = [...new Set(customers)];
     return unique;
   }
+
+  meals() {
+    const allMeals = this.customers().map(customer => customer.meals());
+    const merged = [].concat.apply([], allMeals);
+    return [...new Set(merged)];
+  }
 }
 
 class Customer {
@@ -50,6 +56,10 @@ class Customer {
     return this.deliveries().map(delivery => {
       return delivery.meal();
     })
+  }
+
+  totalSpent() {
+    return this.meals().reduce((total, meal) => (total += meal.price), 0);
   }
 }
 
@@ -76,6 +86,10 @@ class Meal {
     })
     let unique = [...new Set(customers)];
     return unique;
+  }
+
+  static byPrice() {
+    return store.meals.sort((a, b) => a.price < b.price);
   }
 }
 
