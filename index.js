@@ -15,13 +15,26 @@ class Neighborhood {
 
   deliveries() {
     return store.deliveries.filter(delivery => {
-      console.log(delivery)
       return delivery.neighborhoodId === this.id;
     });
   }
 
   customers() {
     return store.customers.filter(customer => {return customer.neighborhoodId === this.id})
+  }
+
+  meals(){
+    let meals = []
+    let result;
+    let mealDeliveries = this.deliveries()
+    mealDeliveries.forEach(function(delivery)
+      {result = store.meals.find(function(meal){
+        return meal.id === delivery.mealId
+      })
+      meals.push(result)
+    })
+    const uniqueMeals = [...new Set(meals)]
+    return uniqueMeals
   }
 }
 
@@ -52,7 +65,9 @@ class Customer {
   }
 
   totalSpent(){
-    return this.meals().reduce(meal.price)
+    let mealPrices = this.meals().map(function(meal){return meal.price})
+    return mealPrices.reduce((total, amount) => total + amount, 0)
+
   }
 }
 
@@ -82,10 +97,15 @@ class Meal {
     return customers
   }
 
+  static byPrice(){
+    return store.meals.sort(function(m1, m2){return m2.price - m1.price})
+
+  }
+
 }
 
 class Delivery {
-  constructor(meal, customer, neighborhood){
+  constructor(meal, neighborhood, customer){
     this.id = ++deliveryId
     this.mealId = meal
     this.customerId = customer
