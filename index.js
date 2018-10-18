@@ -1,5 +1,8 @@
 // global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
+const unique = (value, index, self) => {
+  return self.indexOf(value) === index;
+}
 
 let neighborhoodsId = 0;
 class Neighborhood {
@@ -18,15 +21,11 @@ class Neighborhood {
 
   // I'm stuck here
   meals(){
-    let resArr = []
-    store.meals.filter(function (meal) {
-      let i = resArr.findIndex(x => x.title == meal.title);
-      if (i <= -1) {
-        resArr.push({ id: meal.id, title: meal.title });
-      }
-      return null;
-    });
-    return resArr;
+    const customers = this.customers();
+    const customersMeals = customers.map(customer => customer.meals())
+    const mergeMeals = [].concat.apply([], customersMeals)
+    const uniqueMeals = mergeMeals.filter(unique);
+    return uniqueMeals;
   }
 
 
@@ -58,7 +57,7 @@ class Customer {
     let sum = meals.reduce(function (accumulator, currentValue) {
       return accumulator + currentValue.price;
     }, initialValue)
-    return sum;   
+    return sum;
   }
 }
 
@@ -70,8 +69,8 @@ class Meal {
     this.price = price;
     store.meals.push(this)
   }
-  //returns all deliveries associated with a given meal
-  deliveries() {
+
+  deliveries() { //returns all deliveries associated with a given meal
     return store.deliveries.filter(delivery => delivery.mealId === this.id);
   }
   customers(){
