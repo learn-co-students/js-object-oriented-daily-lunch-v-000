@@ -1,4 +1,3 @@
-
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
 neighborhoodId = 0;
@@ -50,7 +49,9 @@ class Customer {
 
   meals() {
     return this.deliveries().filter(function (delivery) {
-        return delivery.meal()
+      if(delivery.mealId !== delivery.mealId){
+        return delivery.meal
+      }
     });
   };
 
