@@ -20,9 +20,10 @@ class Neighborhood {
   {return store.customers.filter(customer => neighborhoodIds === this.id)}
 
   meals(){
-    const allDeliveries = this.deliveries().map(delivery => delivery.meal())
-    const uniqueDeliveries = [...new Set(allDeliveries)]
-    return uniqueDeliveries
+    return this.deliveries().reduce((list, delivery) => {
+      list.push(delivery.meal())
+      return [... new Set(list)]
+    },[])
   }
 };
 
@@ -64,6 +65,7 @@ class Meal {
   static byPrice(){
     return store.meals.sort((m1, m2) => m2.price - m1.price)
   }
+
 };
 
 class Delivery {
