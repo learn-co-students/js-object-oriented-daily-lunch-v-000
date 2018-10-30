@@ -1,0 +1,18 @@
+// let customerMeals = []
+ const mealIds = this.deliveries().map(delivery => delivery.mealId)
+ return mealIds.forEach(
+   function(id) {
+     return this.
+   }
+ )
+
+  //   return store.meals.filter(
+  //     // function(meal) {
+  //     //   if (meal.id === mealId) {
+  //     //     return meal
+  //     //   }
+  //     // }
+  //   )
+  // }
+console.log(mealIds)
+}

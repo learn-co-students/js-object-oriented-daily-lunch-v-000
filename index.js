@@ -26,24 +26,28 @@ class Neighborhood {
     store.neighborhoods.push(this)
   }
 
+  // returns a list of all deliveries placed in a neighborhood
   deliveries() {
-    return store.deliveries.filter(
-      function(delivery) {
-        return delivery.neighborhoodId === this.id
-      }.bind(this)
-    )
+    return store.deliveries.filter(delivery => delivery.neighborhoodId === this.id)
   }
 
+  // returns all of the customers that live in a particular neighborhood
+  // PASSING
   customers() {
-    return store.customers.filter(
-      function(customer) {
-        return customer.neighborhoodId === this.id
-      }.bind(this)
-    )
+    return store.customers.filter(customer => customer.neighborhoodId === this.id)
   }
 
+  // returns a unique list of meals that have been ordered in a particular neighborhood (you might want to do this one last)
   meals() {
+    const mealIds = this.deliveries().slice().map(delivery => delivery.mealId)
 
+    for (let id of mealIds) {
+      return store.meals.filter(
+        function(meal) {
+          return meal.id === id
+        }
+      )
+    }
   }
 }
 
@@ -57,6 +61,7 @@ class Customer {
     store.customers.push(this)
   }
 
+  // returns all of the deliveries that customer has received
   deliveries() {
     return store.deliveries.filter(
       function(delivery) {
@@ -65,25 +70,9 @@ class Customer {
     )
   }
 
+  // returns all meals that a customer has ordered
   meals() {
-    let meals = []
-    const mealIds = this.deliveries().slice().map(
-      function (delivery) {
-        return delivery.mealId
-      }
-    )
-    return mealIds.map(
-      function (id) {
-        return store.meals.find(
-          function (meal) {
-            if (meal.id === id) {
-              return meals.push(meal)
-            }
-          }
-        )
-      }
-    )
-    return meals
+    return this.deliveries().map(delivery => delivery.meal()).unique()
   }
 }
 
@@ -97,6 +86,8 @@ class Meal {
     store.meals.push(this)
   }
 
+  // returns all of the deliveries associated with a particular meal.
+  // PASSING
   deliveries() {
     return store.deliveries.filter(
       function(delivery) {
@@ -104,7 +95,8 @@ class Meal {
       }.bind(this)
     )
   }
-
+  // returns all of the customers who have had the meal delivered. Be careful not to return the same customer
+  // PASSING
   customers() {
     return store.customers.filter(
       function(customer) {
@@ -129,6 +121,7 @@ class Delivery {
     store.deliveries.push(this)
   }
 
+  //  returns the meal associated with a particular delivery
   meal() {
     return store.meals.find(
       function(meal) {
@@ -137,6 +130,7 @@ class Delivery {
     )
   }
 
+  // returns the customer associated with a particular delivery
   customer() {
     return store.customers.find(
       function(customer) {
@@ -145,6 +139,7 @@ class Delivery {
     )
   }
 
+  // returns the neighborhood associated with a particular delivery
   neighborhood() {
     return store.neighborhoods.find(
       function(neighborhood) {
@@ -153,6 +148,8 @@ class Delivery {
     )
   }
 }
+
+///
 
 let neighborhood = new Neighborhood('Dumbo');
 let secondNeighborhood = new Neighborhood('Hamsterdam');
@@ -163,3 +160,8 @@ let secondCustomer = new Customer('Todd', secondNeighborhood.id);
 let delivery = new Delivery(meal.id, neighborhood.id, customer.id);
 let secondDelivery = new Delivery(secondMeal.id, secondNeighborhood.id, secondCustomer.id);
 let thirdDelivery = new Delivery(secondMeal.id, secondNeighborhood.id, secondCustomer.id);
+let thirdNeighborhood = new Neighborhood('Detroit')
+let thirdMeal = new Meal('Cheesy Poofs', 55)
+let thirdCustomer = new Customer ('Avery Scott', thirdNeighborhood.id)
+let fourthDelivery = new Delivery(secondMeal.id, neighborhood.id, thirdCustomer.id)
+let fifthDelivery = new Delivery(meal.id, thirdNeighborhood.id, thirdCustomer.id)
