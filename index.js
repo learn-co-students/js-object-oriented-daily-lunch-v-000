@@ -1,27 +1,17 @@
 // global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
-// meal has many customers
-// delivery belongs to a meal, belongs to a customer, and belongs to a neighborhood
-  // delivery: mealId, customerId, neighborhoodId
-// customer has many deliveries
-// customer has many meals through deliveries
-// customer belongs to a neighborhood
-  // customer: neighborhoodId
-// neighborhood has many deliveries
-// neighborhood has many customers through deliveries
-// neighborhood has many meals through deliveries
-
-let neighborhoodId = 0
-let customerId = 0
-let mealId = 0
-let deliveryId = 0
+///
+let neighborhoodId = 1
+let customerId = 1
+let mealId = 1
+let deliveryId = 1
 
 ///
 class Neighborhood {
   constructor(name) {
     this.name = name
-    this.id = ++neighborhoodId
+    this.id = neighborhoodId++
 
     store.neighborhoods.push(this)
   }
@@ -32,22 +22,15 @@ class Neighborhood {
   }
 
   // returns all of the customers that live in a particular neighborhood
-  // PASSING
   customers() {
     return store.customers.filter(customer => customer.neighborhoodId === this.id)
   }
 
   // returns a unique list of meals that have been ordered in a particular neighborhood (you might want to do this one last)
   meals() {
-    const mealIds = this.deliveries().slice().map(delivery => delivery.mealId)
-
-    for (let id of mealIds) {
-      return store.meals.filter(
-        function(meal) {
-          return meal.id === id
-        }
-      )
-    }
+    let mealList = this.deliveries().map(delivery => delivery.meal())
+    let uniqueList = new Set(mealList)
+    return Array.from(uniqueList)
   }
 }
 
@@ -56,112 +39,76 @@ class Customer {
   constructor(name, neighborhoodId){
     this.name = name
     this.neighborhoodId = neighborhoodId
-    this.id = ++customerId
+    this.id = customerId++
 
     store.customers.push(this)
   }
 
   // returns all of the deliveries that customer has received
   deliveries() {
-    return store.deliveries.filter(
-      function(delivery) {
-        return delivery.customerId === this.id
-      }.bind(this)
-    )
+    return store.deliveries.filter(delivery => delivery.customerId === this.id)
   }
 
   // returns all meals that a customer has ordered
   meals() {
-    return this.deliveries().map(delivery => delivery.meal()).unique()
+    return this.deliveries().map(delivery => delivery.meal())
+  }
+
+  // calculates the total amount spent by a customer
+  totalSpent() {
+    let mealPrices = this.meals().map(meal => meal.price)
+    return mealPrices.reduce((a, b) => a + b)
   }
 }
 
 ///
 class Meal {
   constructor(title, price) {
+    this.id = mealId++
     this.title = title
     this.price = price
-    this.id = ++mealId
 
     store.meals.push(this)
   }
 
   // returns all of the deliveries associated with a particular meal.
-  // PASSING
   deliveries() {
-    return store.deliveries.filter(
-      function(delivery) {
-        return delivery.mealId === this.id
-      }.bind(this)
-    )
+    return store.deliveries.filter(delivery => delivery.mealId === this.id)
   }
   // returns all of the customers who have had the meal delivered. Be careful not to return the same customer
-  // PASSING
   customers() {
-    return store.customers.filter(
-      function(customer) {
-        return customer.deliveryId === this.deliveryId
-      }.bind(this)
-    )
+    return store.customers.filter(customer => customer.deliveryId === this.deliveryId)
   }
 
-  byPrice() {
-
+  // orders all of the meals by price
+  static byPrice() {
+    return store.meals.sort((mealOne, mealTwo) => mealOne.price - mealTwo.price)
   }
 }
 
 ///
 class Delivery {
-  constructor(mealId, customerId, neighborhoodId) {
-    this.mealId = mealId
+  constructor(mealId, neighborhoodId, customerId) {
     this.customerId = customerId
+    this.mealId = mealId
     this.neighborhoodId = neighborhoodId
-    this.id = ++deliveryId
+    this.id = deliveryId++
 
     store.deliveries.push(this)
   }
 
   //  returns the meal associated with a particular delivery
   meal() {
-    return store.meals.find(
-      function(meal) {
-        return meal.id === this.mealId
-      }.bind(this)
-    )
+    return store.meals.find(meal => meal.id === this.mealId)
   }
 
   // returns the customer associated with a particular delivery
   customer() {
-    return store.customers.find(
-      function(customer) {
-        return this.customerId === customer.id
-      }.bind(this)
-    )
+    return store.customers.find(customer => this.customerId === customer.id)
   }
 
   // returns the neighborhood associated with a particular delivery
   neighborhood() {
-    return store.neighborhoods.find(
-      function(neighborhood) {
-        return this.neighborhoodId === neighborhood.id
-      }.bind(this)
-    )
+    return store.neighborhoods.find(neighborhood => this.neighborhoodId === neighborhood.id)
   }
 }
-
-///
-
-let neighborhood = new Neighborhood('Dumbo');
-let secondNeighborhood = new Neighborhood('Hamsterdam');
-let meal = new Meal('5 lbs of Fruity Pebbles', 25);
-let secondMeal = new Meal('An entire large stuffed crust pizza from pizza hut', 20);
-let customer = new Customer('Paul Rudd', neighborhood.id);
-let secondCustomer = new Customer('Todd', secondNeighborhood.id);
-let delivery = new Delivery(meal.id, neighborhood.id, customer.id);
-let secondDelivery = new Delivery(secondMeal.id, secondNeighborhood.id, secondCustomer.id);
-let thirdDelivery = new Delivery(secondMeal.id, secondNeighborhood.id, secondCustomer.id);
-let thirdNeighborhood = new Neighborhood('Detroit')
-let thirdMeal = new Meal('Cheesy Poofs', 55)
-let thirdCustomer = new Customer ('Avery Scott', thirdNeighborhood.id)
-let fourthDelivery = new Delivery(secondMeal.id, neighborhood.id, thirdCustomer.id)
-let fifthDelivery = new Delivery(meal.id, thirdNeighborhood.id, thirdCustomer.id)
