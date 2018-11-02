@@ -34,12 +34,12 @@ class Neighborhood {
       }.bind(this))
     }
 
-    meals() {
-      let meals = this.deliveries().map(function(delivery) {
-        return delivery.meal()
+    meals() {                                                           //neigborhood has meals thru deliveries
+      let meals = this.deliveries().map(function(delivery) {           //go thru dlvrys function .map
+        return delivery.meal()                                         //return the meals() assoc with this.deliveries
       })
-      let uniqMeals = [...new Set(meals)]
-      return uniqMeals
+      let uniqMeals = [...new Set(meals)]                   //only will include the unique values. will drop dups
+      return uniqMeals                                      //return the uniqMeals
     }
   }
 
