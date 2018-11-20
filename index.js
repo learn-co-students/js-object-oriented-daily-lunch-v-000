@@ -22,11 +22,11 @@ class Neighborhood {
 
   customers() {
     //returns list of customers in neighborhood
-    let allCust = this.deliveries().map(delivery => {
-      return delivery.customer();
-    });
-    let uniqCust = [...new Set(allCust)];
-    return uniqCust
+    return store.customers.filter(
+      function(customer) {
+        return customer.neighborhoodId === this.id
+      }.bind(this)
+    );
   }
 
   meals() {
@@ -68,11 +68,14 @@ class Customer {
 
   totalSpent() {
     //returns the total amount that the customer has spent on deliveries
-    let total = 0
-    for (const delivery of this.deliveries()) {
-      total += delivery.meal().price;
-    }
-    return total
+    return this.deliveries().reduce(function (total, delivery) {
+      return total += delivery.meal().price;
+    }, 0)
+    //let total = 0
+    //for (const delivery of this.deliveries()) {
+    //  total += delivery.meal().price;
+    //}
+    //return total
   }
 }
 
@@ -98,16 +101,18 @@ class Meal {
 
   customers() {
     //returns all unique customers who have had this meal delivered
-    return this.deliveries().map(delivery => {
+    let allCust = this.deliveries().map(delivery => {
       return delivery.customer();
-    })
+    });
+    let uniqCust = [...new Set(allCust)];
+    return uniqCust
   }
 
   static byPrice() {
     //a class method that orders all meals by price in descending order
     //use static keyword to write class method
-    const priceSorter = function (meal2, meal1) {
-      return meal1.price - meal2.price;
+    const priceSorter = function (meal1, meal2) {
+      return meal2.price - meal1.price;
     };
     return store.meals.sort(priceSorter);
   }
