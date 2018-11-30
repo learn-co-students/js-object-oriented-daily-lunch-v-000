@@ -71,11 +71,9 @@ class Customer {
     });
   }
   totalSpent() {
-    let totalCost = 0;
-    this.meals().forEach(meal => {
+    return this.meals().forEach(meal => {
       totalCost += meal.price;
     });
-    return totalCost;
   }
 }
 
