@@ -9,10 +9,11 @@ let deliveryID = 1
 function findSingle(category) {
   let categoryId = category.toString() + "Id"
   let categoryPlural = category.toString() + "s"
-  return store[categoryPlural].find(categ => {
-    debugger
-    return this.categoryId == categ.id
+  let itemId = this[categoryId]
+  let item = store[categoryPlural].find(category => {
+   return itemId == category.id
   })
+  return item
 }
 
 class Neighborhood {
@@ -69,5 +70,5 @@ meal(){
   })
 }
 
-customer() {return findSingle("customer")}
+customer(){findSingle("customer").bind(this)}
 }
