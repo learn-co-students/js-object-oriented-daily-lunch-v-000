@@ -17,6 +17,9 @@ function findSingle(classInstance, category) {
   return item
 }
 
+const distinct = (value, index, self) =>{
+  return self.indexOf(value) === index
+}
 // return store.customers.filter(customer =>{
 //   return customer.neighborhoodId == this.id
 
@@ -56,6 +59,12 @@ class Neighborhood {
     })
   }
 
+meals(){
+  let customerMeals = this.customers().map(customer => customer.meals())
+  let allTogether = [].concat.apply([], customerMeals)
+  return [...new Set(allTogether)]
+  }
+
 }
 
 class Customer {
@@ -77,7 +86,16 @@ class Customer {
       return delivery.meal()
     })
   }
+
+  totalSpent(){
+    return this.meals().reduce(function (total, currentMeal){
+      return currentMeal.price + total
+    }, 0)
+  }
+
 }
+
+
 
 class Meal {
   constructor(title, price){
@@ -98,6 +116,11 @@ class Meal {
     return delivery.customer()
   })
   }
+
+ static byPrice(){
+ return store.meals.slice().sort(function (mealOne, mealTwo) {
+   return mealTwo.price - mealOne.price
+ })}
 
 }
 
