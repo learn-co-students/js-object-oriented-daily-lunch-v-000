@@ -6,13 +6,34 @@ let customerID = 1
 let mealID = 1
 let deliveryID = 1
 
-function findSingle(category) {
+function findSingle(classInstance, category) {
   let categoryId = category.toString() + "Id"
   let categoryPlural = category.toString() + "s"
-  let itemId = this[categoryId]
+  let itemId = classInstance[categoryId]
   let item = store[categoryPlural].find(category => {
    return itemId == category.id
   })
+
+  return item
+}
+
+// return store.customers.filter(customer =>{
+//   return customer.neighborhoodId == this.id
+
+function findMany(classInstance, classType, category) {
+  let instanceCategoryID = category.toString().toLowerCase() + "Id"
+  let categoryId = category.toString() + "Id"
+  if (category.toString() == "delivery") {
+    categoryPlural = "deliveries"
+  } else {
+      categoryPlural = category.toString() + "s"
+  }
+
+  let itemId = classInstance[categoryId]
+  let item = store[categoryPlural].filter(category => {
+   return classInstance.id == category.id
+  })
+  debugger
   return item
 }
 
@@ -44,6 +65,18 @@ class Customer {
     this.id = customerID++
     store.customers.push(this)
   }
+
+  deliveries(){
+    return store.deliveries.filter(delivery =>{
+      return delivery.customerId == this.id
+    })
+  }
+
+  meals(){
+    return this.deliveries().map( delivery => {
+      return delivery.meal()
+    })
+  }
 }
 
 class Meal {
@@ -53,6 +86,19 @@ class Meal {
     this.id = mealID++
     store.meals.push(this)
   }
+
+  deliveries(){
+    return store.deliveries.filter(delivery =>{
+      return delivery.mealId == this.id
+    })
+  }
+
+  customers(){
+  return this.deliveries().map(delivery => {
+    return delivery.customer()
+  })
+  }
+
 }
 
 class Delivery {
@@ -70,5 +116,11 @@ meal(){
   })
 }
 
-customer(){findSingle("customer").bind(this)}
+customer(){
+  return findSingle(this, "customer")
+}
+
+neighborhood(){
+  return findSingle(this, "neighborhood")}
+
 }
