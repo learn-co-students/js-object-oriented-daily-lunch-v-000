@@ -8,7 +8,7 @@
 
 ## Instructions
 
-In this lab, we will be creating a meal delivery service.
+In this lab, we will be creating a meal delivery service
 
 ## The Domain
 
