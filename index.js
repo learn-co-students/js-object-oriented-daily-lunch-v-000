@@ -1,5 +1,6 @@
 // global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
+
 let neighborId = mealId = customerId = deliverId = 0;
 
 class Neighborhood {
