@@ -1,6 +1,5 @@
 // global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
-
 let neighborhoodId = 0;
 let customerId = 0;
 let mealId = 0;
@@ -71,7 +70,7 @@ class Meal{
   }
 }
 
-class Delivery(){
+class Delivery{
   constructor(mealId, neighborhoodId, customerId){
     this.mealId = mealId;
     this.neighborhoodId = neighborhoodId;
