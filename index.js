@@ -21,24 +21,7 @@ class Neighborhood {
 
 	customers () {
 		const del = this.deliveries();
-		const cArr = [];
-		const cMap = new Map();
-		let c = {};
-		let custFn = function () {};
-
-		for (let d in del) {	
-			this.custId = d.customerId;
-			c = (store.customers.find(function (customer) { return customer.id === this.custId; }.bind(d)));
-			
-			if (c) {
-				cMap.set(c.id, c);
-			}
-		}
-		
-		for (let val of cMap.values()) {
-			cArr.push(val);
-		}
-	
+		const cArr = store.customers.filter(function (customer) { return del.some(function (d) { return customer.id === d.customerId; }); });
 		return cArr;
 	}
 }
