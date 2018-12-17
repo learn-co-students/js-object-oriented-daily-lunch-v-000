@@ -24,6 +24,20 @@ class Neighborhood {
 		const cArr = store.customers.filter(function (customer) { return del.some(function (d) { return customer.id === d.customerId; }); });
 		return cArr;
 	}
+
+	meals () {
+		const del = this.deliveries();
+		let rtn = [];
+
+		for (const d of del) {
+			const m = store.meals.find(function (meal) {return meal.id === this.mealId; }.bind(d));			
+			rtn.push(m);
+		}
+
+		rtn = rtn.filter(function (item, pos, arr) { return arr.indexOf(item) === pos; });
+
+		return rtn;
+	}
 }
 
 let mealId = 0;
@@ -35,6 +49,22 @@ class Meal {
 
 		this.id = ++mealId;
 		store.meals.push(this);
+	}
+	
+	static byPrice () {
+		const newArr = store.meals.slice();
+		newArr.sort(function (a, b) { return b.price - a.price; })
+		return newArr;
+	}
+
+	deliveries() {
+		return store.deliveries.filter ( function (del) { return del.mealId === this.id; }.bind(this));
+	}
+	
+	customers () {
+		const del = this.deliveries();
+		const cArr = store.customers.filter(function (customer) { return del.some(function (d) { return customer.id === d.customerId; }); });
+		return cArr;
 	}
 }
 
@@ -49,8 +79,6 @@ class Customer {
 		store.customers.push(this);
 	}
 
-	getId() { return this.id; }
-
 	deliveries() {
 		return store.deliveries.filter ( function (del) { return del.customerId === this.id; }.bind(this));
 	}
@@ -58,16 +86,25 @@ class Customer {
 
 	meals() {
 		const del = this.deliveries();
-		const mealSet = [];
+		const mArr = [];
 
-		for (let d in del) {
-			let dMealFn = d.dMealFn;
-
-			let m = store.meals.find( dMealFn ); 				
-			mealSet.push(m);
+		for (let d of del) {
+			const mFn = (function (meal) { return meal.id === this.mealId; }.bind(d));
+			const m = store.meals.find(mFn);			
+			mArr.push(m);
 		}
+		return mArr;
+	}
 
-		return mealSet;
+	totalSpent () {
+		const mls = this.meals();
+		let spend = 0;
+
+		for (const m of mls) {
+			spend += m.price 
+		}
+		
+		return spend;	
 	}
 }
 
@@ -106,4 +143,5 @@ class Delivery {
 		const nei = store.neighborhoods.find( function (nei) { return nei.id === this.neighborhoodId; }.bind(this) );
 		return nei;
 	}
+	
 }
