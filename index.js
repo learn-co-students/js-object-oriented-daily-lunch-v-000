@@ -1,44 +1,49 @@
 // global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
-let mealId = 0
-let deliveryId = 0
-let neighborhoodId = 0
-let customerId = 0
+let customerId = 0;
 
-// class Neighborhood {
-// 	constructor(name) {
-// 		let this.name = name;
-// 		let this.id = ++neighborhoodId;
-// 	}
-// }
+class Neighborhood {
+	let neighborhoodId = 0;
 
-// class Meal {
-// 	constructor(name, price) {
-// 		let this.name = name;
-// 		let this.price = price;
-// 		let this.mealId = ++mealId;
-// 	}
+	constructor(name) {
+		this.name = name;
+		this.id = ++neighborhoodId;
 
-// 	deliveries () {
+		store.neighborhoods.push(this);
+	}
+}
 
-// 	}
+class Meal {
+	let mealId = 0;
 
-// 	customers () {
+	constructor(name, price) {
+		this.name = name;
+		this.price = price;
+		this.mealId = ++mealId;
+	}
 
-// 	}
+	deliveries () {
 
-// 	byPrice () {
+	}
 
-// 	}
-// }
+	customers () {
+
+	}
+
+	byPrice () {
+
+	}
+}
 
 class Delivery {
+	let deliveryId = 0;
+
 	constructor(mealId, neighborhoodId, customerId) {
-		let this.mealId = mealId;
-		let this.neighborhoodId = neighborhoodId;
-		let this.customerId = customerId;
-		let this.deliveryId = ++deliveryId;
+		this.mealId = mealId;
+		this.neighborhoodId = neighborhoodId;
+		this.customerId = customerId;
+		this.deliveryId = ++deliveryId;
 	}
 }
 
