@@ -29,6 +29,15 @@ class Neighborhood {
 			}.bind(this)
 		);
 	}
+
+	meals () {
+		let arr = this.deliveries().map(function(delivery) {
+			return delivery.meal();
+		});
+		return [...new Set(arr)];
+	}
+
+
 }
 
 class Customer {
@@ -56,7 +65,7 @@ class Customer {
 		)
 	}
 
-	static totalSpent () {
+	totalSpent () {
 		return this.meals().reduce(function(a,b){
 			return a + b.price
 		}, 0);
@@ -82,8 +91,6 @@ class Meal {
 
 	}
 
-
-///check answer
 	customers () {
 		return this.deliveries().map(
 			function(delivery) {
