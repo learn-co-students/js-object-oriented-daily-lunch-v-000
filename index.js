@@ -139,27 +139,3 @@ class Delivery extends Countable(DeliveryBasic){
 
 }
 
-// customer = new Customer("micah", 1)
-// console.log(customer);
-// meal = new Meal("pbj", 1);
-// n = new Neighborhood("largo")
-// cust2 = new Customer("Kristina", 1);
-// console.log(cust2)
-// console.log(meal)
-// delivery = new Delivery(1,1,1);
-// console.log(delivery.neighborhood)
-// console.log(n.deliveries())
-// console.log(n.id);
-// a = [1,2,1,3,4,5,2,5,7,8,6,7,11];
-// console.log(a.uniq())
-
-upperEast = new Neighborhood('Upper East Side');
-bigSpender = new Customer('DJ MoneyBags', upperEast.id);
-lobster = new Meal('lobster', 500);
-turducken = new Meal('turducken', 750);
-fancyPizza = new Meal('fancy pizza', 600);
-deliveryOne = new Delivery(lobster.id, upperEast.id, bigSpender.id);
-deliveryTwo = new Delivery(turducken.id, upperEast.id, bigSpender.id);
-deliveryThree = new Delivery(fancyPizza.id, upperEast.id, bigSpender.id);
-deliveryFour = new Delivery(fancyPizza.id, upperEast.id, bigSpender.id);
-console.log(upperEast.meals())
