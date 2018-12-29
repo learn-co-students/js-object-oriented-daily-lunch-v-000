@@ -68,9 +68,11 @@ class Meal {
     )
   }
   customers() {
-    //how does customers relate to meals? through meal(this) deliveries -?
-    return this.deliveries().map(function(d){return d.customer()}.bind(this))
+    //how does customers relate to meals?
+    //through fn meal(this) deliveries ()-? and map the a function of delivery's customer to a new array
+    return this.deliveries().map(indDeliveryCustomer).bind(this))
       //returns a unique list of customers who have ordered this meal
+      const indDeliveryCustomer = function(d){return d.customer()}
     }
 }
 class Delivery {
