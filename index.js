@@ -32,20 +32,12 @@ class Neighborhood{
     }.bind(this))
   }
 
-  meals(){
-    let meals = []
-   for(let m of this.allMeals()){
-     if(!meals.includes(m)){
-
-       meals.push(m)
-     }
-   }
-
-   return meals
+  meals() {
+    return this.deliveries()
+    .map(delivery => delivery.meal())
+    .sort( (a,b) => a.id > b.id)
+    .filter((m, idx, meals) => idx === meals.indexOf(m))
   }
-
-
-
 }
 
 class Customer{
@@ -101,7 +93,7 @@ class Meal{
   }
 
   static byPrice(){
-    debugger;
+    // debugger;
     //If no second argument is provided,
     //the slice will run from the index specified by the first argument to the end of the Array:
     return store.meals.slice(0).sort(function(a,b)
@@ -110,6 +102,7 @@ class Meal{
     //the subtraction operation will return a positive number,
     //which tells .sort() to reverse the order of num1 and num2
     //in the array. If num1 - num2 returns a negative number or 0,
+    // debugger;//did not hit this debugger
  }
 }
 
