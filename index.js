@@ -8,7 +8,7 @@ class Neighborhood {
 	constructor(name) {
 		this.name = name;
 		this.id = ++neighborhoodId;
-debugger;
+// debugger;
 		store.neighborhoods.push(this);
 	}
   deliveries(){
@@ -24,7 +24,7 @@ debugger;
     return store.customers.filter(
       function(customer){
         return customer.neighborhoodId === this.id
-        debugger;
+        // debugger;
       }.bind(this)
     )
   }
@@ -34,18 +34,44 @@ class Customer {
 		this.name = name;
 		this.neighborhoodId = neighborhoodId;
 		this.id = ++customerId;
-debugger;
+// debugger;
 		store.customers.push(this);
 	}
+  deliveries(){
+    return store.deliveries.filter(
+        function(delivery){
+          return delivery.customerId=== this.id//returns all deliveries a customer has placed ‣
+          //delivery has foreign keys of customer,meal, neighborhood
+        }.bind(this)
+      )
+    }
+    meals(){
+       return this.deliveries().map(function(d){//returns all meals a customer has ordered
+         return d.meal()//???
+         debugger;//debugger failed to occur here
+       }.bind(this))//returns all meals a customer has ordered
+     }
 }
 class Meal {
 	constructor(title, price) {
 		this.title = title;
 		this.price = price;
 		this.id = ++mealId;
-debugger;
+// debugger;
 		store.meals.push(this);
 	}
+  deliveries(){
+    return store.deliveries.filter(
+      function(delivery){
+        return delivery.mealId === this.id//returns all deliveries associated with a given meal
+      }.bind(this)
+    )
+  }
+  customers() {
+    //how does customers relate to meals? through meal(this) deliveries -?
+    return this.deliveries().map(function(d){return d.customer()}.bind(this))
+      //returns a unique list of customers who have ordered this meal
+    }
 }
 class Delivery {
 	constructor(mealId, neighborhoodId, customerId) {
