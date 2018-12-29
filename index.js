@@ -102,8 +102,14 @@ class Meal{
 
   static byPrice(){
     debugger;
+    //If no second argument is provided,
+    //the slice will run from the index specified by the first argument to the end of the Array:
     return store.meals.slice(0).sort(function(a,b)
-    {return b.price - a.price})//
+    //.sort() knows to not mess with the ordering.
+    {return b.price - a.price})//If b.price is larger than a.price,
+    //the subtraction operation will return a positive number,
+    //which tells .sort() to reverse the order of num1 and num2
+    //in the array. If num1 - num2 returns a negative number or 0,
  }
 }
 
