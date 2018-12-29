@@ -33,10 +33,13 @@ class Neighborhood{
   }
 
   meals() {
+    // debugger;
     return this.deliveries()
     .map(delivery => delivery.meal())
+    //
     .sort( (a,b) => a.id > b.id)
-    .filter((m, idx, meals) => idx === meals.indexOf(m))
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+    .filter((m, idx, meals) => idx === meals.indexOf(m))//
   }
 }
 
@@ -61,14 +64,11 @@ class Customer{
     }.bind(this))
   }
 
-  totalSpent(){
-    let total = 0
-    for(let m of this.meals()){
-      total += m.price
-
-    }
-    return total
-  }
+  totalSpent() {
+     const adder = (acc, m) => acc + m.price
+    //  debugger;
+     return this.meals().reduce(adder, 0)
+   }
 
 }
 
