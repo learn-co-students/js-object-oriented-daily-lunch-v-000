@@ -14,6 +14,9 @@ In this lab, we will be creating a meal delivery service.
 
 * A meal has many customers
 * A delivery belongs to a meal, belongs to a customer, and belongs to a neighborhood
+  Charlie's note///
+  deliver has foreign keys of customerId,mealId, neighborhoodId
+  Charlie's note///
 * A customer has many deliveries
 * A customer has many meals through deliveries
 * A customer belongs to a neighborhood
