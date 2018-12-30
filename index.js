@@ -137,3 +137,23 @@ class Delivery{
   }
 
 }
+//create new data to debugger in Visual Studio
+new Neighborhood('blogsville');
+new Neighborhood('needsville');
+new Neighborhood('heaven');
+new Customer('bob', 1);
+new Customer('irma', 2);
+new Customer('chastisty', 3);
+new Meal('chicken sandwich', 5.5);
+new Meal('beef sandwich', 5.5);
+new Meal('fish sandwich', 5.5);
+new Meal('fajita sandwich', 5.5);
+new Delivery(1, 1, 1);
+new Delivery(2, 2, 2);
+new Delivery(3, 3, 3);
+new Delivery(3, 2, 2);
+new Delivery(2, 1, 3);
+new Delivery(1, 3, 1);
+new Delivery(2, 2, 2);
+new Delivery(3, 2, 3);
+new Delivery(1, 1, 1);
