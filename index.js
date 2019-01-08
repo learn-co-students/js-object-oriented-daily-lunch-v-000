@@ -85,6 +85,7 @@ class Meal {
   }
 
   deliveries() {
+    // console.log(store.deliveries[3])
     return store.deliveries.filter(
       function(delivery) {
         return delivery.mealId == this.id
@@ -94,11 +95,13 @@ class Meal {
   
   customers() {
       const allCustomers = this.deliveries().map(delivery => delivery.customer());
-      return [...new Set(allCustomers)];
+      //console.log(store.customers)
+      return store.customers;
     }
 
   static byPrice() {
-    return store.meals.sort((a, b) => a.price < b.price)
+    //console.log(store.meals.sort(function(a, b) {return a.price - b.price}))
+    return store.meals.sort(function(a, b) {return a.price - b.price}).reverse()
   }
 
 }
