@@ -15,18 +15,18 @@ class Neighborhood {
 
   deliveries() {
     return store.deliveries.filter(
-      function(delivery) {
-        return delivery.neighborhoodId === this.id;
-      }.bind(this)
-    );
+      delivery => delivery.neighborhoodId === this.id);
+      // function(delivery) {
+      //   return delivery.neighborhoodId === this.id;
+      // }.bind(this) //ES5
   };
 
   customers() {
     return store.customers.filter(
-      function(customer) {
-        return customer.neighborhoodId === this.id;
-      }.bind(this)
-    );
+      customer => customer.neighborhoodId === this.id);
+      // function(customer) {
+      //   return customer.neighborhoodId === this.id;
+      // }.bind(this) //ES5
   };
 
   meals() {
@@ -48,10 +48,10 @@ class Meal {
 
   deliveries() {
     return store.deliveries.filter(
-      function(delivery) {
-        return delivery.mealId === this.id;
-      }.bind(this)
-    );
+      delivery => delivery.mealId === this.id);
+      // function(delivery) {
+      //   return delivery.mealId === this.id;
+      // }.bind(this)  //ES5
   };
 
   customers() {
@@ -77,10 +77,10 @@ class Customer {
 
   deliveries() {
     return store.deliveries.filter(
-      function(delivery) {
-        return delivery.customerId === this.id;
-      }.bind(this)
-    );
+      delivery => delivery.customerId === this.id);
+      // function(delivery) {
+      //   return delivery.customerId === this.id;
+      // }.bind(this) //ES5
   };
 
   meals() {
@@ -103,25 +103,25 @@ class Delivery {
 
   meal() {
     return store.meals.find(
-      function(meal) {
-        return meal.id === this.mealId;
-      }.bind(this)
-    );
+      meal => meal.id === this.mealId);
+      // function(meal) {
+      //   return meal.id === this.mealId;
+      // }.bind(this) //ES5
   };
 
   customer() {
     return store.customers.find(
-      function(customer) {
-        return customer.id === this.customerId;
-      }.bind(this)
-    );
+      customer => customer.id === this.customerId);
+      // function(customer) {
+      //   return customer.id === this.customerId;
+      // }.bind(this) //ES5
   };
 
   neighborhood() {
     return store.neighborhoods.find(
-      function(neighborhood) {
-        return neighborhood.id === this.neighborhoodId;
-      }.bind(this)
-    );
+      neighborhood => neighborhood.id === this.neighborhoodId);
+      // function(neighborhood) {
+      //   return neighborhood.id === this.neighborhoodId;
+      // }.bind(this) //ES5
   };
 };
