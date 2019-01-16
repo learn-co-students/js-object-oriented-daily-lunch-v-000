@@ -1,11 +1,11 @@
 // global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
-let neighborhoodId = 0
+let neighborhoodId = 1
 
 class Neighborhood {
     constructor(name){
-      this.id = ++neighborhoodId
+      this.id = neighborhoodId++
       this.name = name
      
       store.neighborhoods.push(this)
@@ -46,9 +46,14 @@ class Customer {
             }
             
             meals() {
-                return  store.meals.filter(x => this.id == x.customerId)
+                return  store.deliveries.filter(x => this.id == x.customerId).map(x => x.meal())
                 } 
-        
+                
+               totalSpent(){
+                   return store.meals.reduce(function(accumulator, meal){
+                       
+                       return accumulator + meals.price},0)
+               }
     }
 
     let mealId= 0
@@ -73,12 +78,17 @@ class Customer {
             } 
 
             customers() {
-                return  store.customers.filter(x => this.id == x.mealId).map(x => x.customer())
+                
+                return  store.deliveries.filter(x => this.id == x.mealId).map(x => x.customer())
                 } 
 
                static byPrice() {
-                return store.meal.filter(x => this.id == x.mealId).map(x => x.price())
+                   
+                // return store.meals.sort(x => this.id == x.mealId).map(x => x.price )
+                return store.meals.sort(function(a, b){return b.price - a.price}
+                   )
                 }
+                
         }
 
 
@@ -86,7 +96,7 @@ class Customer {
 
     class Delivery {
 
-        constructor(mealId,customerId, neighborhoodId){
+        constructor(mealId, neighborhoodId, customerId){
           this.id = ++deliveryId
           this.mealId = mealId
           this.customerId = customerId
