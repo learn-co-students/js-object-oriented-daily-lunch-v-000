@@ -26,12 +26,23 @@ class Neighborhood {
     
         // meals() - returns a unique list of meals that have been ordered in a particular neighborhood (you might want to do this one last)
         meals() {
-            return  store.meals.find(x => this.id == x.neighborhoodId)
+            
+            const result = this.deliveries().map(function(delivery){
+               return delivery.meal() 
+            //    # result in array of meal object in regards to each delivery
+            } )
+
+            // # we wrote out "UNIQUE" function. to aviod duplicates
+              function onlyUnique(value, index, self) { 
+                 return self.indexOf(value) === index;
+               }
+
+            return result.filter( onlyUnique );
+            // return  this.customers().filter(x => this.id == x.customerId).map(x => x.meal())
+            // array.map(function(currentValue, index, arr), thisValue)
+
             } 
-            // customers() {
-                
-            //     return  store.deliveries.filter(x => this.id == x.mealId).map(x => x.customer())
-            //     } 
+        
 
 }
 
@@ -55,7 +66,7 @@ class Customer {
                 } 
                 
                totalSpent(){
-                   return store.meals.reduce(function(accumulator, meal){
+                   return this.meals().reduce(function(accumulator, meal){
                        
                        return accumulator + meal.price},0)
                }
