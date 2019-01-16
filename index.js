@@ -28,6 +28,11 @@ class Neighborhood {
         meals() {
             return  store.meals.find(x => this.id == x.neighborhoodId)
             } 
+            // customers() {
+                
+            //     return  store.deliveries.filter(x => this.id == x.mealId).map(x => x.customer())
+            //     } 
+
 }
 
 let customerId = 0
@@ -52,7 +57,7 @@ class Customer {
                totalSpent(){
                    return store.meals.reduce(function(accumulator, meal){
                        
-                       return accumulator + meals.price},0)
+                       return accumulator + meal.price},0)
                }
     }
 
