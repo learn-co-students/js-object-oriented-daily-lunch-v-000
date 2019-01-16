@@ -1,11 +1,11 @@
 // global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
-let neigborhoodId = 0
+let neighborhoodId = 0
 
 class Neighborhood {
     constructor(name){
-      this.id = ++neigborhoodId
+      this.id = ++neighborhoodId
       this.name = name
      
       store.neighborhoods.push(this)
@@ -15,6 +15,7 @@ class Neighborhood {
 
     deliveries() {
         console.log(store.delivery)
+        
         return  store.deliveries.filter(x => x.neighborhoodId == this.id)
         } 
     // customers() - returns all of the customers that live in a particular neighborhood
@@ -32,10 +33,10 @@ class Neighborhood {
 let customerId = 0
 
 class Customer {
-    constructor(name, neigborhoodId){
+    constructor(name, neighborhoodId){
       this.id = ++customerId
       this.name = name
-      this.neigborhoodId = neigborhoodId
+      this.neighborhoodId = neighborhoodId
       
       store.customers.push(this)
         } 
@@ -85,26 +86,26 @@ class Customer {
 
     class Delivery {
 
-        constructor(mealId,customerId, neigborhoodId){
+        constructor(mealId,customerId, neighborhoodId){
           this.id = ++deliveryId
           this.mealId = mealId
-         this.customerId = customerId
-          this.neigborhoodId = neigborhoodId
+          this.customerId = customerId
+          this.neighborhoodId = neighborhoodId
 
 
           store.deliveries.push(this)
             } 
 
             meal() {
-                return  store.meal.find(x => this.id == x.mealId)
+                return  store.meals.find(meal => meal.id == this.mealId)
                 } 
 
                 customer() {
-                    return  store.customer.find(x => this.id == x.customerId)
+                    return store.customers.find(customer => customer.id == this.customerId)
                     } 
 
-                    neigborhood() {
-                        return  store.neigborhood.find(x => this.id == x.neigborhoodId)
+                    neighborhood() {
+                        return store.neighborhoods.find(neighborhood => neighborhood.id == this.neighborhoodId)
                         } 
           }
     
