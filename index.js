@@ -44,18 +44,13 @@ class Customer {
     })
   }
   meals() {
-    const deliveries=this.deliveries()
-    // const uniqueMeals =[...new Set(deliveries.map(x => x.mealId))]
-    // return uniqueMeals;
-    return this.deliveries().filter(meal => {
-      return meal.customerId===this.id;
+    return this.deliveries().map(delivery => {
+      return delivery.meal();
     })
   }
   totalSpent() {
-    let y=this.meals();
-    console.log(y)
     return this.meals().reduce(function(total, meal) {
-      return meal.mealId+total;
+      return meal.price+total;
     }, 0)
   }
 }
@@ -73,20 +68,17 @@ class Meal {
     })
   }
   customers() {
-    return store.deliveries.filter(delivery => {
-      return delivery.mealId===this.id;
+    return this.deliveries().map(delivery => {
+      return delivery.customer();
     })
   }
-
-//   meals() {
-//     const meals = store.deliveries.filter(delivery=> {
-//       return delivery.neighborhoodId===this.id;
-//     })
-//     const uniqueMeals =[...new Set (meals.map(x => x.mealId))]
-//     return uniqueMeals;
-//   }
-// }
-
+  meals() {
+    const meals = store.deliveries.filter(delivery=> {
+      return delivery.neighborhoodId===this.id;
+    })
+    const uniqueMeals =[...new Set (meals.map(x => x.mealId))]
+    return uniqueMeals;
+  }
   static byPrice() {
     return store.meals.sort((a, b) => {
       return b.price - a.price;
