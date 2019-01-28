@@ -44,9 +44,7 @@ class Neighborhood {
         });
     }
     meals(){
-        return this.deliveries().map(delivery => {
-            delivery.meal();
-        })
+        return this.customers().map(customer=> customer.meal());
     }
 }
 let customerId = 0;
