@@ -27,8 +27,9 @@ class Neighborhood{
 
   deliveries(){ return Store.Select_where('deliveries', 'neighborhoodId', this.id) }
   customers(){  return Store.Select_where('customers',  'neighborhoodId', this.id) }
-  meals(){      return Store.Select_where('meals',      'neighborhoodId', this.id) }
-
+  meals(){
+    return [...new Set(this.deliveries().map(delivery => delivery.meal()))]
+  }
 }
 
 class Customer{
@@ -65,15 +66,16 @@ class Meal{
   }
 
   deliveries(){
-    return Store.Select_where('deliveries', 'mealId', this.id)
+    return Store.Select_where('deliveries', 'mealId', this.id);
   }
 
   customers(){
-    return this.deliveries().map(delivery => delivery.customer())
+    return this.deliveries().map(delivery => delivery.customer());
   }
 
-  byPrice(){}
-
+  static byPrice(){
+    return store.meals.sort((a, b) => a.price - b.price).reverse();
+  }
 }
 
 class Delivery{
