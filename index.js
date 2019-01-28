@@ -44,7 +44,9 @@ class Neighborhood {
         });
     }
     meals(){
-        return this.customers().map(customer=> customer.meal());
+        const meals =  this.customers().map(customer=> customer.meals());
+        const merged = [].concat.apply([], meals);
+        return [...new Set(merged)];
     }
 }
 let customerId = 0;
