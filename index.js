@@ -30,11 +30,14 @@ class Neighborhood {
         return delivery.meal();
       }.bind(this)
     );
-    // const uniqueMeals = [];
-    // allMeals.filter(meal => !uniqueMeals.includes(meal));
-    // return uniqueMeals;
     return [...new Set(allMeals)];
   };
+  // this is cool:
+  // meals() {
+  //     const allMeals = this.customers().map(customer => customer.meals());
+  //     const merged = [].concat.apply([], allMeals);
+  //     return [...new Set(merged)];
+  //   };
 };
 class Customer {
   constructor(name, neighborhoodId) {
@@ -60,6 +63,8 @@ class Customer {
   totalSpent() {
     const prices = this.meals().map(meal => meal.price);
     return prices.reduce((acc, val) => acc + val);
+    // this is cool:
+    // return this.meals().reduce((total, meal) => (total += meal.price), 0);
   };
 };
 class Meal {
