@@ -9,22 +9,26 @@ let deliveryId = 0;
 
  class Neighborhood {
   constructor(name) {
+    // can create a new neighborhood with a name
     this.name = name;
+    // is created with a unique id
     this.id = ++neighborhoodId;
+    // adds the neighborhood to the store
     store.neighborhoods.push(this);
   }
-  // returns customer associated with neighborhood
+  // returns all customer instances associated with a particular neighborhood
   customers() {
     return store.customers.filter(customer => {
       return customer.neighborhoodId === this.id;
     });
   }
-  // returns deliveries associated with neighborhood
+  // returns all unique deliveries associated with a particular neighborhood
   deliveries() {
     return store.deliveries.filter(delivery => {
       return delivery.neighborhoodId === this.id;
     });
   }
+  // returns a unique list of meals ordered in a neighborhood
   meals() {
     	function uniqueMeals(value, index, self) {
       		return self.indexOf(value) === index
