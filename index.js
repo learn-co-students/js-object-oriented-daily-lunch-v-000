@@ -22,7 +22,9 @@ class Neighborhood {
     customers() {
         return store.customers.filter(customer => customer.neighborhoodId === this.id);
     }
-
+    meals() {
+      return store.meals.map( meal => {meal.neighborhoodId === this.id})
+    }
 }
 
 class Meal {
@@ -40,9 +42,13 @@ class Meal {
       });
     }
     customers() {
-        return store.customers.filter(customer => {
-            return customer.mealId = this.id
-        });
+      return store.customers.filter(customer => {
+          return customer.mealId = this.id
+      });
+    }
+
+    static byPrice() {
+      return store.meals.sort((a, b) => a.price < b.price)
     }
 }
 
@@ -63,6 +69,9 @@ class Customer {
       return this.deliveries().map(delivery => {
         return delivery.meal()
       })
+    }
+    totalSpent(){
+      return this.meals().reduce((total, meal) => (total += meal.price), 0)
     }
 }
 
