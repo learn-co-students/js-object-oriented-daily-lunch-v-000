@@ -33,6 +33,17 @@ class Meal {
 
         store.meals.push(this);
     }
+
+    deliveries() {
+      return store.deliveries.filter(delivery => {
+        return delivery.mealId === this.id
+      });
+    }
+    customers() {
+        return store.customers.filter(customer => {
+            return customer.mealId = this.id
+        });
+    }
 }
 
 class Customer {
@@ -41,6 +52,17 @@ class Customer {
         this.name = name;
         this.neighborhoodId = neighborhood
         store.customers.push(this);
+    }
+
+    deliveries() {
+      return store.deliveries.filter(delivery => {
+        return delivery.customerId === this.id
+      })
+    }
+    meals() {
+      return this.deliveries().map(delivery => {
+        return delivery.meal()
+      })
     }
 }
 
