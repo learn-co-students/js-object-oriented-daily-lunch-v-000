@@ -16,7 +16,17 @@ class Neighborhood {
     }
 
     deliveries() {
-        
+        return store.deliveries.filter(function(delivery) {
+                return delivery.neighborhoodId === this.id
+            }.bind(this)
+        )
+    }
+
+    customers() {
+        return store.customers.filter(function(customer) {
+                return customer.neighborhoodId === this.id
+            }.bind(this)
+        )
     }
 }
 class Customer {
@@ -27,6 +37,22 @@ class Customer {
 
         store.customers.push(this);
     }
+
+    deliveries() {
+        return store.deliveries.filter(function(delivery) {
+                return delivery.customerId === this.id
+            }.bind(this)
+        )
+    }
+
+    meals() {
+        return this.deliveries().map(function(delivery) {
+                return store.meals.find(function(meal){
+                    return meal.id === delivery.mealId;
+                })
+            }
+        )
+    }
 }
 
 class Meal {
@@ -36,6 +62,22 @@ class Meal {
         this.id = ++mealId;
 
         store.meals.push(this);
+    }
+
+    deliveries() {
+        return store.deliveries.filter(function(delivery) {
+                return delivery.mealId === this.id
+            }.bind(this)
+        )
+    }
+
+    customers() {
+        return this.deliveries().map(function(delivery) {
+                return store.customers.find(function(customer){
+                    return customer.id === delivery.customerId
+                })
+            }
+        )
     }
 }
 
@@ -48,17 +90,54 @@ class Delivery {
 
         store.deliveries.push(this);
     }
+
+    meal() {
+        return store.meals.find(function(meal) {
+                return meal.id === this.mealId
+            }.bind(this)
+        )
+    }
+
+    customer() {
+        return store.customers.find(function(customer) {
+                return customer.id === this.customerId
+            }.bind(this)
+        )
+    }
+
+    neighborhood() {
+        return store.neighborhoods.find(function(neighborhood) {
+                return neighborhood.id === this.neighborhoodId
+            }.bind(this)
+        )
+    }
 }
 
+// Define aggregate / prototype functions
 
-// VARIABLES FOR TESTING
+Meal.byPrice = function() {
+    let meals = store.meals
 
-// neighborhood = new Neighborhood('Dumbo');
-// secondNeighborhood = new Neighborhood('Hamsterdam');
-// meal = new Meal('5 lbs of Fruity Pebbles', 25);
-// secondMeal = new Meal('An entire large stuffed crust pizza from pizza hut', 20);
-// customer = new Customer('Paul Rudd', neighborhood.id);
-// secondCustomer = new Customer('Todd', secondNeighborhood.id);
-// delivery = new Delivery(meal.id, neighborhood.id, customer.id);
-// secondDelivery = new Delivery(secondMeal.id, secondNeighborhood.id, secondCustomer.id);
-// thirdDelivery = new Delivery(secondMeal.id, secondNeighborhood.id, secondCustomer.id);
+    return meals.sort(function(a, b) {
+        return a.price - b.price
+    }).reverse()
+}
+
+Customer.prototype.totalSpent = function() {
+    let i = 0;
+    
+    return this.meals().reduce(function(totalSpent, el){
+        return totalSpent + el.price;
+    }, i)
+}
+
+Neighborhood.prototype.meals = function() {
+    let allNeighborHoodMeals = this.deliveries().map(function(delivery) {
+            return delivery.meal()
+        }
+    )
+    
+    let uniqueNeighborHoodMeals = [...new Set(allNeighborHoodMeals)]
+    
+    return uniqueNeighborHoodMeals
+}
