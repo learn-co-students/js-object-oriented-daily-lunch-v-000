@@ -27,17 +27,23 @@ class Neighborhood {
   }
 
   meals(){
-    // might want to use Set
+    // might want to use Set => https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
+    let allMeals = this.customers().map(function (customer) {
+      return customer.meals();
+    });
+    // apply accepts arrays as arguments, so I'm making an empty array become 'this' and concatenating it with an empty array to get a copy
+    let result = [].concat.apply([], allMeals);
+    return Array.from(new Set(result));
   }
 }
 
 let customerId = 0;
 
 class Customer {
-  constructor(neighborhoodId, name){
+  constructor(name, neighborhoodId){
     this.id = customerId++;
-    this.neighborhoodId = neighborhoodId;
     this.name = name;
+    this.neighborhoodId = neighborhoodId;
 
     store.customers.push(this);
   }
@@ -56,6 +62,9 @@ class Customer {
   }
 
   totalSpent(){
+    return this.meals().reduce(function (allMeals, meal) {
+      return allMeals += meal.price;
+    }, 0);
   }
 }
 
@@ -84,13 +93,18 @@ class Meal {
   }
 
   static byPrice(){
+    return store.meals.sort (
+      function (x, y) {
+        // descending
+        return y.price - x.price;
+      });
   }
 }
 
 let deliveryId = 0;
 
 class Delivery{
-  constructor(){
+  constructor(mealId, neighborhoodId, customerId){
     this.id = deliveryId++;
     this.mealId = mealId;
     this.neighborhoodId = neighborhoodId;
