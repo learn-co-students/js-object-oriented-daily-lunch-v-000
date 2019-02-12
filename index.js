@@ -1,4 +1,3 @@
-// global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
 let mealId = 0;
@@ -13,6 +12,21 @@ class Meal {
     this.title = title;
     this.price = price;
     store.meals.push(this);
+  }
+  deliveries() {
+    return store.deliveries.filter(function(delivery) {
+      return delivery.mealId === this.id;
+    }.bind(this));
+  }
+  customers() {
+    return this.deliveries().map(function(delivery) {
+      return delivery.customer();
+    }.bind(this));
+  }
+  static byPrice() {
+    return store.meals.sort(function(a, b) {
+      return b.price - a.price;
+    });
   }
 }
 
@@ -32,6 +46,12 @@ class Neighborhood {
       return customer.neighborhoodId === this.id
     }.bind(this));
   }
+  meals() {
+    const ALL_MEALS = this.deliveries().map(function (delivery) {
+      return delivery.meal()}.bind(this));
+    const UPPER_MEALS = [].concat.apply([], ALL_MEALS);
+      return [...new Set(UPPER_MEALS)];
+  };
 }
 
 class Customer {
@@ -48,8 +68,14 @@ class Customer {
   }
   meals() {
     return this.deliveries().map(function(delivery) {
-      return delivery.meal
+      return delivery.meal();
     }.bind(this));
+  }
+  totalSpent() {
+    return this.meals().reduce(
+      function (total, meal) {
+        return total + meal.price
+      },0);
   }
 }
 
@@ -76,5 +102,4 @@ class Delivery {
       return neighborhoodId === this.neighborhoodId;
     }.bind(this));
   }
-
 }
