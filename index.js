@@ -28,6 +28,18 @@ class Neighborhood {
     // customers() {
     //     return store.customers.filter(customer => customer.neighborhoodId === this.id)
     // }
+
+    // googled "how to return only unique elements of an array in javascript" and this first link had the answer https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
+    meals() {
+        const arrayOfMeals = this.deliveries().map(delivery => delivery.meal()); //creates an array of meals that were delivered to a neighborhood
+
+        // this function returns only unique values of a given array. Found on stackoverflow
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+
+        return arrayOfMeals.filter(onlyUnique)
+    }
 }
 
 class Meal {
@@ -54,7 +66,7 @@ class Meal {
     // }
 
     static byPrice() {
-        return store.meals.sort((a, b) => a.price - b.price)
+        return store.meals.sort((a, b) => a.price > b.price ? -1 : 1)
     }
 }
 
