@@ -65,6 +65,7 @@ class Meal {
     //     return store.customers.filter(customer => customer.mealId === this.id)
     // }
 
+    // this method is used  A LOT in REACT
     static byPrice() {
         return store.meals.sort((a, b) => a.price > b.price ? -1 : 1)
     }
