@@ -14,15 +14,20 @@ class Neighborhood {
 
     deliveries() {
         return store.deliveries.filter(delivery => {
-            delivery.neighborhoodId === this.id
+            return delivery.neighborhoodId === this.id
         })
     }
 
+    // // this method was a tough one
     customers() {
-        return store.customers.filter(customer => {
-            customer.neighborhoodId === this.id
-        })
+        const allCustomers = this.deliveries().map(delivery => delivery.customer()); //.map creates a new array and assigns it to allCustomers variable here
+        return [...new Set(allCustomers)]; //use ...new Set to remove duplicate elements from the array
     }
+
+    //this works too for customers()
+    // customers() {
+    //     return store.customers.filter(customer => customer.neighborhoodId === this.id)
+    // }
 }
 
 class Meal {
@@ -32,6 +37,25 @@ class Meal {
         this.price = price
         store.meals.push(this) 
     }
+
+    deliveries() {
+        return store.deliveries.filter(delivery => {
+            return delivery.mealId === this.id
+        })
+    }
+
+    customers() {
+        const allCustomers = this.deliveries().map(delivery => delivery.customer()); //.map creates a new array and assigns it to allCustomers variable here
+        return [...new Set(allCustomers)]; //use ...new Set to remove duplicate elements from the array
+    }
+    //this does NOT work here even though it does for Neighborhood for some reason... probably because it does not return UNIQUE elements
+    // customers() {
+    //     return store.customers.filter(customer => customer.mealId === this.id)
+    // }
+
+    static byPrice() {
+        return store.meals.sort((a, b) => a.price - b.price)
+    }
 }
 
 class Customer {
@@ -40,6 +64,18 @@ class Customer {
         this.name = name 
         this.neighborhoodId = neighborhoodId
         store.customers.push(this)
+    }
+
+    deliveries() {
+        return store.deliveries.filter(delivery => delivery.customerId === this.id)
+    }
+
+    meals() {
+        return this.deliveries().map(delivery => delivery.meal())
+    }
+
+    totalSpent() {
+        return this.meals().reduce((total, meal) => total += meal.price, 0) // figure out why adding the '0' changes "[object Object]750600600" to an actual number 2450
     }
 }
 
@@ -55,19 +91,19 @@ class Delivery {
 
     meal() {
         return store.meals.find(meal => {
-            meal.id === this.mealId
+            return meal.id === this.mealId
         })
     }
 
     neighborhood() {
         return store.neighborhoods.find(neighborhood => {
-            neighborhood.id === this.neighborhoodId
+            return neighborhood.id === this.neighborhoodId
         })
     }
 
     customer() {
         return store.customers.find(customer => {
-            customer.id === this.customerId
+           return customer.id === this.customerId
         })
     }
 }
