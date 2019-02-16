@@ -29,7 +29,7 @@ class Neighborhood {
 }
 
 class Meal {
-    constructor(title, price = 0) {
+    constructor(title, price) {
       this.id = mealIds++;
       this.title = title;
       this.price = price;
@@ -46,7 +46,7 @@ class Meal {
     }
 
     static byPrice() {
-      return store.meals.sort((a, b) => a.price < b.price ? -1 : 1); 
+      return store.meals.sort((a, b) => b.price - a.price );
     }
 }
 
