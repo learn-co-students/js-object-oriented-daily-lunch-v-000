@@ -24,14 +24,12 @@ class Neighborhood{
   }
 
   customers() {
-    return this.deliveries().map(function(delivery) {
-      return store.customers.find(
-        function(customer) {
-          return customer.id === delivery.customerId
-        })
-    });
+    return store.customers.filter(
+      function (customer) {
+        return customer.neighborhoodId === this.id
+      }.bind(this)
+    )
   }
-
 
   meals() {
     return this.deliveries().map(function(delivery) {
