@@ -48,6 +48,21 @@ class Customer {
     this.neighborhoodId = neighborhoodId;
     store.customers.push(this);
   }
+
+  deliveries(){
+    return store.deliveries.filter(
+      function(delivery) {
+        return delivery.customerId === this.id;
+      }.bind(this)
+    );
+  }
+  meals(){
+    return this.deliveries().map(
+      function(delivery){
+        return delivery.meal()
+      }
+    );
+  }
 }
 
 class Delivery {
