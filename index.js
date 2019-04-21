@@ -58,5 +58,29 @@ class Delivery {
     this.id = ++deliveryId;
     store.deliveries.push(this);
     }
+
+    customer(){
+        return store.customers.find(
+          function(customer) {
+            return this.customerId === customer.id;
+          }.bind(this)
+        );
+    }
+
+    neighborhood(){
+        return store.neighborhoods.find(
+          function(neighborhood) {
+            return this.neighborhoodId === neighborhood.id;
+          }.bind(this)
+        );
+      }
+
+    meal(){
+        return store.meals.find(
+          function(meal) {
+            return this.mealId === meal.id;
+          }.bind(this)
+        );
+      }
 }
     
