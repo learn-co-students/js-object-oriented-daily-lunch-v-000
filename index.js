@@ -30,7 +30,17 @@ class Meal {
       this.id = ++mealId;
       store.meals.push(this);
     }
+
+    deliveries(){
+        return store.deliveries.filter(
+          function(delivery){
+            return delivery.mealId === this.id;
+          }.bind(this)
+        );
+      }
+    
 }
+
 class Customer {
   constructor(name, neighborhoodId){
     this.name = name;
