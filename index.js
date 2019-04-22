@@ -38,6 +38,14 @@ class Meal {
           }.bind(this)
         );
       }
+
+    customers(){
+        return this.deliveries().map(
+          function(delivery) {
+            return delivery.customer()
+          }.bind(this)
+        );
+      }
     
 }
 
@@ -63,6 +71,7 @@ class Customer {
       }
     );
   }
+
 }
 
 class Delivery {
