@@ -26,7 +26,12 @@ class Neighborhood {
   }
 
   meals(){
-
+    let allMealsInNeighborhood = []
+    return this.deliveries().map(delivery => {
+      return allMealsInNeighborhood.push(delivery.meal)
+    })
+    let uniq = [...new Set(allMealsInNeighborhood)];
+    return uniq
   }
 }
 
@@ -49,9 +54,14 @@ class Customer {
       return delivery.meal()
     })
   }
-
+  //
   totalSpent(){
-
+    let totalPrice = 0
+    let allMeals = this.meals()
+    for (let meal of allMeals ){
+      (totalPrice += meal.price)
+    }
+    return totalPrice
   }
 
 }
@@ -77,7 +87,7 @@ class Meal {
   }
 
   static byPrice() {
-    return store.meals.sort((a, b) => a.price < b.price);
+    return store.meals.sort((a, b) => b.price - a.price);
   }
 
 }
