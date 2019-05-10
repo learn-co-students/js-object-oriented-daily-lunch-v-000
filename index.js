@@ -26,10 +26,9 @@ class Neighborhood {
   }
 
   meals(){
-    let allMealsInNeighborhood = []
-    return this.deliveries().map(delivery => {
-      return allMealsInNeighborhood.push(delivery.meal)
-    })
+    let allMealsInNeighborhood = this.deliveries().map(delivery => {
+        return delivery.meal()
+      })
     let uniq = [...new Set(allMealsInNeighborhood)];
     return uniq
   }
