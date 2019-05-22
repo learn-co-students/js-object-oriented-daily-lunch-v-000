@@ -34,6 +34,10 @@ class Customer {
     return store.deliveries.filter(delivery => {return delivery.customerId === this.id})
   }
 
+  totalSpent() {
+    return this.meals().reduce((a, b) => {return a += b }, 0)
+  }
+
 
 }
 
@@ -50,6 +54,10 @@ class Meal {
   }
 
   customers() {  return this.deliveries().map(delivery => {return delivery.customer()})
+  }
+
+  static byPrice() {
+    return store.meals.sort((a,b) => {return b.price - a.price});
   }
 }
 
