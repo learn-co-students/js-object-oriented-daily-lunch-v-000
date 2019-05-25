@@ -146,6 +146,7 @@ describe('index.js', () => {
     describe('Neighborhood', () => {
       describe('deliveries()', () => {
         it('returns all unique deliveries associated with a particular neighborhood', () => {
+          //console.log(redHook.deliveries())
           expect(redHook.deliveries()).to.deep.equal([
             flavortownDelivery,
             guysAmericanDelivery,
