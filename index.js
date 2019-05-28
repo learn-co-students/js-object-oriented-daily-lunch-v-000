@@ -6,140 +6,126 @@ let idCustomer = 0
 
 class Delivery {
   constructor(meal,customer) {
-  this.id = idDelivery++
-  if (meal) {
-    this.mealId = meal.id
-  }
-  if (customer) {
-    this.customerId = customer.id
-  }
-  store.deliveries.push(this)
+    this.id = ++idDelivery
+    if (meal) {
+      this.mealId = meal.id
+    }
+
+    if (customer) {
+      this.customerId = customer.id
+
+    }
+    store.deliveries.push(this)
   }
 
   customer() {
-    const customerId = this.customerId
-    return store.customers.find(function(customer) {
-      return customer.id === customerId
-    })
+    return store.customers.find(function(c){
+      return c.id === this.customerId
+    }.bind(this))
   }
 
-  meal () {
-    const mealId = this.mealId
-    return store.meals.find(function(meal) {
-      return meal.id === mealId
-    })
+  meal() {
+    return store.meals.find(function(m){
+      return m.id === this.mealId
+    }.bind(this))
   }
 }
 
 class Meal {
   constructor(title, price) {
+    this.id = ++idMeal
     this.title = title
     this.price = price
-    this.id = idMeal++
     store.meals.push(this)
   }
 
-  static byPrice() {
-    return store.meals.sort(function (a, b) {return b.price - a.price});
-  }
-
   deliveries() {
-    const mealid = this.id
-    return store.deliveries.filter(function (delivery) {
-      return delivery.mealId === mealid })
+    return store.deliveries.filter(function(element) {
+      return element.mealId == this.id
+    }.bind(this))
   }
 
-
-  customers() {
-    return store.customers.filter(function(customer) {
-      return this.indexOf(customer) < 0
-    }, this.deliveries().map(function(element) {
-    return element.customerId }))
+  customers () {
+    return this.deliveries().map(function(element){
+      return element.customer()
+    })
   }
+}
 
+Meal.byPrice = function () {
+  return store.meals.sort(function(a, b){return b.price-a.price});
 }
 
 class Employer {
   constructor(name) {
+    this.id = ++idEmployee
     this.name = name
-    this.id = idEmployee++
     store.employers.push(this)
   }
 
   employees() {
-    const employeeId = this.id
-    const pop = store.customers.filter(function (customer) {
-      return customer.employerId === employeeId
-    })
-    //console.log('this is employees', pop);
-    return pop
+    return store.customers.filter(function(customer){
+      return customer.employerId === this.id
+    }.bind(this))
   }
 
-  deliveries () {
-    let newDeliveries = []
-     this.employees().forEach(employee =>{
-       employee.deliveries().forEach(delivery =>{
-         newDeliveries.push(delivery)
-       })
-     })
-     return newDeliveries
+  deliveries() {
+    let results
+    results =  this.employees().map(function(employee) {
+      return employee.deliveries()
+    })
+    return results[0]
   }
 
   meals () {
-    const meals = this.deliveries().map(function (delivery) {
-      return delivery.meal()
+    let meals
+    meals =  this.employees().map(function(employee) {
+      return employee.meals()
     })
-    return Array.from(new Set(meals))
+    let uniq_meals = Array.from(new Set(meals[0]))
+    return uniq_meals
   }
 
-  mealTotals () {
-    const meals = this.deliveries().map(function (delivery) {
-      return delivery.meal()
+  mealTotals() {
+    const meals = this.employees().map(function(employee) {
+      return employee.meals()
     })
     let counts = {}
-    meals.forEach(function(meal) { counts[meal.id] = (counts[meal.id] || 0)+1; })
+    meals[0].forEach(function(meal) { counts[meal.id] = (counts[meal.id] || 0)+1; })
     return counts
   }
-
 }
 
 class Customer {
   constructor(name, employer) {
+    this.id = ++idCustomer
     this.name = name
-    this.id = idCustomer++
     if (employer) {
       this.employerId = employer.id
     }
     store.customers.push(this)
   }
 
-  totalSpent () {
-    const customerId = this.id
-    const deliveries = store.deliveries.filter(function(delivery) {
-      return delivery.customerId === customerId
-    })
-
-  const meals = deliveries.map(delivery => {
-    return delivery.meal()
-  })
-
-    function getSum(total, num) {
-      return total + num;
-    }
-
-    return meals.map(meal => meal.price).reduce(getSum)
-  }
-
   deliveries() {
-    const customerId = this.id
-    return store.deliveries.filter(function(delivery) {
-      return delivery.customerId === customerId
-    })
+    return store.deliveries.filter(function(element) {
+      return element.customerId == this.id
+    }.bind(this))
   }
 
   meals() {
-    return this.deliveries().map(function(delivery) {
+    return store.deliveries.map(function (delivery) {
       return delivery.meal()
     })
+  }
+
+  totalSpent () {
+    let total = 0
+    let meals = this.meals().filter(function(e) {
+      return e != undefined
+    })
+    for (let i = 0; i < meals.length; i++) {
+      total += meals[i].price
+    }
+    return total
   }
 }
