@@ -11,10 +11,22 @@ class Neighborhood {
     this.name = name;
     store.neighborhoods.push(this);
   }
-  customers() {
-    return store.deliveries.map(delivery => {
-      return delivery.customer();
+  deliveries() {
+    return store.deliveries.filter(delivery => {
+      return delivery.neighborhoodId === this.id;
     })
+  }
+  customers() {
+    const uniqueCustomers = [...new Set(store.deliveries.map(delivery => {
+      return delivery.customer();
+    }))];
+    return uniqueCustomers;
+  }
+  meals(){
+    const uniqueMeals = [...new Set(this.deliveries().map(delivery => {
+      return delivery.meal();
+    }))];
+    return uniqueMeals;
   }
 }
 
@@ -26,6 +38,20 @@ class Meal {
     this.price = price;
     store.meals.push(this);
   }
+  deliveries() {
+    return store.deliveries.filter(delivery => {
+      return delivery.mealId === this.id;
+    })
+  }
+  customers() {
+    const uniqueCustomers =  [...new Set(store.deliveries.map(delivery => {
+      return delivery.customer();
+    }))];
+    return uniqueCustomers;
+  }
+  static byPrice() {
+    return store.meals.sort(function(a, b){return b.price - a.price;})
+  }
 }
 
 class Customer {
@@ -35,10 +61,21 @@ class Customer {
     this.neighborhoodId = neighborhoodId;
     store.customers.push(this);
   }
+  deliveries() {
+    return store.deliveries.filter(delivery => {
+      return delivery.customerId === this.id;
+    })
+  }
+  meals() {
+      return this.deliveries().map(delivery => delivery.meal());
+    }
+  totalSpent() {
+    return this.meals().reduce((agg, currentMeal) => (agg + currentMeal.price), 0);
+  }
 }
 
 class Delivery {
-  constructor(mealId, customerId, neighborhoodId) {
+  constructor(mealId, neighborhoodId, customerId) {
     this.id = ++deliveryId;
     this.mealId = mealId;
     this.customerId = customerId;
@@ -60,5 +97,4 @@ class Delivery {
       return customer.id === this.customerId;
     })
   }
-
 }
