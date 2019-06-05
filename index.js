@@ -16,7 +16,7 @@ class Neighborhood {
     deliveries() {
         return store.deliveries.filter(delivery => {
                 return delivery.neighborhoodId === this.id;
-            });
+        });
     }
 
 //A neighborhood has many customers through deliveries
@@ -62,7 +62,7 @@ class Customer {
     constructor(name, neighborhood) {
         this.id = ++customerId;
         this.name = name;
-        this.neighborhood = neighborhoodId;
+        this.neighborhoodId = neighborhood
         // insert in the customer to the store
         store.customers.push(this);
     }
@@ -89,14 +89,6 @@ class Customer {
     //totalSpent() {}
 
 //A customer belongs to a neighborhood (NOT LISTED IN TEXT) 
-    //neighborhood() {
-    //return store.neighborhoods.find(
-        //function(neighborhood) {
-            //return neighborhood.id === this.neighborhoodId;
-        //}.bind(this)
-    //);
-//}
-//THIS DOES NOT WORK!
     neighborhood() {
         return store.neighborhoods.find(neighborhood => {
             return neighborhood.id === this.neighborhoodId
@@ -107,11 +99,16 @@ class Customer {
 class Delivery {
     constructor(meal, customer, neighborhood) {
         this.id = ++deliveryId;
-        this.mealId = meal.id;
-        this.customerId = customer.id;
-        this.neighborhoodId = neighborhood.id;
+        this.mealId = meal;
+        this.customerId = customer;
+        this.neighborhoodId = neighborhood
+     
         // insert in the deliveries to the store
         store.deliveries.push(this);
+    }
+
+    setNeighborhood(neighborhood) {
+        this.neighborhoodId = neighborhood.id;
     }
 
 //A delivery belongs to a meal. 
