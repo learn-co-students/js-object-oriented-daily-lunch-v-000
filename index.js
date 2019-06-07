@@ -5,6 +5,12 @@ let mealId = 0;
 let customerId = 0;
 let deliveryId = 0;
 
+Array.prototype.unique = function() {
+    return this.filter(function (value, index, self) { 
+      return self.indexOf(value) === index;
+    });
+  }
+
 class Neighborhood {
     constructor(name) {
         this.id = ++neighborhoodId;
@@ -21,10 +27,19 @@ class Neighborhood {
 
 //A neighborhood has many customers through deliveries
     customers() {
-        return this.deliveries().map(delivery => {
-           return delivery.customer
-        });
-     }
+        return this.deliveries().filter(delivery => {
+            return delivery.customer
+        }).unique();
+        
+    }
+            //return store.customers.filter(customer => {
+            //return customer.deliveryId === this.id 
+        
+        //return this.deliveries().filter(delivery => {
+            //return store.customers
+           //return delivery.customerId === this.id;
+        //});
+    
 
 //A neighborhood has many meals through deliveries
      meals() {
@@ -61,8 +76,9 @@ class Meal {
 class Customer {
     constructor(name, neighborhood) {
         this.id = ++customerId;
+        this.neighborhoodId = neighborhood;
         this.name = name;
-        this.neighborhoodId = neighborhood
+        
         // insert in the customer to the store
         store.customers.push(this);
     }
@@ -70,6 +86,7 @@ class Customer {
     setNeighborhood(neighborhood) {
         this.neighborhoodId = neighborhood.id;
     }
+
 
 //A customer has many deliveries
     deliveries() {
@@ -97,7 +114,7 @@ class Customer {
 }
 
 class Delivery {
-    constructor(meal, customer, neighborhood) {
+    constructor(meal, neighborhood, customer) {
         this.id = ++deliveryId;
         this.mealId = meal;
         this.customerId = customer;
