@@ -5,12 +5,6 @@ let mealId = 0;
 let customerId = 0;
 let deliveryId = 0;
 
-Array.prototype.unique = function() {
-    return this.filter(function (value, index, self) { 
-      return self.indexOf(value) === index;
-    });
-  }
-
 class Neighborhood {
     constructor(name) {
         this.id = ++neighborhoodId;
@@ -27,19 +21,10 @@ class Neighborhood {
 
 //A neighborhood has many customers through deliveries
     customers() {
-        return this.deliveries().filter(delivery => {
-            return delivery.customer
-        }).unique();
-        
+        return store.customers.filter(customer => {
+            return customer.neighborhoodId === this.id;
+        });
     }
-            //return store.customers.filter(customer => {
-            //return customer.deliveryId === this.id 
-        
-        //return this.deliveries().filter(delivery => {
-            //return store.customers
-           //return delivery.customerId === this.id;
-        //});
-    
 
 //A neighborhood has many meals through deliveries
      meals() {
@@ -61,16 +46,27 @@ class Meal {
 
 //A meal has many customers
     customers() {
-        return store.customers.filter(customer => {
-                return customer.mealId === this.id;
+        return this.deliveries().map(delivery => {
+                return delivery.customer()
             });
     }
-//returns all of the deliveries associated with a particular meal.
-//deliveries() {}
 
-//byPrice() {}
-//A class method that orders all meal instances by their price in descending order. 
+//returns all of the deliveries associated with a particular meal.
+    deliveries() {
+        return store.deliveries.filter(delivery => {
+            return delivery.mealId == this.id;
+    })
+}
+
+//A class method that orders all meal instances by their price 
+//in descending order. 
 //Use the static keyword to write a class method.
+    static byPrice() {
+        store.meals.filter(meal.price => {
+        meal.price.sort(function (a, b) {
+            return a.value - b.value;
+          });
+    }
 }
 
 class Customer {
@@ -87,6 +83,10 @@ class Customer {
         this.neighborhoodId = neighborhood.id;
     }
 
+    setMeal(Meal) {
+        this.mealId = meal.id;
+    }
+
 
 //A customer has many deliveries
     deliveries() {
@@ -97,10 +97,11 @@ class Customer {
 
 //A customer has many meals through deliveries
     meals() {
-        return this.deliveries().map(meal => {
-            return delivery.meal
+        return this.deliveries().map(delivery => {
+            return delivery.meal()
         });
     }
+
     
 // returns the total amount that the customer has spent on food.
     //totalSpent() {}
