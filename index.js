@@ -5,6 +5,12 @@ let mealId = 0;
 let customerId = 0;
 let deliveryId = 0;
 
+Array.prototype.unique = function() {
+    return this.filter(function (value, index, self) { 
+      return self.indexOf(value) === index;
+    });
+  }
+
 class Neighborhood {
     constructor(name) {
         this.id = ++neighborhoodId;
@@ -29,12 +35,10 @@ class Neighborhood {
 //in a particular neighborhood 
 //A neighborhood has many meals through deliveries
      meals() {
-        return this.deliveries().filter(delivery => {
-           return delivery.mealId
-        });
-     }
-     
-     
+            return this.deliveries().map(delivery => {
+                return delivery.meal();
+            }).unique();       
+        }        
 }
 
 class Meal {
