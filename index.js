@@ -25,13 +25,15 @@ class Neighborhood {
             return customer.neighborhoodId === this.id;
         });
     }
-
+//returns a unique list of meals that have been ordered 
+//in a particular neighborhood 
 //A neighborhood has many meals through deliveries
      meals() {
-        return this.deliveries().map(meal => {
-           return delivery.meal
+        return this.deliveries().filter(delivery => {
+           return delivery.mealId
         });
      }
+     
      
 }
 
@@ -62,10 +64,13 @@ class Meal {
 //in descending order. 
 //Use the static keyword to write a class method.
     static byPrice() {
-        store.meals.filter(meal.price => {
-        meal.price.sort(function (a, b) {
-            return a.value - b.value;
+        //set variable sort Meals
+        var sortedMeals = store.meals.sort( (meal1, meal2) => {
+            //Return Meal.price attributes in Descending order
+            return meal2.price - meal1.price;
           });
+          //Return the sorted Objects
+          return sortedMeals;
     }
 }
 
@@ -101,10 +106,18 @@ class Customer {
             return delivery.meal()
         });
     }
-
     
 // returns the total amount that the customer has spent on food.
-    //totalSpent() {}
+    totalSpent() {
+        //var totalSpent = byPrice().reduce(total, price) 
+        //reduce meals
+        var totalSpent = this.meals().reduce( (meal1, meal2) => {
+            
+            //add each meal.price
+            return {price: meal1.price + meal2.price};
+        })
+        return totalSpent.price;
+    }
 
 //A customer belongs to a neighborhood (NOT LISTED IN TEXT) 
     neighborhood() {
