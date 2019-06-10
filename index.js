@@ -11,6 +11,16 @@ class Neighborhood{
     this.name = name;
     store.neighborhoods.push(this)
   }
+  deliveries(){
+    return store.deliveries.filter(delivery => {
+      return delivery.neighborhoodId === this.id
+    })
+  }
+  customers(){
+    return store.customers.filter(customer => {
+      return customer.neighborhoodId === this.id
+    })
+  }
 }
 
 class Customer{
@@ -19,6 +29,20 @@ class Customer{
     this.name = name;
     this.neighborhoodId = neighborhood;
     store.customers.push(this);
+  }
+  deliveries(){
+    return store.deliveries.filter(delivery => {
+      return delivery.customerId === this.id;
+    })
+  }
+  meals(){
+    return this.deliveries().map(delivery => {
+      return store.meals.find(
+        function(meal){
+          return meal.id === delivery.mealId
+        }.bind(this)
+      )
+    })
   }
 }
 
@@ -29,6 +53,19 @@ class Meal{
     this.price = price;
     store.meals.push(this);
   }
+  deliveries(){
+    return store.deliveries.filter(delivery =>{
+      return delivery.mealId === this.id
+    })}
+  customers(){
+    return this.deliveries().map(delivery => {
+      return store.customers.find(
+        function(customer){
+          return customer.id === delivery.customerId
+        }
+      )
+    })
+  }
 }
 
 class Delivery{
@@ -38,5 +75,26 @@ class Delivery{
     this.neighborhoodId = neighborhood;
     this.customerId = customer;
     store.deliveries.push(this);
+  }
+  meal(){
+    return store.meals.find(
+      function(meal){
+        return meal.id === this.mealId
+      }.bind(this)
+    )
+  }
+  customer(){
+    return store.customers.find(
+      function(customer){
+        return customer.id === this.customerId
+      }.bind(this)
+    )
+  }
+  neighborhood(){
+    return store.neighborhoods.find(
+      function(neighborhood){
+        return neighborhood.id === this.neighborhoodId;
+      }.bind(this)
+    )
   }
 }
