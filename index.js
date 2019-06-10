@@ -5,6 +5,11 @@ let mealId = 0
 let neighborhoodId = 0
 let deliveryId = 0 
 
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+
 class Meal {
     constructor(title, price){
         this.id = ++mealId
@@ -13,16 +18,24 @@ class Meal {
         store.meals.push(this)
     }
 
-//     deliveries() - returns all of the deliveries 
-//     associated with a particular meal.
+
   deliveries(){
     return store.deliveries.filter(delivery =>{
       return delivery.mealId === this.id
     })}
-// customers() - returns all of the customers who have had the meal delivered.
-//  Be careful not to return the same customer twice if they have ordered this meal multiple times.
-// byPrice() - A class method that orders all meal instances by their price in descending order. 
-// Use the static keyword to write a class method.
+
+    customers(){
+      return this.deliveries().map(delivery =>{
+        return delivery.customer()
+      })
+    }
+
+    static byPrice(){
+     return store.meals.sort(function(meal1, meal2){
+        return meal2.price - meal1.price  
+        });
+  
+    }
 }
 
 class Neighborhood{
@@ -41,6 +54,12 @@ class Neighborhood{
       return customer.neighborhoodId === this.id
     })
   }
+
+  meals(){
+   return this.deliveries().map(delivery =>{
+        return delivery.meal()
+    }).filter(onlyUnique) 
+  }
 }
 
 class Customer{
@@ -57,12 +76,22 @@ class Customer{
       })
   }
 
-  meals() {
-     return this.deliveries().map(delivery => {
-          return delivery.mealId
-      })
+  meals(){
+    return this.deliveries().map(delivery => {
+      return store.meals.find(
+        function(meal){
+          return meal.id === delivery.mealId
+        }.bind(this)
+      )
+    })
   }
-
+  totalSpent(){
+    return this.meals().map(meal =>{
+      return meal.price
+    }).reduce(function (total, price){
+      return price + total;
+    }, 0);
+  }
 
 }
 
