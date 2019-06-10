@@ -15,6 +15,21 @@ class Neighborhood {
 		store.neighborhoods.push(this);
 	}
 
+	deliveries() {
+		return store.deliveries.filter(delivery => {
+			return delivery.neighborhoodId === this.id;
+		});
+	}
+
+	customers() {
+		return this.deliveries().filter(delivery => {
+			return delivery.customer();
+		});
+	}
+
+	meals() {
+	}
+
 }
 
 let customerId = 0;
@@ -24,13 +39,32 @@ class Customer {
 	// has many meals through deliveries
 	// belongs to neighborhood
 
-	constructor(name, neighborhoodId) {
+	constructor(name, neighborhoodId = undefined) {
 		this.name = name;
-		this.neighborhoodId = neighborhood.id;
+		if (neighborhoodId) {
+			this.neighborhoodId = neighborhoodId;
+		}
 		this.id = ++customerId
 
 		store.customers.push(this);
+
 	}
+
+	deliveries() {
+		return store.deliveries.filter(delivery => {
+			return delivery.customerId === this.id;
+		});
+	}
+
+	meals() {
+		return this.deliveries().map(delivery => {
+			return delivery.meal();
+		});
+	}
+
+	totalSpent() {
+	}
+
 
 }
 
@@ -38,6 +72,7 @@ let mealId = 0;
 
 class Meal {
 	// has many customers
+	// has many deliveries through customers
 
 	constructor(title, price) {
 		this.title = title;
@@ -45,6 +80,23 @@ class Meal {
 		this.id = ++mealId;
 
 		store.meals.push(this);
+	}
+
+	deliveries() {
+		return this.customers().map(customer => {
+			return customer.deliveries();
+		});
+	}
+
+	customers() {
+		return store.customers.filter(customer => {
+			return customer.meals().filter(meal => {
+				return mealId === this.id;
+			});
+		});
+	}
+
+	byPrice() {
 	}
 
 }
@@ -63,6 +115,30 @@ class Delivery {
 		this.id = ++deliveryId;
 
 		store.deliveries.push(this);
+	}
+
+	meal() {
+		return store.meals.find(
+			function(meal) {
+				return meal.id === this.mealId;
+			}.bind(this)
+		);
+	}
+
+	customer() {
+		return store.customers.find(
+			function(customer) {
+				return customer.id === this.customerId;
+			}.bind(this)
+		);
+	}
+
+	neighborhood() {
+		return store.neighborhoods.find(
+			function(neighborhood) {
+				return neighborhood.id === this.neighborhoodId;
+			}.bind(this)
+		);
 	}
 
 }
