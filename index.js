@@ -5,6 +5,10 @@ let customerId = 0;
 let mealId = 0;
 let deliveryId = 0;
 
+function onlyUnique(value, index, self) { 
+  return self.indexOf(value) === index;
+}
+
 class Neighborhood{
   constructor(name){
     this.id = ++neighborhoodId;
@@ -13,14 +17,19 @@ class Neighborhood{
   }
   deliveries(){
     return store.deliveries.filter(delivery => {
-      return delivery.neighborhoodId === this.id
-    })
+      return delivery.neighborhoodId === this.id;
+    });
   }
   customers(){
     return store.customers.filter(customer => {
       return customer.neighborhoodId === this.id
     })
   }
+  meals() {
+    return this.deliveries().map(delivery => {
+      return delivery.meal();
+    }).filter(onlyUnique)
+  }   
 }
 
 class Customer{
@@ -44,6 +53,13 @@ class Customer{
       )
     })
   }
+  totalSpent(){
+    return this.meals().map(meal =>{
+      return meal.price
+    }).reduce(function (total, price){
+      return price + total;
+    }, 0);
+  }
 }
 
 class Meal{
@@ -64,6 +80,11 @@ class Meal{
           return customer.id === delivery.customerId
         }
       )
+    })
+  }
+  static byPrice(){
+    return store.meals.sort(function(a,b){
+      return b.price - a.price
     })
   }
 }
