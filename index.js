@@ -109,14 +109,16 @@ class Neighborhood {
   }
   
   customers() {
-    return this.deliveries().map(function(delivery) {
-      return delivery.customer();
-    });
+    return store.customers.filter(function(customer) {
+      return customer.neighborhoodId === this.id;
+    }.bind(this));
   }
   
   meals() {
     return this.deliveries().map(function(delivery) {
       return delivery.meal();
+    }).filter(function(item, i, ar){
+      return ar.indexOf(item) === i;
     });
   }
 }
