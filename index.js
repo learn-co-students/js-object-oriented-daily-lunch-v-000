@@ -1,4 +1,3 @@
-// global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
 
 let mealId = 0;
@@ -17,19 +16,17 @@ class Meal {
   }
   
   customers() {
-    let items = store.customers.filter((customer) => customer.mealId === this.id);     
-  	let uniqueCustomers = Array.from(new Set(items));
-  	return uniqueCustomers;
+    return this.deliveries().map(delivery => delivery.customer()) 
   }
 
   deliveries() {
-  	let items = store.deliveries.filter((delivery => delivery.mealId === this.id);     
-  	let uniqueDeliveries = Array.from(new Set(items));
-  	return uniqueDeliveries;
+  	return store.deliveries.filter(delivery => delivery.mealId === this.id);
   }
 
   static byPrice() {
-    return meals.sort(function(a, b){return a.price - b.price}).reverse();
+     return store.meals.sort(function(mealOne, mealTwo) {
+            return mealOne.price - mealTwo.price;
+     }).reverse();
   }
 }
 
@@ -74,7 +71,7 @@ class Customer {
     return store.deliveries.filter((delivery) => delivery.customerId === this.id);     
   }
 
-  totalspent()  {
+  totalSpent()  {
   	return this.meals().reduce(function(sum, item) {
         return sum + item.price;
     }, 0)
@@ -92,9 +89,7 @@ class Neighborhood {
   }
   
 	meals() {
-    let items = this.deliveries().map(delivery => delivery.meals())  
-  	let uniqueMeals = Array.from(new Set(items.map((meal) => meal.title)));
-  	return uniqueMeals;
+    return [...new Set(this.deliveries().map(delivery => delivery.meal()))];
   }
 
   customers() {
