@@ -90,10 +90,17 @@ class Meal {
   }
 
   deliveries() {
-
+    return store.deliveries.filter(
+      function(delivery) {
+        return delivery.mealId === this.id;
+      }.bind(this)
+    );
   }
-  customers(){
 
+  customers(){
+    return this.deliveries().map(delivery => {
+      return delivery.customer();
+    })
   }
 
   byPrice(){
