@@ -18,13 +18,18 @@ class Neighborhood {
   }
 
   deliveries() {
-
+    return store.deliveries.filter(
+      function(delivery) {
+        return delivery.neighborhoodId === this.id;
+      }.bind(this)
+    )
   }
+
 
   customers(){
     return store.customers.filter(
       function(customer) {
-        return customer.neighborhoodID === this.id;
+        return customer.neighborhoodId === this.id;
       }.bind(this)
     );
   }
@@ -51,19 +56,26 @@ class Customer {
   }
 
   neighborhood() {
-    return store.neighborhoods.find(
+    return store.neighborhoods.filter(
       function(neighborhood) {
-        return neighborhood === this.neighborhoodId;
+        return neighborhood.customerId === this.id;
       }.bind(this)
     );
   }
 
   deliveries(){
-
+    return store.deliveries.filter(
+      function(delivery) {
+        return delivery.customerId === this.id;
+      }.bind(this)
+    );
   }
   meals(){
-
+    return this.deliveries().map(delivery => {
+      return delivery.meal();
+    })
   }
+
   totalSpent(){
 
   }
@@ -108,33 +120,22 @@ class Delivery {
   }
 
   meal() {
-    return store.meals.find(
-      function(meal) {
-        return meal === this.mealId;
-      }.bind(this)
-    );
+    return store.meals.find(meal => meal.id === this.mealId);
+  }
+
+  setCustomer(customer) {
+    this.customerId = customer;
+  }
+
+  customer() {
+    return store.customers.find(customer => customer.id === this.customerId);
+
   }
   setNeighborhood(neighborhood) {
     this.neighborhoodId = neighborhood;
   }
 
   neighborhood() {
-    return store.neighborhoods.find(
-      function(neighborhood) {
-        return neighborhood === this.neighborhoodId;
-      }.bind(this)
-    );
+    return store.neighborhoods.find(neighborhood => neighborhood.id === this.neighborhoodId);
   }
-  setCustomer(customer) {
-    this.custeromId = customer;
-  }
-
-  customer() {
-    return store.customers.find(
-      function(customer) {
-        return customer === this.customerId;
-      }.bind(this)
-    );
-  }
-
 }
