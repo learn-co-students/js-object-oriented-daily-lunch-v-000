@@ -92,15 +92,49 @@ class Meal {
 class Delivery {
   constructor(meal, neighborhood, customer) {
     this.id = ++deliveryId;
+    if (meal) {
+      this.mealId = meal;
+    }
+    if (neighborhood) {
+      this.neighborhoodId = neighborhood;
+    }
+    if (customer) {
+      this.customerId = customer;
+    }
     store.deliveries.push(this);
   }
+  setMeal(meal) {
+    this.mealId = meal;
+  }
+
   meal() {
-
+    return store.meals.find(
+      function(meal) {
+        return meal === this.mealId;
+      }.bind(this)
+    );
   }
-  customer(){
-
+  setNeighborhood(neighborhood) {
+    this.neighborhoodId = neighborhood;
   }
-  neighborhood(){
 
+  neighborhood() {
+    return store.neighborhoods.find(
+      function(neighborhood) {
+        return neighborhood === this.neighborhoodId;
+      }.bind(this)
+    );
   }
+  setCustomer(customer) {
+    this.custeromId = customer;
+  }
+
+  customer() {
+    return store.customers.find(
+      function(customer) {
+        return customer === this.customerId;
+      }.bind(this)
+    );
+  }
+
 }
