@@ -35,7 +35,9 @@ class Neighborhood {
   }
 
   meals(){
-
+    return this.deliveries().map(delivery => {
+      return delivery.meal();
+    })
   }
 }
 
@@ -103,10 +105,15 @@ class Meal {
     })
   }
 
-  byPrice(){
-
-  }
+  static byPrice(){
+    return store.meals.slice().sort(function (mealOne, mealTwo){
+      return mealOne.price - mealTwo.price;
+    });
+    }
 }
+
+
+
 
 class Delivery {
   constructor(meal, neighborhood, customer) {
