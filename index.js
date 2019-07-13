@@ -39,20 +39,21 @@ class Customer {
     this.id = ++customerId;
     this.name = name;
     if (neighborhood) {
-      this.neighborhoodId = neighborhood.id;
+      this.neighborhoodId = neighborhood;
     }
+
     store.customers.push(this);
     //do something with neighborhoodId
   }
 
   setNeighborhood(neighborhood) {
-    this.neighborhoodId = neighborhood.id;
+    this.neighborhoodId = neighborhood;
   }
 
   neighborhood() {
     return store.neighborhoods.find(
       function(neighborhood) {
-        return neighborhood.id === this.neighborhoodId;
+        return neighborhood === this.neighborhoodId;
       }.bind(this)
     );
   }
