@@ -23,8 +23,8 @@ class Neighborhood {
         return delivery.neighborhoodId === this.id;
       }.bind(this)
     )
-  }
 
+  }
 
   customers(){
     return store.customers.filter(
@@ -35,11 +35,18 @@ class Neighborhood {
   }
 
   meals(){
-    return this.deliveries().map(delivery => {
-      return delivery.meal();
-    })
+    return store.meals.filter(
+      function(meals) {
+        return this.deliveries().map(delivery => {
+          return delivery.meal();
+        })
+        return meals.neighborhoodId === this.id;
+      }.bind(this)
+    );
   }
 }
+
+
 
 class Customer {
   constructor(name, neighborhood) {
@@ -77,11 +84,20 @@ class Customer {
       return delivery.meal();
     })
   }
-
-  totalSpent(){
-
-  }
+//doesn't work
+totalSpent(){
+   return store.customers.reduce(
+     function(accumulator, customer) {
+       var mealTotal = customer.meals().reduce(
+         function(acc, meal) {
+         return acc + meal.price;
+       }, 0);
+       return accumulator + mealTotal;
+     }, 0);
+ }
 }
+
+
 
 class Meal {
   constructor(title, price) {
@@ -106,12 +122,11 @@ class Meal {
   }
 
   static byPrice(){
-    return store.meals.slice().sort(function (mealOne, mealTwo){
-      return mealOne.price - mealTwo.price;
+    return store.meals.sort(function (mealOne, mealTwo){
+      return mealTwo.price - mealOne.price;
     });
     }
 }
-
 
 
 
