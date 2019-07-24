@@ -29,14 +29,15 @@ class Neighborhood {
 
     meals() {
         let customers = this.customers(); 
-        let neighborhoodMeals = [1, 2]; 
+        let neighborhoodMeals = []; 
 
         for (const customer of customers) {
-            neighborhoodMeals.push(customer.meal); 
+            for (const meal of customer.meals()) {
+                neighborhoodMeals.push(meal); 
+            }
           }        
 
-  //      return Array.from(new Set(neighborhoodMeals));
-          return neighborhoodMeals; 
+       return Array.from(new Set(neighborhoodMeals));
 
     }
   }
