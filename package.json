@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/learn-co-curriculum/js-object-oriented-daily-lunch#readme",
   "devDependencies": {
-    "learn-browser": "^0.1.17"
+    "learn-browser": "^0.1.24"
   }
 }
