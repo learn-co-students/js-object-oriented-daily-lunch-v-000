@@ -45,9 +45,7 @@ class Customer {
   };
 
   totalSpent () {
-    let total = 0;
-    const sumPrice = this.meals().map(meal => total += meal.price);
-    return total;
+    return this.meals().reduce((total, meal) => (total += meal.price), 0);
   }
 }
 
