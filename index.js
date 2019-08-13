@@ -66,7 +66,6 @@ class Meal {
   }
   static byPrice () {
     const sortedMeals = [...store.meals]
-    debugger;
     return sortedMeals.sort(
       function (a, b) {
        return b.price - a.price;
