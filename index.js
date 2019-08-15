@@ -33,13 +33,9 @@ class Neighborhood {
   meals() {
     //returns a unique list of meals that have been ordered in a particular
     //neighborhood (you might want to do this one last)
-    /*
-    return this.trips().map(
-      function(trip) {
-        return trip.passenger();
-      }.bind(this)
-    );
-    */
+    const allMeals = this.customers().map(customer => customer.meals());
+    const merged = [].concat.apply([], allMeals);
+    return [...new Set(merged)];
   }
 }
 
@@ -47,9 +43,9 @@ class Neighborhood {
 class Customer {
   constructor(name, neighborhoodId) {
     this.name = name;
-    this.id = ++customerdId;
+    this.id = ++customerId;
     this.neighborhoodId = neighborhoodId;
-    store.neighborhoods.push(this);
+    store.customers.push(this);
   }
 
   deliveries() {
@@ -61,15 +57,12 @@ class Customer {
   }
 
   meals() {
-    return store.meals.filter(
-      function(meal) {
-        return meal.customerId == this.id;
-      }.bind(this)
-    );
+    return this.deliveries().map(delivery => delivery.meal());
   }
 
   totalSpent() {
     //returns the total amount that the customer has spent on food.
+    return this.meals().reduce((total, meal) => (total += meal.price), 0);
   }
 }
 
@@ -77,7 +70,7 @@ class Customer {
 class Meal {
   constructor(title, price) {
     this.title = title;
-    this.id = ++mealdId;
+    this.id = ++mealId;
     this.price = price;
     store.meals.push(this);
   }
@@ -94,10 +87,13 @@ class Meal {
     //returns all of the customers who have had the meal delivered.
     //Be careful not to return the same customer twice if they have
     //ordered this meal multiple times.
+    const allCustomers = this.deliveries().map(delivery => delivery.customer());
+    return [...new Set(allCustomers)];
   }
 
   static byPrice() {
     //A class method that orders all meal instances by their price in descending order.
+    return store.meals.sort((a, b) => a.price < b.price);
   }
 
 }
@@ -108,7 +104,7 @@ class Delivery {
     this.id = ++deliveryId;
     this.neighborhoodId = neighborhoodId;
     this.customerId = customerId;
-    store.meals.push(this);
+    store.deliveries.push(this);
   }
 
   meal() {
@@ -135,17 +131,4 @@ class Delivery {
       }.bind(this)
     );
   }
-
-
 }
-
-/*
-A meal has many customers
-A delivery belongs to a meal, belongs to a customer, and belongs to a neighborhood
-A customer has many deliveries
-A customer has many meals through deliveries
-A customer belongs to a neighborhood
-A neighborhood has many deliveries
-A neighborhood has many customers through deliveries
-A neighborhood has many meals through deliveries
-*/
