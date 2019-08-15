@@ -73,6 +73,35 @@ class Customer {
 }
 
 
+class Meal {
+  constructor(title, price) {
+    this.title = title;
+    this.id = ++mealdId;
+    this.price = price;
+    store.meals.push(this);
+  }
+
+  deliveries() {
+    return store.deliveries.filter(
+      function(delivery) {
+        return delivery.mealId == this.id;
+      }.bind(this)
+    );
+  }
+
+  customers() {
+    //returns all of the customers who have had the meal delivered.
+    //Be careful not to return the same customer twice if they have
+    //ordered this meal multiple times.
+  }
+
+  static byPrice() {
+    //A class method that orders all meal instances by their price in descending order.
+  }
+
+}
+
+
 /*
 A meal has many customers
 A delivery belongs to a meal, belongs to a customer, and belongs to a neighborhood
