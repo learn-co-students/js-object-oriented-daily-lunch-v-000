@@ -69,8 +69,8 @@ class Customer {
 
 class Meal {
   constructor(title, price) {
-    this.title = title;
     this.id = ++mealId;
+    this.title = title;
     this.price = price;
     store.meals.push(this);
   }
@@ -93,7 +93,10 @@ class Meal {
 
   static byPrice() {
     //A class method that orders all meal instances by their price in descending order.
-    return store.meals.sort((a, b) => a.price < b.price);
+
+    return store.meals.slice().sort(function(meal1, meal2) {
+      return meal2.price - meal1.price;
+    });
   }
 
 }
