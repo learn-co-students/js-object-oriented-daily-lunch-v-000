@@ -59,11 +59,20 @@ class Meal {
     }
 
     customers() {
-        return store.customers.filter(
-            function(customer) {
-
+        let customers = [];
+        let customerIds = this.deliveries().map(
+            function(delivery) {
+                return delivery.customerId;
             }
         );
+        customerIds.forEach(function(customerId) {
+            store.customers.find(function(customer){
+                if (customer.id === customerId) {
+                    customers.push(customer);
+                }
+            })
+        })
+        return customers;
     }
 
     static byPrice() {
@@ -89,17 +98,26 @@ class Customer {
     }
 
     meals() {
-        return store.meals.filter(
-            function(meal) {
-                return meal.customerId === this.id;
-            }.bind(this)
+        let meals = [];
+        let mealIds = this.deliveries().map(
+            function(delivery) {
+                return delivery.mealId;
+            }
         );
+        mealIds.forEach(function(mealId) {
+            store.meals.find(function(meal){
+                if (meal.id === mealId) {
+                    meals.push(meal);
+                }
+            })
+        })
+        return meals;
     }
 
     totalSpent() {
         let totalSpent = 0;
         let meals = this.meals();
-        return meals.forEach(function(meal) {
+        meals.forEach(function(meal) {
             totalSpent += meal.price
         });
         return totalSpent;
@@ -107,7 +125,7 @@ class Customer {
 }
 
 class Delivery {
-    constructor(mealId, customerId, neighborhoodId) {
+    constructor(mealId, neighborhoodId, customerId) {
         this.id = ++deliveryId;
         this.mealId = mealId;
         this.customerId = customerId;
