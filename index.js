@@ -1,5 +1,6 @@
 // global datastore
 let store = { neighborhoods: [], meals: [], customers: [], deliveries: [] };
+
 let neighborhoodId = 0;
 let customerId = 0;
 let mealId = 0;
@@ -66,7 +67,7 @@ class Customer {
   }
 
   static byPrice() {
-      return store.meals.sort((a, b) => a.price < b.price);
+      return store.meals.sort((a, b) => b.price - a.price);
     }
  };
 
