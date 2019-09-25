@@ -23,18 +23,11 @@ class Neighborhood {
   }
 
   meals() {
-    return this.deliveries().filter(delivery => {
+    let meals = this.deliveries().map(delivery => {
       return delivery.meal();
-    });
+    })
+    return meals.filter((meal, i, self) => self.indexOf(meal) === i);
   }
-
-  // meals() {
-  //   return this.deliveries().filter(
-  //     function(delivery, idx) {
-  //       return this.deliveries().indexOf(delivery.meal()) === idx;
-  //     }.bind(this)
-  //   );
-  // }
 }
 
 let customerId = 0;
