@@ -27,6 +27,11 @@ class Neighborhood {
       return customer.neighborhoodId == this.id;
     });
   }
+
+  //returns a unique list of meals that have been ordered in a particular neighborhood (you might want to do this one last)
+  meals() {
+
+  }
 }
 
 // has many deliveries
@@ -43,7 +48,16 @@ class Customer {
   deliveries() {
     return store.deliveries.filter(delivery => {
       this.id == delivery.customerId;
-    })
+    });
+  }
+  //returns all meals that a customer has ordered
+  meals() {
+
+  }
+
+  //returns the total amount that the customer has spent on food
+  totalSpent() {
+
   }
 }
 
@@ -54,6 +68,21 @@ class Meal {
     this.price = price;
     this.id = mealId ++;
     store.meals.push(this);
+  }
+
+  // returns all of the deliveries associated with a particular meal.
+  deliveries() {
+
+  }
+
+  // - returns all of the customers who have had the meal delivered. Be careful not to return the same customer twice if they have ordered this meal multiple times.
+  customers() {
+
+  }
+
+  // A class method that orders all meal instances by their price in descending order. Use the static keyword to write a class method.
+  byPrice() {
+
   }
 }
 
@@ -67,11 +96,16 @@ class Delivery {
     store.deliveries.push(this);
   }
 
+  // returns the meal instance associated with a particular delivery; delivery belongs to a meal
+  //
   meal() {
     let m = store.meals.filter(meal => {
       return meal.deliveryId == this.id;
     });
-debugger
     return Object.assign({}, m);
+  }
+
+  customer() {
+
   }
 }
