@@ -47,12 +47,14 @@ class Customer {
 
   deliveries() {
     return store.deliveries.filter(delivery => {
-      this.id == delivery.customerId;
+      return this.id == delivery.customerId;
     });
   }
   //returns all meals that a customer has ordered
   meals() {
-
+    // return store.meals.filter(meal => {
+    //   return this.id == meal.customerId;
+    // });
   }
 
   //returns the total amount that the customer has spent on food
@@ -72,14 +74,17 @@ class Meal {
 
   // returns all of the deliveries associated with a particular meal.
   deliveries() {
-
-    // store.
+    return store.deliveries.filter(delivery => {
+      return this.id == delivery.mealId;
+    });
   }
 
   // - returns all of the customers who have had the meal delivered. Be careful not to return the same customer twice if they have ordered this meal multiple times.
   customers() {
-    store.customers.filter(customer => {
-      this.id == customer.mealId;
+    return store.customers.filter(customer => {
+      return customer.deliveries.filter(delivery) => {
+        delivery.mealId === this.id;
+      };
     });
   }
 
@@ -101,16 +106,19 @@ class Delivery {
 
   // returns the meal instance associated with a particular delivery; delivery belongs to a meal
   //
-  // meal() {
-  //   let m = store.meals.filter(meal => {
-  //     return meal.deliveryId == this.id;
-  //   });
-  //   return Object.assign({}, m);
-  // }
+  meal() {
+    // let m = store.meals.find(meal => {
+    //   return meal.id == this.id;
+    // });
+    // // debugger;
+    // return Object.assign({}, m);
+  }
 
   // returns the customer associated with a particular delivery
   customer() {
-
+    return store.customers.find(customer => {
+      this.customerId === customer.id;
+    });
   }
 
   // - returns the neighborhood associated with a particular delivery
