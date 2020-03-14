@@ -57,7 +57,7 @@ class Customer {
     // });
   }
 
-  // //returns the total amount that the customer has spent on food
+  //returns the total amount that the customer has spent on food
   // totalSpent() {
 
   // }
@@ -108,11 +108,9 @@ class Delivery {
   // returns the meal instance associated with a particular delivery; delivery belongs to a meal
   //
   meal() {
-    // let m = store.meals.find(meal => {
-    //   return meal.id == this.id;
-    // });
-    // // debugger;
-    // return Object.assign({}, m);
+    return store.meals.find(meal => {
+      return this.mealId === meal.id;
+    });
   }
 
   // returns the customer associated with a particular delivery
