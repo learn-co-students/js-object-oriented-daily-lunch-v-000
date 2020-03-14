@@ -81,14 +81,15 @@ class Meal {
 
   // - returns all of the customers who have had the meal delivered. Be careful not to return the same customer twice if they have ordered this meal multiple times.
   customers() {
-    let customerIds = [];
-    let deliveries = this.deliveries;
-    deliveries.forEach(delivery => {
-      customerIds.push()
-    });
+    // let customers = [];
+    // let deliveries = this.deliveries;
+    // deliveries.forEach(delivery => {
+    //   customers.push(delivery.customer());
+    // });
+    // return customers;
   }
 
-  // // A class method that orders all meal instances by their price in descending order. Use the static keyword to write a class method.
+  // A class method that orders all meal instances by their price in descending order. Use the static keyword to write a class method.
   // byPrice() {
 
   // }
@@ -116,9 +117,9 @@ class Delivery {
 
   // returns the customer associated with a particular delivery
   customer() {
-    // return store.customers.find(customer => {
-    //   this.customerId === customer.id;
-    // });
+    return store.customers.find(customer => {
+      return this.customerId === customer.id;
+    });
   }
 
   // - returns the neighborhood associated with a particular delivery
