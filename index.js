@@ -122,6 +122,8 @@ class Delivery {
 
   // - returns the neighborhood associated with a particular delivery
   neighborhood() {
-
+    return store.neighborhoods.find(neighborhood => {
+      return this.neighborhoodId === neighborhood.id;
+    });
   }
 }
