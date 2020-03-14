@@ -52,9 +52,12 @@ class Customer {
   }
   //returns all meals that a customer has ordered
   meals() {
-    // return store.meals.filter(meal => {
-    //   return this.id == meal.customerId;
-    // });
+    let meals = [];
+    let deliveries = this.deliveries();
+    deliveries.forEach(delivery => {
+      meals.push(delivery.meal());
+    });
+    return meals;
   }
 
   //returns the total amount that the customer has spent on food
