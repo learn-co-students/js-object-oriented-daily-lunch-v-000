@@ -30,7 +30,12 @@ class Neighborhood {
 
   //returns a unique list of meals that have been ordered in a particular neighborhood (you might want to do this one last)
   meals() {
-
+    let meals = [];
+    let deliveries = this.deliveries();
+    deliveries.forEach(delivery => {
+      meals.push(delivery.meal());
+    });
+    return Array.from(new Set(meals));
   }
 }
 
