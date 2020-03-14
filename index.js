@@ -61,9 +61,14 @@ class Customer {
   }
 
   //returns the total amount that the customer has spent on food
-  // totalSpent() {
-
-  // }
+  totalSpent() {
+    let total = 0;
+    let meals = this.meals();
+    meals.forEach(meal => {
+      total += meal.price;
+    });
+    return total;
+  }
 }
 
 //has many customers
