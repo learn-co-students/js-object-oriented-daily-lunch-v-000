@@ -93,9 +93,9 @@ class Meal {
   }
 
   // A class method that orders all meal instances by their price in descending order. Use the static keyword to write a class method.
-  // byPrice() {
-
-  // }
+  static byPrice() {
+    return store.meals.sort((a, b) => b.price - a.price);
+  }
 }
 
 // belongs to a meal, belongs to a customer, and belongs to a neighborhood
