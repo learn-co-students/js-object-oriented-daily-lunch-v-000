@@ -57,10 +57,10 @@ class Customer {
     // });
   }
 
-  //returns the total amount that the customer has spent on food
-  totalSpent() {
+  // //returns the total amount that the customer has spent on food
+  // totalSpent() {
 
-  }
+  // }
 }
 
 //has many customers
@@ -81,17 +81,17 @@ class Meal {
 
   // - returns all of the customers who have had the meal delivered. Be careful not to return the same customer twice if they have ordered this meal multiple times.
   customers() {
-    return store.customers.filter(customer => {
-      return customer.deliveries.filter(delivery) => {
-        delivery.mealId === this.id;
-      };
+    let customerIds = [];
+    let deliveries = this.deliveries;
+    deliveries.forEach(delivery => {
+      customerIds.push()
     });
   }
 
-  // A class method that orders all meal instances by their price in descending order. Use the static keyword to write a class method.
-  byPrice() {
+  // // A class method that orders all meal instances by their price in descending order. Use the static keyword to write a class method.
+  // byPrice() {
 
-  }
+  // }
 }
 
 // belongs to a meal, belongs to a customer, and belongs to a neighborhood
@@ -116,9 +116,9 @@ class Delivery {
 
   // returns the customer associated with a particular delivery
   customer() {
-    return store.customers.find(customer => {
-      this.customerId === customer.id;
-    });
+    // return store.customers.find(customer => {
+    //   this.customerId === customer.id;
+    // });
   }
 
   // - returns the neighborhood associated with a particular delivery
